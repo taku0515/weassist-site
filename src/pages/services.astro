@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// サービス内容のデータ（将来的にCMS化もしやすいように配列で管理）
+const services = [
+  {
+    id: "system",
+    title: "Webシステム・アプリ開発",
+    subtitle: "System Development",
+    description: "お客様の業務課題を解決するための、オーダーメイドのシステム開発を行います。要件定義から設計、開発、運用保守までワンストップで対応。使いやすさと拡張性を兼ね備えた、長く使えるシステムをご提案します。",
+    features: ["React / Next.js / Astro を用いたモダン開発", "業務効率を最大化するUI/UX設計", "AWS / GCP を活用した堅牢なインフラ"],
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    direction: "reverse" // 画像が左
+  },
+  {
+    id: "ai",
+    title: "AI導入・活用支援",
+    subtitle: "AI Solutions",
+    description: "ChatGPT等のLLM（大規模言語モデル）を活用した社内チャットボットの構築や、業務フローへのAI組み込みを支援します。セキュリティを考慮したローカル環境でのAI構築構築などもご相談可能です。",
+    features: ["RAG（社内データ検索）システムの構築", "業務自動化AIエージェントの開発", "生成AI活用コンサルティング"],
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    direction: "normal" // 画像が右
+  },
+  {
+    id: "marketing",
+    title: "Webマーケティング・解析",
+    subtitle: "Digital Marketing",
+    description: "作ったシステムやサイトを「使われる」ものにするためのマーケティング支援を行います。SEO対策、アクセス解析、広告運用など、データに基づいた改善策を提案し、ビジネスの成長を加速させます。",
+    features: ["テクニカルSEO対策", "Google Analytics 4 (GA4) 導入・分析", "CV率改善（LPO）コンサルティング"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    direction: "reverse" // 画像が左
+  }
+];
+---
+
+<Layout title="事業内容 | weassist" description="Webシステム開発、AIソリューション、マーケティング支援など、当社の事業内容をご紹介します。">
+  
+  <section class="bg-slate-900 py-20 text-center">
+    <div class="container mx-auto px-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Service</h1>
+      <p class="text-slate-500 text-lg">事業内容</p>
+    </div>
+  </section>
+
+  <div class="bg-white">
+    {services.map((service) => (
+      <section id={service.id} class="py-20 border-b border-slate-100 last:border-0">
+        <div class="container mx-auto px-6">
+          <div class={`flex flex-col md:flex-row items-center gap-12 ${service.id === 'ai' ? 'flex-row-reverse' : service.direction === 'reverse' ? 'md:flex-row-reverse' : ''}`}>
+            
+            <div class="flex-1 space-y-6">
+              <span class="text-blue-600 font-bold tracking-wider text-sm">{service.subtitle}</span>
+              <h2 class="text-3xl font-bold text-slate-800">{service.title}</h2>
+              <p class="text-slate-600 leading-loose">
+                {service.description}
+              </p>
+              
+              <ul class="space-y-3">
+                {service.features.map((feature) => (
+                  <li class="flex items-start gap-3 text-slate-700">
+                    <span class="text-blue-500 mt-1">✔</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="flex-1 w-full">
+              <img 
+                src={service.image} 
+                alt={service.title} 
+                class="w-full h-[300px] md:h-[400px] object-cover rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+              />
+            </div>
+
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="py-20 bg-slate-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-slate-800 mb-4">Flow</h2>
+        <p class="text-slate-600">ご契約から納品までの流れ</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        {[
+          { step: "01", title: "ヒアリング", desc: "現状の課題やご要望を詳細にお伺いします。" },
+          { step: "02", title: "企画・提案", desc: "最適な技術選定と構成案をご提案します。" },
+          { step: "03", title: "設計・開発", desc: "アジャイルな開発体制でスピーディに構築します。" },
+          { step: "04", title: "納品・保守", desc: "公開後の運用サポートもお任せください。" },
+        ].map((item) => (
+          <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 relative">
+            <h3 class="text-xl font-bold text-slate-800 mb-3 relative z-10">{item.step}_ {item.title}</h3>
+            <p class="text-slate-600 text-sm relative z-10">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-slate-800 text-center">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold mb-10 text-white">ビジネスの課題を技術で解決します</h2>
+      <p class="text-white mb-10 max-w-2xl mx-auto">
+        開発のご相談、お見積もりなど、お気軽にお問い合わせください。<br />
+        初回ヒアリングは無料です。
+      </br></p>
+      <a href="/contact" class="inline-block bg-slate-600 hover:bg-slate-500 text-white font-bold  py-6 px-8 rounded-full text-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+        お問い合わせはこちら
+      </a>
+    </div>
+  </section>
+
+</Layout>
+

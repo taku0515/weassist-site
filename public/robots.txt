@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://weassist.jp/sitemap-index.xml

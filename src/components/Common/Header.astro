@@ -1,0 +1,107 @@
+---
+// ▼ データをインポート
+import { SITE_DATA } from '../../data/site';
+
+const navItems = [
+  { label: "ホーム", href: "/" },
+  { label: "事業内容", href: "/services" },
+  { label: "お知らせ", href: "/news" },
+  { label: "会社紹介", href: "/company" },
+  { label: "お問い合わせ", href: "/contact" },
+];
+---
+
+<header id="main-header" class="fixed top-0 left-0 w-full z-50 bg-white/60 backdrop-blur-md shadow-md transition-transform duration-300 -translate-y-full">
+  <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+    
+    <a href="/" class="text-2xl font-bold text-slate-900 tracking-tighter hover:opacity-70 transition-opacity">
+      {/* ▼ SITE_DATA.nameEn（英語名）を表示し、Inc.などは表示したくない場合のために replace で削除する例 */}
+      {SITE_DATA.nameEn.replace(' Inc.', '')}
+      <span class="text-blue-600">.</span>
+    </a>
+
+    <nav class="hidden md:block">
+      <ul class="flex items-center gap-8">
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} class="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors">
+              {item.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/contact" class="px-5 py-2 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-slate-700 transition-colors">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 z-50 relative" aria-label="メニューを開く">
+      <span class="w-6 h-0.5 bg-slate-800 transition-all duration-300 origin-center"></span>
+      <span class="w-6 h-0.5 bg-slate-800 transition-all duration-300 origin-center"></span>
+      <span class="w-6 h-0.5 bg-slate-800 transition-all duration-300 origin-center"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
+    {navItems.map((item) => (
+      <a href={item.href} class="text-xl font-bold text-slate-800 hover:text-blue-600">
+        {item.label}
+      </a>
+    ))}
+  </div>
+</header>
+
+<script>
+  // ページが読み込まれるたびに実行されるイベントリスナーを設定
+  document.addEventListener('astro:page-load', () => {
+    
+    // --- 要素の取得（毎回新しく取得し直す必要があります） ---
+    const header = document.getElementById('main-header');
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const spans = menuBtn?.querySelectorAll('span');
+
+    // --- スクロール時の表示制御 ---
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > 100) {
+        header?.classList.remove('-translate-y-full');
+      } else {
+        header?.classList.add('-translate-y-full');
+      }
+    };
+
+    // 初期状態のチェック（リロード時などにスクロール位置に合わせて表示するため）
+    handleScroll();
+
+    // スクロールイベントの設定
+    window.addEventListener('scroll', handleScroll);
+
+    // --- スマホメニューの開閉制御 ---
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu?.classList.contains('opacity-0');
+
+      if (isOpen) {
+        // 開く
+        mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
+        spans![0].classList.add('rotate-45', 'translate-y-2');
+        spans![1].classList.add('opacity-0');
+        spans![2].classList.add('-rotate-45', '-translate-y-2');
+      } else {
+        // 閉じる
+        mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
+        spans![0].classList.remove('rotate-45', 'translate-y-2');
+        spans![1].classList.remove('opacity-0');
+        spans![2].classList.remove('-rotate-45', '-translate-y-2');
+      }
+    });
+
+    // 画面遷移時にメニューが開いていたら閉じる処理（念のため）
+    mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
+    spans?.[0].classList.remove('rotate-45', 'translate-y-2');
+    spans?.[1].classList.remove('opacity-0');
+    spans?.[2].classList.remove('-rotate-45', '-translate-y-2');
+  });
+</script>

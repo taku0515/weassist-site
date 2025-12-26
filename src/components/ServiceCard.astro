@@ -1,0 +1,18 @@
+---
+// サーバーサイドで実行されるJavaScript（ビルド時のみ）
+interface Props {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const { title, description, icon } = Astro.props;
+---
+
+<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+  <div class="text-4xl mb-4">{icon}</div>
+  <h3 class="text-xl font-bold text-gray-800 mb-2">{title}</h3>
+  <p class="text-gray-600 leading-relaxed">
+    {description}
+  </p>
+</div>

@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { createClient } from "microcms-js-sdk";
+
+// MicroCMSクライアントの作成
+const client = createClient({
+  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: import.meta.env.MICROCMS_API_KEY,
+});
+
+// APIからお知らせ一覧を取得（ビルド時に実行されます）
+const response = await client.get({ endpoint: "news" });
+const news = response.contents;
+---
+
+<Layout title="お知らせ | 株式会社TechSolution">
+  <div class="container mx-auto px-6 py-20">
+    <h1 class="text-3xl font-bold mb-10 border-b pb-4">News / お知らせ</h1>
+    
+    <ul class="space-y-4">
+      {news.length === 0 ? <p>現在お知らせはありません。</p> : null}
+      
+      {news.map((item: any) => (
+        <li class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+          <a href={`/news/${item.id}`} class="flex flex-col md:flex-row md:items-center gap-4">
+            <time class="text-slate-500 font-mono">
+              {new Date(item.publishedAt).toLocaleDateString('ja-JP')}
+            </time>
+            <h2 class="text-lg font-bold text-slate-800 flex-1">{item.title}</h2>
+            <span class="text-blue-600 text-sm font-bold">詳細を見る &rarr;</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>

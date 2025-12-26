@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { createClient } from "microcms-js-sdk";
+
+// microCMS のニュース記事の型定義
+interface NewsItem {
+  id: string;
+  title: string;
+  publishedAt: string;
+  category?: {
+    name: string;
+  };
+  content: string;
+}
+
+// ページの props の型定義
+export interface Props {
+  news: NewsItem;
+}
+
+// 1. ビルド時に「どんなページIDが存在するか」をAstroに教える関数
+export async function getStaticPaths() {
+  const client = createClient({
+    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+    apiKey: import.meta.env.MICROCMS_API_KEY,
+  });
+
+  // 記事を全件取得
+  const response = await client.get({ endpoint: "news", queries: { limit: 100 } });
+
+  // Astroが理解できる形式（paramsとprops）に変換して返す
+  return response.contents.map((content: NewsItem) => ({
+    params: { id: content.id }, // URLになる部分 (/news/これ)
+    props: { news: content },   // ページに渡すデータ
+  }));
+}
+
+// 2. ページごとのデータを受け取る
+const { news } = Astro.props;
+---
+
+<Layout title={`${news.title} | 株式会社TechSolution`} description="ニュースの詳細記事です。">
+  <div class="container mx-auto px-6 py-20 max-w-4xl">
+    <header class="mb-10 border-b pb-6">
+      <div class="text-slate-500 font-mono mb-4">
+        {new Date(news.publishedAt).toLocaleDateString('ja-JP')}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
+        {news.title}
+      </h1>
+      {news.category && (
+        <span class="inline-block mt-4 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+          {news.category.name}
+        </span>
+      )}
+    </header>
+
+    <article class="prose prose-slate lg:prose-xl max-w-none" set:html={news.content} />
+
+    <div class="mt-16 pt-8 border-t">
+      <a href="/news" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-bold">
+        &larr; お知らせ一覧に戻る
+      </a>
+    </div>
+  </div>
+</Layout>

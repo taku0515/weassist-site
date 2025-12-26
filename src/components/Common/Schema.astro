@@ -1,0 +1,30 @@
+---
+import { SITE_DATA } from '../../data/site';
+---
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Corporation",
+  "name": SITE_DATA.name,
+  "url": import.meta.env.SITE, 
+  "logo": `${import.meta.env.SITE}/favicon.svg`, // ロゴのパス
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": SITE_DATA.phone,
+    "contactType": "customer service",
+    "areaServed": "JP",
+    "availableLanguage": "Japanese"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "丸の内1-1-1 Techビル 10F", // SITE_DATAから分解するのが理想ですが簡易的に
+    "addressLocality": "千代田区",
+    "addressRegion": "東京都",
+    "postalCode": "100-0005",
+    "addressCountry": "JP"
+  },
+  "sameAs": [
+    "https://twitter.com/your_account", // SNSアカウントがあればここに入れる
+    "https://facebook.com/your_account"
+  ]
+})} />
