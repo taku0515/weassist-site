@@ -7,21 +7,28 @@ import Footer from '../components/Common/Footer.astro';
 import { ClientRouter } from 'astro:transitions';
 import ScrollToTop from '../components/Common/ScrollToTop.astro';
 import Schema from '../components/Common/Schema.astro';
+
+// ▼【重要】サイトの基本情報を読み込み
 import { SITE_DATA } from '../data/site';
 
-
-
-// （PropsなどはそのままでOK）
 interface Props {
   title?: string;
   description?: string;
   image?: string;
 }
+
 const { 
-  title = "株式会社TechSolution | 最先端のAIソリューション",
-  description = "最新のAIソリューションとクラウド技術で、御社のDXを支援します。",
+  title,
+  description,
   image = "/og-image.png"
 } = Astro.props;
+
+// ▼【ロジック変更】ここでタイトルと説明文を自動生成します
+// ページごとのタイトルがあれば「ページ名 | 会社名」、なければ「会社名」のみ
+const pageTitle = title ? `${title} | ${SITE_DATA.name}` : SITE_DATA.name;
+
+// 説明文も同様、ページ指定がなければサイト共通のものを使う
+const pageDescription = description || SITE_DATA.description;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -35,34 +42,37 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    
     <link rel="canonical" href={canonicalURL} />
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:image" content={new URL(image, Astro.url)} />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={new URL(image, Astro.url)} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   
-  <script
-    type="text/partytown"
-    src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX">
-  </script>
-  <script type="text/partytown">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
-
-
+    <script
+      type="text/partytown"
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX">
+    </script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
   </head>
   <body class="font-sans text-slate-800 antialiased flex flex-col min-h-screen">
     
@@ -73,7 +83,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </main>
 
     <Footer />
-        <ScrollToTop /> </body>
-    </html>
+    <ScrollToTop />
   </body>
 </html>
