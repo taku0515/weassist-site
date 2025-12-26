@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { createClient } from "microcms-js-sdk";
+import Breadcrumbs from '../../components/Common/Breadcrumbs.astro';
+import { SITE_DATA } from '../../data/site';
+
 
 // microCMS のニュース記事の型定義
 interface NewsItem {
@@ -39,7 +42,7 @@ export async function getStaticPaths() {
 const { news } = Astro.props;
 ---
 
-<Layout title={`${news.title} | 株式会社TechSolution`} description="ニュースの詳細記事です。">
+<Layout title={`${SITE_DATA.name} | ${news.title}`} description="ニュースの詳細記事です。">
   <div class="container mx-auto px-6 py-20 max-w-4xl">
     <header class="mb-10 border-b pb-6">
       <div class="text-slate-500 font-mono mb-4">

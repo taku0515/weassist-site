@@ -3,9 +3,11 @@ import Layout from '../layouts/Layout.astro';
 // 以前作成したサービスカードなどがあればインポート
 import ServiceCard from '../components/ServiceCard.astro'; 
 import { Image } from 'astro:assets';
+import { SITE_DATA } from '../data/site';
+
 ---
 
-<Layout title="株式会社TechSolution | 未来を創るITパートナー">
+<Layout title={`${SITE_DATA.name} | 未来を創るITパートナー`}>
   
   <section class="relative bg-slate-900 text-white overflow-hidden min-h-[800px] flex items-center">
     

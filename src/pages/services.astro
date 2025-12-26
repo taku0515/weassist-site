@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SITE_DATA } from '../data/site';
 
 // サービス内容のデータ（将来的にCMS化もしやすいように配列で管理）
 const services = [
@@ -32,9 +33,8 @@ const services = [
   }
 ];
 ---
+<Layout title={`${SITE_DATA.name} | 事業内容`} description="Webシステム開発、AIソリューション、マーケティング支援など、当社の事業内容をご紹介します。">
 
-<Layout title="事業内容 | weassist" description="Webシステム開発、AIソリューション、マーケティング支援など、当社の事業内容をご紹介します。">
-  
   <section class="bg-slate-900 py-20 text-center">
     <div class="container mx-auto px-6">
       <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Service</h1>
