@@ -10,24 +10,23 @@ const navItems = [
   { label: "お問い合わせ", href: "/contact" },
 ];
 
-// ロゴのテキスト
 const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
 ---
 
 <header 
   id="main-header" 
-  class="fixed top-0 left-0 w-full z-50 bg-white/60 backdrop-blur-md shadow-md transition-transform duration-300 -translate-y-full"
+  class="fixed top-0 left-0 w-full z-50 transition-transform duration-300 -translate-y-full"
 >
-  <div id="header-bg" class="absolute inset-0 bg-white/0 transition-colors duration-300 -z-10 pointer-events-none"></div>
+  <div id="header-bg" class="absolute inset-0 bg-white/60 backdrop-blur-md shadow-md transition-opacity duration-500"></div>
 
-  <div class="container mx-auto px-6 h-20 flex items-center justify-between relative z-10">
+  <div class="container mx-auto px-6 h-20 flex items-center justify-between relative z-50">
     
-    <a href="/" id="left-logo" class="hidden md:block text-2xl font-bold text-slate-900 tracking-tighter hover:opacity-70 transition-opacity duration-300">
+    <a href="/" class="hidden md:block text-2xl font-bold text-slate-900 tracking-tighter hover:opacity-70 transition-opacity duration-300">
       {logoText}
       <span class="text-blue-600">.</span>
     </a>
 
-    <a href="/" id="center-logo" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-slate-900 tracking-tighter md:hidden transition-opacity duration-300">
+    <a href="/" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-slate-900 tracking-tighter md:hidden">
       {logoText}
       <span class="text-blue-600">.</span>
     </a>
@@ -49,14 +48,14 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
       </ul>
     </nav>
 
-    <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 z-50 relative p-1 ml-auto" aria-label="メニューを開く">
+    <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 relative p-1 ml-auto" aria-label="メニューを開く">
       <span class="w-6 h-0.5 bg-slate-800 transition-all duration-300 origin-center"></span>
       <span class="w-6 h-0.5 bg-slate-800 transition-all duration-300 origin-center"></span>
       <span class="w-6 h-0.5 bg-slate-800 transition-all duration-300 origin-center"></span>
     </button>
   </div>
 
-  <div id="mobile-menu" class="fixed inset-0 bg-white z-0 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" style="top: 0; padding-top: 80px;">
+  <div id="mobile-menu" class="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500 md:hidden">
     {navItems.map((item) => (
       <a href={item.href} class="text-xl font-bold text-slate-800 hover:text-blue-600">
         {item.label}
@@ -73,14 +72,12 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const spans = menuBtn?.querySelectorAll('span');
-    // ロゴの制御はCSS（hidden/block）に任せたのでJSでの取得は不要になりました
 
     let isMenuOpen = false;
 
-    // スクロール時の表示/非表示ロジック
+    // スクロール制御
     const handleScroll = () => {
       if (isMenuOpen) return;
-
       const currentScroll = window.scrollY;
       if (currentScroll > 100) {
         header?.classList.remove('-translate-y-full');
@@ -92,27 +89,34 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
     handleScroll();
     window.addEventListener('scroll', handleScroll);
 
-    // メニュー開閉ロジック
+    // メニュー開閉
     menuBtn?.addEventListener('click', () => {
       isMenuOpen = !isMenuOpen;
 
       if (isMenuOpen) {
         // === OPEN ===
+        
+        // 1. 白いメニュー画面をフワッと出す
         mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
-        headerBg?.classList.remove('bg-white/0');
-        headerBg?.classList.add('bg-white');
-        header?.classList.remove('backdrop-blur-md');
+        
+        // 2. ★重要: 半透明のヘッダー背景を「透明(opacity-0)」にして消す
+        // これにより、後ろにある「白いメニュー画面」の最上部が綺麗に見えるようになります。
+        // 色を変えるわけではないので、パチっとした変化は起きません。
+        headerBg?.classList.add('opacity-0');
 
+        // ハンバーガーのアニメーション
         spans![0].classList.add('rotate-45', 'translate-y-2');
         spans![1].classList.add('opacity-0');
         spans![2].classList.add('-rotate-45', '-translate-y-2');
 
       } else {
         // === CLOSE ===
+        
+        // 1. 白いメニュー画面を消す
         mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
-        headerBg?.classList.remove('bg-white');
-        headerBg?.classList.add('bg-white/0');
-        header?.classList.add('backdrop-blur-md');
+        
+        // 2. 半透明のヘッダー背景を戻す
+        headerBg?.classList.remove('opacity-0');
 
         spans![0].classList.remove('rotate-45', 'translate-y-2');
         spans![1].classList.remove('opacity-0');
@@ -122,9 +126,7 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
 
     // 画面遷移時のリセット
     mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
-    headerBg?.classList.remove('bg-white');
-    headerBg?.classList.add('bg-white/0');
-    header?.classList.add('backdrop-blur-md');
+    headerBg?.classList.remove('opacity-0'); // 背景戻す
     
     spans?.[0].classList.remove('rotate-45', 'translate-y-2');
     spans?.[1].classList.remove('opacity-0');
