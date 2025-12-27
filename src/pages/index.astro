@@ -157,42 +157,61 @@ const heroImage = "https://images.unsplash.com/photo-1551434678-e076c223a692?ixl
 </style>
 
 <script>
-  // --- タイプライター演出のスクリプト ---
-  const textElement = document.querySelector('.typewriter');
-  const texts = ["加速させる", "変革する", "創造する"]; // 切り替わる言葉
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
+  // タイマーのIDを管理する変数（二重起動防止用）
+  let typeTimeoutId: number | undefined;
 
-  function type() {
+  // astro:page-load は、最初の表示＋ページ移動して戻ってきた時にも実行されます
+  document.addEventListener('astro:page-load', () => {
+    
+    // 1. タイプライターを表示する場所を探す
+    const textElement = document.querySelector('.typewriter') as HTMLElement | null;
+    
+    // もしこのページにタイプライター要素がなければ何もしない（他のページでのエラー防止）
     if (!textElement) return;
 
-    const currentText = texts[textIndex];
-    
-    if (isDeleting) {
-      textElement.textContent = currentText.substring(0, charIndex - 1);
-      charIndex--;
-    } else {
-      textElement.textContent = currentText.substring(0, charIndex + 1);
-      charIndex++;
+    // 2. 変数の初期化
+    const texts = ["加速させる", "変革する", "創造する"];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    // 3. 前のループが残っていたら止める（重要！）
+    if (typeTimeoutId) clearTimeout(typeTimeoutId);
+
+    // 4. タイプライター関数
+    function type() {
+      // 実行する瞬間に、まだその要素が画面にあるかチェック
+      // (別のページに移動していたら停止させる)
+      if (!textElement || !document.body.contains(textElement)) return;
+
+      const currentText = texts[textIndex];
+      
+      if (isDeleting) {
+        textElement.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        textElement.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let typeSpeed = isDeleting ? 100 : 200;
+
+      if (!isDeleting && charIndex === currentText.length) {
+        // 打ち終わったら少し待機
+        typeSpeed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        // 消し終わったら次の言葉へ
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+        typeSpeed = 500;
+      }
+
+      // 次の動作を予約し、その予約IDを保存しておく
+      typeTimeoutId = setTimeout(type, typeSpeed) as unknown as number;
     }
 
-    let typeSpeed = isDeleting ? 100 : 200;
-
-    if (!isDeleting && charIndex === currentText.length) {
-      // 打ち終わったら少し待って削除開始
-      typeSpeed = 2000;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      // 削除し終わったら次の言葉へ
-      isDeleting = false;
-      textIndex = (textIndex + 1) % texts.length;
-      typeSpeed = 500;
-    }
-
-    setTimeout(type, typeSpeed);
-  }
-
-  // ページ読み込み後に開始
-  document.addEventListener('DOMContentLoaded', type);
+    // 5. スタート！
+    type();
+  });
 </script>
