@@ -9,11 +9,15 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://weassist.jp',
+  site: 'https://weassist-end.pages.dev/',
 
   integrations: [tailwind(), sitemap(), partytown()],
 
   image: {
-    domains: ["images.unsplash.com"], // これを追加
+    domains: [
+      "images.microcms-assets.io", // MicroCMSの画像ドメイン
+      "images.unsplash.com",       // Unsplashの画像ドメイン
+      "plus.unsplash.com"          // Unsplashの別ドメイン
+    ],
   },
 });

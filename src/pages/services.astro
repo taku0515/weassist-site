@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SITE_DATA } from '../data/site';
+// ▼ 画像最適化コンポーネントをインポート
+import { Image } from 'astro:assets';
 
 // サービスの詳細データ
 const services = [
@@ -62,11 +64,15 @@ const flow = [
             <div class="w-full md:w-1/2">
               <div class="relative rounded-2xl overflow-hidden shadow-2xl group">
                 <div class="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-                <img 
+                
+                <Image 
                   src={service.image} 
                   alt={service.title} 
+                  width={800}
+                  height={450}
                   class="w-full aspect-video object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
+
               </div>
             </div>
 
