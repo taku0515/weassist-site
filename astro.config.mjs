@@ -7,11 +7,13 @@ import sitemap from '@astrojs/sitemap';
 
 import partytown from '@astrojs/partytown';
 
+import icon from 'astro-icon';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://weassist-end.pages.dev/',
 
-  integrations: [tailwind(), sitemap(), partytown()],
+  integrations: [tailwind(), sitemap(), partytown(), icon()],
 
   image: {
     domains: [

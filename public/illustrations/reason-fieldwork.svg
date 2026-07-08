@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="現場での対話を重ねる開発">
+  <defs>
+    <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#bgA)"/>
+  <!-- 装飾 -->
+  <circle cx="352" cy="40" r="26" fill="#DBEAFE"/>
+  <circle cx="34" cy="212" r="16" fill="#CFFAFE"/>
+
+  <!-- テーブル -->
+  <rect x="90" y="178" width="220" height="14" rx="7" fill="#94A3B8"/>
+  <rect x="110" y="192" width="12" height="42" rx="4" fill="#CBD5E1"/>
+  <rect x="278" y="192" width="12" height="42" rx="4" fill="#CBD5E1"/>
+
+  <!-- ノートPC（テーブル上） -->
+  <rect x="168" y="140" width="64" height="40" rx="4" fill="#1E293B"/>
+  <rect x="174" y="146" width="52" height="28" rx="2" fill="#38BDF8"/>
+  <rect x="160" y="178" width="80" height="6" rx="3" fill="#334155"/>
+
+  <!-- 左の人（営業・現場側） -->
+  <circle cx="120" cy="112" r="20" fill="#FDE68A"/>
+  <path d="M100 112a20 20 0 0 1 40 0v-6a20 14 0 0 0-40 0z" fill="#475569"/>
+  <path d="M92 178c0-26 12-42 28-42s28 16 28 42z" fill="#475569"/>
+
+  <!-- 右の人（開発側） -->
+  <circle cx="280" cy="112" r="20" fill="#FECACA"/>
+  <path d="M260 112a20 20 0 0 1 40 0v-6a20 14 0 0 0-40 0z" fill="#2563EB"/>
+  <path d="M252 178c0-26 12-42 28-42s28 16 28 42z" fill="#2563EB"/>
+
+  <!-- 吹き出し（左：課題） -->
+  <g>
+    <rect x="66" y="42" width="96" height="40" rx="12" fill="#FFFFFF"/>
+    <path d="M104 82l8 14 6-14z" fill="#FFFFFF"/>
+    <rect x="80" y="54" width="66" height="7" rx="3.5" fill="#94A3B8"/>
+    <rect x="80" y="66" width="44" height="7" rx="3.5" fill="#CBD5E1"/>
+  </g>
+  <!-- 吹き出し（右：解決案） -->
+  <g>
+    <rect x="238" y="34" width="100" height="44" rx="12" fill="#2563EB"/>
+    <path d="M284 78l8 14 6-14z" fill="#2563EB"/>
+    <path d="M254 56l8 8 16-16" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="292" y="50" width="32" height="7" rx="3.5" fill="#93C5FD"/>
+    <rect x="292" y="62" width="24" height="7" rx="3.5" fill="#BFDBFE"/>
+  </g>
+</svg>

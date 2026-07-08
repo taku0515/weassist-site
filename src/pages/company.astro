@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SITE_DATA } from '../data/site';
+import { Icon } from 'astro-icon/components';
 
 // 会社情報のデータを SITE_DATA から参照して構築
 const companyProfile = [
@@ -14,7 +15,7 @@ const companyProfile = [
 ];
 ---
 
-<Layout title={`${SITE_DATA.name} | 会社概要`} description="当社の会社概要、ミッション、代表挨拶についてご案内します。">
+<Layout title="会社概要" description="当社の会社概要、ミッション、代表挨拶についてご案内します。">
 
   <section class="bg-slate-900 py-20 text-center">
     <div class="container mx-auto px-6">
@@ -39,12 +40,14 @@ const companyProfile = [
 
       <div class="grid md:grid-cols-3 gap-8">
         {[
-          { title: "Innovation", desc: "常に最新技術を追求し、既存の枠にとらわれない解決策を提案します。", icon: "🚀" },
-          { title: "Quality", desc: "細部までこだわり抜き、堅牢で使いやすい高品質なプロダクトを提供します。", icon: "💎" },
-          { title: "Partnership", desc: "お客様と同じ視点に立ち、共に成長する長期的なパートナーを目指します。", icon: "🤝" },
+          { title: "Innovation", desc: "常に最新技術を追求し、既存の枠にとらわれない解決策を提案します。", icon: "lucide:lightbulb" },
+          { title: "Quality", desc: "細部までこだわり抜き、堅牢で使いやすい高品質なプロダクトを提供します。", icon: "lucide:gem" },
+          { title: "Partnership", desc: "お客様と同じ視点に立ち、共に成長する長期的なパートナーを目指します。", icon: "lucide:handshake" },
         ].map((value) => (
           <div class="bg-slate-50 p-8 rounded-xl text-center border border-slate-100 hover:border-blue-200 transition-colors">
-            <div class="text-4xl mb-4">{value.icon}</div>
+            <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-xl flex items-center justify-center">
+              <Icon name={value.icon} class="w-7 h-7 text-blue-600" />
+            </div>
             <h3 class="text-xl font-bold text-slate-800 mb-3">{value.title}</h3>
             <p class="text-slate-600 text-sm leading-relaxed">{value.desc}</p>
           </div>

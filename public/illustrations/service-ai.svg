@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="AIソリューション導入">
+  <defs>
+    <linearGradient id="bgAI" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bgAI)"/>
+  <circle cx="710" cy="70" r="34" fill="#DBEAFE"/>
+  <circle cx="70" cy="380" r="26" fill="#CFFAFE"/>
+
+  <!-- 回路ライン -->
+  <g stroke="#93C5FD" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M330 225H220"/>
+    <path d="M470 225h110"/>
+    <path d="M400 155V88"/>
+    <path d="M400 295v66"/>
+    <path d="M340 165l-70-64"/>
+    <path d="M460 165l70-64"/>
+    <path d="M340 285l-70 64"/>
+    <path d="M460 285l70 64"/>
+  </g>
+  <!-- ノード -->
+  <g>
+    <circle cx="220" cy="225" r="12" fill="#2563EB"/>
+    <circle cx="580" cy="225" r="12" fill="#2563EB"/>
+    <circle cx="400" cy="88" r="12" fill="#06B6D4"/>
+    <circle cx="400" cy="361" r="12" fill="#06B6D4"/>
+    <circle cx="270" cy="101" r="10" fill="#60A5FA"/>
+    <circle cx="530" cy="101" r="10" fill="#60A5FA"/>
+    <circle cx="270" cy="349" r="10" fill="#60A5FA"/>
+    <circle cx="530" cy="349" r="10" fill="#60A5FA"/>
+  </g>
+
+  <!-- 中央のAIチップ -->
+  <rect x="330" y="155" width="140" height="140" rx="24" fill="#0F172A"/>
+  <rect x="352" y="177" width="96" height="96" rx="16" fill="none" stroke="#22D3EE" stroke-width="4"/>
+  <text x="400" y="240" font-family="ui-sans-serif, sans-serif" font-size="34" font-weight="bold" fill="#22D3EE" text-anchor="middle">AI</text>
+
+  <!-- 左：入力ドキュメント -->
+  <g>
+    <rect x="96" y="150" width="96" height="120" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3" transform="rotate(-6 144 210)"/>
+    <rect x="112" y="176" width="60" height="8" rx="4" fill="#94A3B8" transform="rotate(-6 144 210)"/>
+    <rect x="112" y="194" width="66" height="8" rx="4" fill="#CBD5E1" transform="rotate(-6 144 210)"/>
+    <rect x="112" y="212" width="48" height="8" rx="4" fill="#CBD5E1" transform="rotate(-6 144 210)"/>
+  </g>
+
+  <!-- 右：出力チャット -->
+  <g>
+    <rect x="612" y="152" width="130" height="66" rx="14" fill="#2563EB"/>
+    <path d="M640 218l6 16 12-16z" fill="#2563EB"/>
+    <rect x="628" y="168" width="86" height="9" rx="4.5" fill="#BFDBFE"/>
+    <rect x="628" y="186" width="64" height="9" rx="4.5" fill="#93C5FD"/>
+    <rect x="612" y="248" width="104" height="52" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+    <rect x="628" y="264" width="70" height="9" rx="4.5" fill="#CBD5E1"/>
+    <rect x="628" y="280" width="48" height="9" rx="4.5" fill="#E2E8F0"/>
+  </g>
+
+  <!-- 下：ローカル保護の盾 -->
+  <g>
+    <path d="M116 262l30-11 30 11v22c0 23-13 37-30 44-17-7-30-21-30-44z" fill="#06B6D4"/>
+    <path d="M132 288l10 10 19-21" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

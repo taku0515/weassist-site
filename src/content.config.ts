@@ -14,4 +14,19 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { news };
+// 実績（works）。記事は src/content/works/*.md に置く
+const works = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/works' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(), // 一覧カードに表示する1〜2文
+    category: z.string(), // 例: 自社プロダクト / 社内システム / 自動化基盤
+    tech: z.array(z.string()), // 技術タグ
+    date: z.coerce.date(), // 並び順用（新しい順）
+    accent: z.enum(['blue', 'purple', 'emerald', 'cyan', 'amber', 'rose']).default('blue'), // カードの色
+    featured: z.boolean().default(false), // トップページに掲載するか
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { news, works };

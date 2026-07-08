@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="DXコンサルティング">
+  <defs>
+    <linearGradient id="bgDX" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bgDX)"/>
+  <circle cx="86" cy="82" r="32" fill="#DBEAFE"/>
+  <circle cx="724" cy="96" r="24" fill="#CFFAFE"/>
+
+  <!-- 左：紙の書類の山（アナログ） -->
+  <g>
+    <rect x="92" y="196" width="120" height="150" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="3" transform="rotate(-7 152 271)"/>
+    <rect x="104" y="184" width="120" height="150" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3" transform="rotate(4 164 259)"/>
+    <rect x="120" y="206" width="76" height="9" rx="4.5" fill="#94A3B8" transform="rotate(4 164 259)"/>
+    <rect x="120" y="226" width="86" height="9" rx="4.5" fill="#CBD5E1" transform="rotate(4 164 259)"/>
+    <rect x="120" y="246" width="64" height="9" rx="4.5" fill="#CBD5E1" transform="rotate(4 164 259)"/>
+    <rect x="120" y="266" width="80" height="9" rx="4.5" fill="#E2E8F0" transform="rotate(4 164 259)"/>
+  </g>
+
+  <!-- 中央：変換の矢印 -->
+  <g>
+    <path d="M268 250h96m0 0l-26-26m26 26l-26 26" fill="none" stroke="#2563EB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="316" cy="196" r="20" fill="none" stroke="#22D3EE" stroke-width="5" stroke-dasharray="9 8"/>
+  </g>
+
+  <!-- 右：デジタル化された階段と成長 -->
+  <g>
+    <rect x="408" y="298" width="90" height="64" rx="8" fill="#93C5FD"/>
+    <rect x="510" y="252" width="90" height="110" rx="8" fill="#3B82F6"/>
+    <rect x="612" y="200" width="90" height="162" rx="8" fill="#2563EB"/>
+    <!-- 各段のチェック -->
+    <path d="M438 324l10 10 18-20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M540 288l10 10 18-20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M642 236l10 10 18-20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 旗 -->
+    <line x1="657" y1="200" x2="657" y2="140" stroke="#0F172A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M657 140h52l-14 16 14 16h-52z" fill="#06B6D4"/>
+  </g>
+
+  <!-- 成長ライン -->
+  <path d="M420 300C470 288 560 250 640 196" fill="none" stroke="#22D3EE" stroke-width="5" stroke-dasharray="2 12" stroke-linecap="round"/>
+
+  <!-- 地面 -->
+  <rect x="80" y="368" width="640" height="8" rx="4" fill="#CBD5E1"/>
+</svg>

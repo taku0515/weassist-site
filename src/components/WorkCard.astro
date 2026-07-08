@@ -1,0 +1,66 @@
+---
+// 実績カード。/works 一覧とトップページの実績ハイライトで共用
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  work: CollectionEntry<'works'>;
+  /** ダーク背景（トップページ）に置く場合 true */
+  dark?: boolean;
+}
+
+const { work, dark = false } = Astro.props;
+
+// Tailwind JIT にクラス名を静的に認識させるため、色ごとの完全なクラス文字列をここに列挙する
+const ACCENTS: Record<string, { gradient: string; chip: string }> = {
+  blue:    { gradient: 'from-blue-600 to-cyan-500',     chip: 'bg-blue-50 text-blue-700' },
+  purple:  { gradient: 'from-purple-600 to-fuchsia-500', chip: 'bg-purple-50 text-purple-700' },
+  emerald: { gradient: 'from-emerald-600 to-teal-500',  chip: 'bg-emerald-50 text-emerald-700' },
+  cyan:    { gradient: 'from-cyan-600 to-sky-500',      chip: 'bg-cyan-50 text-cyan-700' },
+  amber:   { gradient: 'from-amber-500 to-orange-500',  chip: 'bg-amber-50 text-amber-700' },
+  rose:    { gradient: 'from-rose-500 to-pink-500',     chip: 'bg-rose-50 text-rose-700' },
+};
+
+const accent = ACCENTS[work.data.accent] ?? ACCENTS.blue;
+---
+
+<a
+  href={`/works/${work.id}`}
+  class={`group flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
+    dark
+      ? 'bg-slate-800/60 border-slate-700 hover:border-slate-500 backdrop-blur-sm'
+      : 'bg-white border-slate-100 shadow-sm'
+  }`}
+>
+  {/* グラデーションのビジュアルヘッダー */}
+  <div class={`relative h-36 bg-gradient-to-br ${accent.gradient} overflow-hidden`}>
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
+    <div class="absolute -bottom-6 -right-2 text-white/15 text-8xl font-black tracking-tighter select-none group-hover:scale-110 transition-transform duration-500 origin-bottom-right">
+      {work.data.title.replace(/[「」]/g, '').slice(0, 6)}
+    </div>
+    <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 text-slate-800 text-xs font-bold shadow-sm">
+      {work.data.category}
+    </span>
+  </div>
+
+  <div class="flex flex-col grow p-6">
+    <h3 class={`text-lg font-bold leading-snug mb-3 transition-colors ${dark ? 'text-white group-hover:text-cyan-300' : 'text-slate-900 group-hover:text-blue-600'}`}>
+      {work.data.title}
+    </h3>
+    <p class={`text-sm leading-relaxed mb-5 grow ${dark ? 'text-slate-300' : 'text-slate-600'}`}>
+      {work.data.summary}
+    </p>
+
+    <div class="flex flex-wrap gap-2 mb-4">
+      {work.data.tech.slice(0, 4).map((t) => (
+        <span class={`px-2.5 py-1 rounded text-xs font-semibold ${dark ? 'bg-slate-700 text-slate-200' : accent.chip}`}>
+          {t}
+        </span>
+      ))}
+    </div>
+
+    <span class={`text-sm font-bold flex items-center gap-1 ${dark ? 'text-cyan-300' : 'text-blue-600'}`}>
+      詳しく見る
+      <span class="group-hover:translate-x-1 transition-transform">→</span>
+    </span>
+  </div>
+</a>

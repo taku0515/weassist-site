@@ -31,6 +31,10 @@ const pageTitle = title ? `${title} | ${SITE_DATA.name}` : SITE_DATA.name;
 const pageDescription = description || SITE_DATA.description;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// トップページはヒーローを画面いっぱいに見せるため余白なし。
+// それ以外はヘッダー常時表示（h-20 = 80px）のぶんコンテンツを下げる
+const isHome = Astro.url.pathname === '/';
 ---
 
 <!doctype html>
@@ -78,7 +82,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     
     <Header />
 
-    <main class="grow">
+    <main class={`grow ${isHome ? '' : 'pt-20'}`}>
       <slot />
     </main>
 

@@ -8,7 +8,7 @@ const news = (await getCollection('news', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Layout title={`${SITE_DATA.name} | お知らせ`}>
+<Layout title="お知らせ">
 
   <div class="container mx-auto px-6 py-20">
     <h1 class="text-3xl font-bold mb-10 border-b pb-4">News / お知らせ</h1>

@@ -16,7 +16,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<Layout title={`${SITE_DATA.name} | ${entry.data.title}`} description={entry.data.title}>
+<Layout title={entry.data.title} description={entry.data.title}>
   <div class="container mx-auto px-6 py-20 max-w-4xl">
     <header class="mb-10 border-b pb-6">
       <div class="text-slate-500 font-mono mb-4">

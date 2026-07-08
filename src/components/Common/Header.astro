@@ -5,6 +5,7 @@ import { SITE_DATA } from '../../data/site';
 const navItems = [
   { label: "ホーム", href: "/" },
   { label: "事業内容", href: "/services" },
+  { label: "実績", href: "/works" },
   { label: "お知らせ", href: "/news" },
   { label: "会社紹介", href: "/company" },
   //{ label: "お問い合わせ", href: "/contact" },
@@ -76,10 +77,12 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
     let isMenuOpen = false;
 
     // スクロール制御
+    // トップページ: ヒーロー演出のため100pxスクロールするまで隠す
+    // それ以外のページ: 縦が短くてもナビに戻れるよう、常に表示する
     const handleScroll = () => {
       if (isMenuOpen) return;
-      const currentScroll = window.scrollY;
-      if (currentScroll > 100) {
+      const isHome = location.pathname === '/';
+      if (!isHome || window.scrollY > 100) {
         header?.classList.remove('-translate-y-full');
       } else {
         header?.classList.add('-translate-y-full');
