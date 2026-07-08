@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code のマシン固有設定（エージェント定義 .claude/agents/ はコミットしてよい）
+.claude/settings.local.json

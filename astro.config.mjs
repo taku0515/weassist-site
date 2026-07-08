@@ -15,7 +15,6 @@ export default defineConfig({
 
   image: {
     domains: [
-      "images.microcms-assets.io", // MicroCMSの画像ドメイン
       "images.unsplash.com",       // Unsplashの画像ドメイン
       "plus.unsplash.com"          // Unsplashの別ドメイン
     ],

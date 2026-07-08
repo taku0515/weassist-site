@@ -1,64 +1,40 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { createClient } from "microcms-js-sdk";
-import Breadcrumbs from '../../components/Common/Breadcrumbs.astro';
+import { getCollection, render } from 'astro:content';
 import { SITE_DATA } from '../../data/site';
 
-
-// microCMS のニュース記事の型定義
-interface NewsItem {
-  id: string;
-  title: string;
-  publishedAt: string;
-  category?: {
-    name: string;
-  };
-  content: string;
-}
-
-// ページの props の型定義
-export interface Props {
-  news: NewsItem;
-}
-
-// 1. ビルド時に「どんなページIDが存在するか」をAstroに教える関数
+// ビルド時に記事ごとのページを生成する（下書きは除外）
 export async function getStaticPaths() {
-  const client = createClient({
-    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: import.meta.env.MICROCMS_API_KEY,
-  });
-
-  // 記事を全件取得
-  const response = await client.get({ endpoint: "news", queries: { limit: 100 } });
-
-  // Astroが理解できる形式（paramsとprops）に変換して返す
-  return response.contents.map((content: NewsItem) => ({
-    params: { id: content.id }, // URLになる部分 (/news/これ)
-    props: { news: content },   // ページに渡すデータ
+  const news = await getCollection('news', ({ data }) => !data.draft);
+  return news.map((entry) => ({
+    params: { id: entry.id }, // URLになる部分 (/news/これ)
+    props: { entry },
   }));
 }
 
-// 2. ページごとのデータを受け取る
-const { news } = Astro.props;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
 ---
 
-<Layout title={`${SITE_DATA.name} | ${news.title}`} description="ニュースの詳細記事です。">
+<Layout title={`${SITE_DATA.name} | ${entry.data.title}`} description={entry.data.title}>
   <div class="container mx-auto px-6 py-20 max-w-4xl">
     <header class="mb-10 border-b pb-6">
       <div class="text-slate-500 font-mono mb-4">
-        {new Date(news.publishedAt).toLocaleDateString('ja-JP')}
+        {entry.data.date.toLocaleDateString('ja-JP')}
       </div>
       <h1 class="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-        {news.title}
+        {entry.data.title}
       </h1>
-      {news.category && (
+      {entry.data.category && (
         <span class="inline-block mt-4 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-          {news.category.name}
+          {entry.data.category}
         </span>
       )}
     </header>
 
-    <article class="prose prose-slate lg:prose-xl max-w-none" set:html={news.content} />
+    <article class="prose prose-slate lg:prose-xl max-w-none">
+      <Content />
+    </article>
 
     <div class="mt-16 pt-8 border-t">
       <a href="/news" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-bold">
