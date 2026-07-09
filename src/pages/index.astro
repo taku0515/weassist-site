@@ -3,6 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import WorkCard from '../components/WorkCard.astro';
 import { getCollection } from 'astro:content';
 import { getLatestBlogPosts } from '../library/wp';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+// 選ばれる理由のイラストはHTMLに直接埋め込む（ビルド時にbase64化）。
+// 追加のダウンロードが発生しないため、スクロール時に絵が遅れて出ることがない
+const inlineIllust = (name: string): string =>
+  'data:image/webp;base64,' +
+  readFileSync(
+    fileURLToPath(new URL(`../../public/illustrations/${name}`, import.meta.url))
+  ).toString('base64');
 // Markdown（src/content/news/）から記事を3件だけ取得、公開日順に並び替え
 const newsItems = (await getCollection('news', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -13,20 +23,20 @@ const featuredWorks = (await getCollection('works', ({ data }) => !data.draft &&
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
-// 選ばれる理由（イラストは public/illustrations/ の自作SVG）
+// 選ばれる理由（イラストはビルド時にHTMLへ埋め込み）
 const reasons = [
   {
-    image: '/illustrations/reason-fieldwork.webp',
+    image: inlineIllust('reason-fieldwork.webp'),
     title: '現場を知る開発',
     desc: '営業の現場経験を持つ開発者が担当。「システムの都合」ではなく「業務の流れ」に馴染む形で設計します。',
   },
   {
-    image: '/illustrations/reason-local-data.webp',
+    image: inlineIllust('reason-local-data.webp'),
     title: 'データを外に出さない選択肢',
     desc: 'ローカルAIの活用により、機密情報を外部クラウドに送らない構成もご提案できます。セキュリティ要件の厳しい業務でもAIを諦めません。',
   },
   {
-    image: '/illustrations/reason-prototype.webp',
+    image: inlineIllust('reason-prototype.webp'),
     title: '小さく作って、早く形に',
     desc: 'まず動くプロトタイプを素早くお見せし、確認しながら段階的に育てる進め方。大きな初期投資なしで始められます。',
   },
@@ -71,13 +81,6 @@ const techTags = [
 
 <Layout title="未来を創るITパートナー">
 
-  {/* 選ばれる理由のイラストはファーストビュー外だが必ず見る場所なので、先読みで取得を前倒し */}
-  <Fragment slot="head">
-    <link rel="preload" as="image" href="/illustrations/reason-fieldwork.webp" />
-    <link rel="preload" as="image" href="/illustrations/reason-local-data.webp" />
-    <link rel="preload" as="image" href="/illustrations/reason-prototype.webp" />
-  </Fragment>
-  
   <section class="relative bg-slate-900 text-white overflow-hidden min-h-[800px] flex items-center">
 
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
