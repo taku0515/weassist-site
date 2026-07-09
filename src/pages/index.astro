@@ -467,10 +467,10 @@ const techTags = [
   }
 
   /* スマホでは重い装飾アニメーションを止める（スクロールのカクつき防止）。
-     技術タグのマーキーは transform のみのGPU合成アニメのため対象外 */
+     マーキーと float は transform のみのGPU合成アニメのため対象外
+     （マーキー: 技術タグの帯 / float: ヒーローのボタン浮遊） */
   @media (max-width: 767px) {
     .animate-blob { animation: none; }
-    .animate-float { animation: none; }
   }
 
   /* 7. カードの段階表示（transform/opacityのみ = iOS安全。
@@ -504,6 +504,7 @@ const techTags = [
   /* 動きを減らす設定のユーザーにはアニメーションを止める */
   @media (prefers-reduced-motion: reduce) {
     .marquee { animation: none; }
+    .animate-float { animation: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
     :global(html.js) .stagger-item { opacity: 1; transform: none; transition: none; }
     .heading-accent::after { transform: scaleX(1); transition: none; }
