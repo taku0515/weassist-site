@@ -461,6 +461,7 @@ const techTags = [
   @media (max-width: 767px) {
     .animate-blob { animation: none; }
     .marquee { animation: none; }
+    .animate-float { animation: none; }
   }
 
   /* 動きを減らす設定のユーザーにはアニメーションを止める */
@@ -492,11 +493,24 @@ const techTags = [
     // 3. 前のループが残っていたら止める（重要！）
     if (typeTimeoutId) clearTimeout(typeTimeoutId);
 
+    // 3.5 画面外に出たらDOM書き換えを止める（スクロール中のレイアウト計算を防ぐ）
+    let heroTextVisible = true;
+    const visObserver = new IntersectionObserver(([entry]) => {
+      heroTextVisible = entry.isIntersecting;
+    });
+    visObserver.observe(textElement);
+
     // 4. タイプライター関数
     function type() {
       // 実行する瞬間に、まだその要素が画面にあるかチェック
       // (別のページに移動していたら停止させる)
       if (!textElement || !document.body.contains(textElement)) return;
+
+      // 画面外の間は書き換えせず、静かに待機する
+      if (!heroTextVisible) {
+        typeTimeoutId = setTimeout(type, 500) as unknown as number;
+        return;
+      }
 
       const currentText = texts[textIndex];
       
@@ -553,6 +567,13 @@ const techTags = [
       consoleTimeoutId = setTimeout(fn, ms) as unknown as number;
     };
 
+    // 画面外（スマホでは非表示のため常時）ではDOM書き換えを止める
+    let consoleVisible = false;
+    const visObserver = new IntersectionObserver(([entry]) => {
+      consoleVisible = entry.isIntersecting;
+    });
+    visObserver.observe(box);
+
     const makeLine = (type: string) => {
       const line = document.createElement('div');
       const prefix = document.createElement('span');
@@ -575,6 +596,10 @@ const techTags = [
 
     const run = (lineIdx: number) => {
       if (!document.body.contains(box)) return;
+      if (!consoleVisible) {
+        schedule(() => run(lineIdx), 600);
+        return;
+      }
       if (lineIdx >= CONSOLE_LINES.length) {
         // 一巡したらしばらく見せてからリセット
         schedule(() => { box.innerHTML = ''; run(0); }, 6000);

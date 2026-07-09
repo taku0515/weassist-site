@@ -19,7 +19,8 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
   id="main-header" 
   class="fixed top-0 left-0 w-full z-50 transition-transform duration-300 -translate-y-full"
 >
-  <div id="header-bg" class="absolute inset-0 bg-white/60 backdrop-blur-md shadow-md transition-opacity duration-500"></div>
+  {/* backdrop-blurはスクロール毎に再描画が走りスマホで重いため、モバイルはほぼ不透明の白で代替 */}
+  <div id="header-bg" class="absolute inset-0 bg-white/95 md:bg-white/60 md:backdrop-blur-md shadow-md transition-opacity duration-500"></div>
 
   <div class="container mx-auto px-6 h-20 flex items-center justify-between relative z-50">
     
