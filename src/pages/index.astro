@@ -16,17 +16,17 @@ const featuredWorks = (await getCollection('works', ({ data }) => !data.draft &&
 // 選ばれる理由（イラストは public/illustrations/ の自作SVG）
 const reasons = [
   {
-    image: '/illustrations/reason-fieldwork.png',
+    image: '/illustrations/reason-fieldwork.webp',
     title: '現場を知る開発',
     desc: '営業の現場経験を持つ開発者が担当。「システムの都合」ではなく「業務の流れ」に馴染む形で設計します。',
   },
   {
-    image: '/illustrations/reason-local-data.png',
+    image: '/illustrations/reason-local-data.webp',
     title: 'データを外に出さない選択肢',
     desc: 'ローカルAIの活用により、機密情報を外部クラウドに送らない構成もご提案できます。セキュリティ要件の厳しい業務でもAIを諦めません。',
   },
   {
-    image: '/illustrations/reason-prototype.png',
+    image: '/illustrations/reason-prototype.webp',
     title: '小さく作って、早く形に',
     desc: 'まず動くプロトタイプを素早くお見せし、確認しながら段階的に育てる進め方。大きな初期投資なしで始められます。',
   },
@@ -37,21 +37,21 @@ const topServices = [
   {
     title: 'システム開発',
     desc: '業務効率化システムから、BtoC向けのWebアプリケーションまで。最新のフレームワークを用いた拡張性の高い開発を行います。',
-    image: '/illustrations/service-web.png',
+    image: '/illustrations/service-web.webp',
     href: '/services#system',
     color: 'text-blue-600',
   },
   {
     title: 'AI導入・活用支援',
     desc: 'ChatGPTなどの生成AIを活用した業務フローの構築や、社内データのAI分析基盤の整備をサポートします。',
-    image: '/illustrations/service-ai.png',
+    image: '/illustrations/service-ai.webp',
     href: '/services#ai',
     color: 'text-purple-600',
   },
   {
     title: 'DXコンサルティング',
     desc: 'アナログな業務プロセスのデジタル化を企画から定着まで伴走支援。ツールの導入だけでなく、組織の変革をお手伝いします。',
-    image: '/illustrations/service-dx.png',
+    image: '/illustrations/service-dx.webp',
     href: '/services#dx',
     color: 'text-emerald-600',
   },
@@ -70,6 +70,13 @@ const techTags = [
 
 
 <Layout title="未来を創るITパートナー">
+
+  {/* 選ばれる理由のイラストはファーストビュー外だが必ず見る場所なので、先読みで取得を前倒し */}
+  <Fragment slot="head">
+    <link rel="preload" as="image" href="/illustrations/reason-fieldwork.webp" />
+    <link rel="preload" as="image" href="/illustrations/reason-local-data.webp" />
+    <link rel="preload" as="image" href="/illustrations/reason-prototype.webp" />
+  </Fragment>
   
   <section class="relative bg-slate-900 text-white overflow-hidden min-h-[800px] flex items-center">
 
@@ -183,13 +190,14 @@ const techTags = [
       <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {reasons.map((item) => (
           <div class="bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
-            <div class="overflow-hidden">
+            <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
               <img
                 src={item.image}
                 alt=""
                 width="400"
                 height="260"
                 loading="eager"
+                fetchpriority="high"
                 decoding="async"
                 class="w-full h-auto md:group-hover:scale-[1.03] md:transition-transform md:duration-500"
               />
@@ -218,7 +226,7 @@ const techTags = [
       <div class="grid md:grid-cols-3 gap-8">
         {topServices.map((s) => (
           <a href={s.href} class="bg-white rounded-2xl shadow-sm md:hover:shadow-xl md:transition-all md:duration-300 group border border-slate-100 overflow-hidden flex flex-col">
-            <div class="overflow-hidden">
+            <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
               <img
                 src={s.image}
                 alt=""

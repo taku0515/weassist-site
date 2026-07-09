@@ -63,6 +63,9 @@ const isHome = Astro.url.pathname === '/';
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={new URL(image, Astro.url)} />
 
+    {/* ページ固有のhead追記用（preload等） */}
+    <slot name="head" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
