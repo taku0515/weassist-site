@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
 import WorkCard from '../components/WorkCard.astro';
 import { getCollection } from 'astro:content';
 import { getLatestBlogPosts } from '../library/wp';
@@ -61,31 +60,25 @@ const topServices = [
 // ブログ（web.weassist.jp）の最新記事をビルド時に取得
 const blogPosts = await getLatestBlogPosts();
 
-// 背景画像など（既存のコード）
-const heroImage = "/hero.avif";
+// 技術マーキーに流すタグ（実際に使っている技術のみ）
+const techTags = [
+  'Python', 'Flask', 'Vue 3', 'Astro', 'PostgreSQL', 'Ollama',
+  'faster-whisper', 'VOICEVOX', 'ローカルLLM', 'RAG', 'Tailwind CSS',
+  'Cloudflare Pages', 'WordPress', 'Git',
+];
 ---
 
 
 <Layout title="未来を創るITパートナー">
   
   <section class="relative bg-slate-900 text-white overflow-hidden min-h-[800px] flex items-center">
-    
-    <div class="absolute inset-0 z-0 md:hidden">
-      <Image 
-        src={heroImage} 
-        alt="Background" 
-        width={800} 
-        height={1200}
-        class="w-full h-full object-cover opacity-60" 
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/80 to-slate-900"></div>
-    </div>
 
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600 rounded-full blur-[120px] opacity-20 md:opacity-40 animate-blob"></div>
-      <div class="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-cyan-500 rounded-full blur-[100px] opacity-20 md:opacity-30 animate-blob animation-delay-2000"></div>
-      
+      <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600 rounded-full blur-[120px] opacity-30 md:opacity-40 animate-blob"></div>
+      <div class="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-cyan-500 rounded-full blur-[100px] opacity-25 md:opacity-30 animate-blob animation-delay-2000"></div>
+
       <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+      <canvas id="hero-net" class="absolute inset-0 w-full h-full opacity-60"></canvas>
     </div>
 
     <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
@@ -126,31 +119,54 @@ const heroImage = "/hero.avif";
 
       <div class="relative animate-float hidden md:block">
 
-        <Image 
-          src={heroImage}
-          alt="Dashboard" 
-          width={800} 
-          height={600}
-          class="rounded-2xl shadow-2xl border border-slate-700 relative z-10 w-full" 
-        />
-        
-        <div class="absolute -bottom-10 -left-10 bg-slate-800/80 backdrop-blur-md p-6 rounded-xl border border-slate-600 shadow-xl z-20 animate-float animation-delay-2000">
-          <div class="flex items-center gap-4">
-            <div class="bg-green-500/20 p-3 rounded-lg text-green-400">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </div>
-            <div>
-              <p class="text-sm text-slate-400">Project Status</p>
-              <p class="text-xl font-bold text-white">Success</p>
-            </div>
+        {/* ローカルAIの対話デモ（タイプ演出はスクリプトで実装） */}
+        <div class="relative z-10 rounded-2xl bg-slate-950 border border-slate-700 shadow-2xl shadow-blue-900/40 ring-1 ring-cyan-500/20 overflow-hidden font-mono text-sm">
+          <div class="flex items-center gap-2 px-4 py-3 bg-slate-800/80 border-b border-slate-700">
+            <span class="w-3 h-3 rounded-full bg-red-400/80"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
+            <span class="ml-3 text-slate-400 text-xs">local-ai — このPCの中だけで動作中</span>
+            <span class="ml-auto inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-400 tracking-wider">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              LOCAL
+            </span>
           </div>
+          <div id="ai-console" class="p-6 h-72 space-y-3 text-slate-300 leading-relaxed overflow-hidden" aria-hidden="true"></div>
         </div>
       </div>
     </div>
   </section>
 
+  <section class="bg-slate-950 border-y border-slate-800 relative overflow-hidden">
+    <div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+      <div>
+        <p class="text-4xl md:text-5xl font-black text-white tracking-tight">6<span class="text-cyan-400 text-2xl ml-1">つ</span></p>
+        <p class="text-slate-400 text-sm mt-3 font-bold">自社開発プロダクト — すべて実運用中</p>
+      </div>
+      <div>
+        <p class="text-4xl md:text-5xl font-black text-white tracking-tight">150<span class="text-cyan-400 text-3xl">+</span></p>
+        <p class="text-slate-400 text-sm mt-3 font-bold">技術ブログ記事 — AIパイプラインで毎日更新</p>
+      </div>
+      <div>
+        <p class="text-4xl md:text-5xl font-black text-white tracking-tight">¥0</p>
+        <p class="text-slate-400 text-sm mt-3 font-bold">ご相談・お見積り — 費用をかけずに検討開始</p>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800/80 py-4 overflow-hidden" aria-hidden="true">
+      <div class="marquee flex gap-3 w-max">
+        {[...techTags, ...techTags].map((t) => (
+          <span class="px-4 py-1.5 rounded-full border border-slate-700/80 text-slate-500 text-xs font-mono whitespace-nowrap">{t}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="py-20 bg-white text-slate-800">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-6 reveal">
       <div class="text-center mb-12">
         <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Why weassist</span>
         <h2 class="text-3xl md:text-4xl font-bold mt-2">選ばれる理由</h2>
@@ -179,8 +195,8 @@ const heroImage = "/hero.avif";
   </section>
 
   <section class="py-20 bg-slate-50">
-    <div class="container mx-auto px-6">
-      
+    <div class="container mx-auto px-6 reveal">
+
       <div class="text-center mb-16">
         <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Our Services</span>
         <h2 class="text-3xl md:text-4xl font-bold mt-2 text-slate-900">提供サービス</h2>
@@ -223,7 +239,7 @@ const heroImage = "/hero.avif";
     <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600 rounded-full blur-[140px] opacity-25"></div>
     <div class="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-cyan-500 rounded-full blur-[120px] opacity-20"></div>
 
-    <div class="container mx-auto px-6 relative z-10">
+    <div class="container mx-auto px-6 relative z-10 reveal">
       <div class="text-center mb-16">
         <span class="text-cyan-400 font-bold tracking-wider uppercase text-sm">Works</span>
         <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white">実績</h2>
@@ -248,7 +264,7 @@ const heroImage = "/hero.avif";
   </section>
 
   <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-4xl">
+    <div class="container mx-auto px-6 max-w-4xl reveal">
 
       <div class="flex items-end justify-between mb-10 border-b border-slate-200 pb-4">
         <div>
@@ -303,7 +319,7 @@ const heroImage = "/hero.avif";
 
   {blogPosts.length > 0 && (
     <section class="py-20 bg-slate-50">
-      <div class="container mx-auto px-6 max-w-4xl">
+      <div class="container mx-auto px-6 max-w-4xl reveal">
 
         <div class="flex items-end justify-between mb-10 border-b border-slate-200 pb-4">
           <div>
@@ -344,7 +360,7 @@ const heroImage = "/hero.avif";
     <div class="absolute inset-0 opacity-20 bg-[url('/grid-pattern.svg')]"></div>
     <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-20"></div>
 
-    <div class="container mx-auto px-6 text-center relative z-10">
+    <div class="container mx-auto px-6 text-center relative z-10 reveal">
       <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
         ビジネスの課題を、<br class="md:hidden" />技術で解決しませんか？
       </h2>
@@ -411,6 +427,32 @@ const heroImage = "/hero.avif";
   }
   .delay-100 { animation-delay: 0.1s; }
   .delay-200 { animation-delay: 0.2s; }
+
+  /* 5. 技術タグのマーキー（同じ列を2回並べて -50% 移動でループ） */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee {
+    animation: marquee 35s linear infinite;
+  }
+
+  /* 6. スクロールで現れるセクション */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 動きを減らす設定のユーザーにはアニメーションを止める */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
 </style>
 
 <script>
@@ -470,5 +512,179 @@ const heroImage = "/hero.avif";
 
     // 5. スタート！
     type();
+  });
+</script>
+
+<script>
+  // ============================================
+  // ローカルAIコンソールのタイプ演出
+  // ============================================
+  let consoleTimeoutId: number | undefined;
+
+  const CONSOLE_LINES = [
+    { type: 'cmd', text: '今日の会議メモ、要点だけまとめて日報にして' },
+    { type: 'ai', text: '完了しました。要点を3行に整理し、日報に追記しています。' },
+    { type: 'cmd', text: 'このやり取り、クラウドに送信してる？' },
+    { type: 'ai', text: 'いいえ。音声認識も文章生成も、すべてこのPCの中で完結しています。' },
+    { type: 'sys', text: '── weassist のローカルAIは、データを外に出しません ──' },
+  ];
+
+  document.addEventListener('astro:page-load', () => {
+    const box = document.getElementById('ai-console');
+    if (!box) return;
+    if (consoleTimeoutId) clearTimeout(consoleTimeoutId);
+
+    const schedule = (fn: () => void, ms: number) => {
+      consoleTimeoutId = setTimeout(fn, ms) as unknown as number;
+    };
+
+    const makeLine = (type: string) => {
+      const line = document.createElement('div');
+      const prefix = document.createElement('span');
+      const body = document.createElement('span');
+      if (type === 'cmd') {
+        prefix.textContent = '❯ ';
+        prefix.className = 'text-cyan-400';
+        body.className = 'text-slate-100';
+      } else if (type === 'ai') {
+        prefix.textContent = '✓ ';
+        prefix.className = 'text-emerald-400';
+        body.className = 'text-slate-300';
+      } else {
+        line.className = 'text-slate-500 text-xs text-center pt-2';
+      }
+      line.append(prefix, body);
+      box.appendChild(line);
+      return body;
+    };
+
+    const run = (lineIdx: number) => {
+      if (!document.body.contains(box)) return;
+      if (lineIdx >= CONSOLE_LINES.length) {
+        // 一巡したらしばらく見せてからリセット
+        schedule(() => { box.innerHTML = ''; run(0); }, 6000);
+        return;
+      }
+      const { type, text } = CONSOLE_LINES[lineIdx];
+      const body = makeLine(type);
+      let charIdx = 0;
+      const typeChar = () => {
+        if (!document.body.contains(box)) return;
+        body.textContent = text.slice(0, ++charIdx);
+        if (charIdx < text.length) {
+          schedule(typeChar, type === 'cmd' ? 55 : 22);
+        } else {
+          schedule(() => run(lineIdx + 1), 750);
+        }
+      };
+      typeChar();
+    };
+
+    box.innerHTML = '';
+    run(0);
+  });
+</script>
+
+<script>
+  // ============================================
+  // ヒーロー背景のパーティクル・ネットワーク
+  // ============================================
+  let netRafId: number | undefined;
+
+  document.addEventListener('astro:page-load', () => {
+    const canvas = document.getElementById('hero-net') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    if (netRafId) cancelAnimationFrame(netRafId);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const COUNT = 32;
+    const LINK_DIST = 140;
+    const FRAME_MS = 33; // 約30fpsに間引く（60fpsとの見た目差はほぼ無い）
+    const nodes = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+    }));
+
+    // ヒーローが画面外にある間は描画を完全停止する
+    let visible = true;
+    const visObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    });
+    visObserver.observe(canvas);
+
+    let lastFrame = 0;
+    const draw = (now: number) => {
+      if (!document.body.contains(canvas)) return;
+      netRafId = requestAnimationFrame(draw);
+      if (!visible || now - lastFrame < FRAME_MS) return;
+      lastFrame = now;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+      }
+
+      for (let i = 0; i < COUNT; i++) {
+        for (let j = i + 1; j < COUNT; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < LINK_DIST) {
+            ctx.strokeStyle = `rgba(34, 211, 238, ${0.14 * (1 - dist / LINK_DIST)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      ctx.fillStyle = 'rgba(96, 165, 250, 0.5)';
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+    netRafId = requestAnimationFrame(draw);
+  });
+</script>
+
+<script>
+  // ============================================
+  // スクロールで現れるセクション（IntersectionObserver）
+  // ============================================
+  document.addEventListener('astro:page-load', () => {
+    const targets = document.querySelectorAll('.reveal');
+    if (!targets.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.12 }
+    );
+    targets.forEach((t) => observer.observe(t));
   });
 </script>
