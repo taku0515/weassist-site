@@ -447,15 +447,17 @@ const techTags = [
     animation: marquee 35s linear infinite;
   }
 
-  /* 6. スクロールで現れるセクション */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.45s ease-out, transform 0.45s ease-out;
-  }
-  .reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
+  /* 6. スクロールで現れるセクション（PC限定。スマホは常に静的表示） */
+  @media (min-width: 768px) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* スマホでは重い装飾アニメーションを止める（スクロールのカクつき防止） */
