@@ -156,9 +156,10 @@ const techTags = [
       </div>
     </div>
 
-    <div class="border-t border-slate-800/80 py-4 overflow-x-auto md:overflow-hidden" aria-hidden="true">
-      <div class="marquee flex gap-3 w-max px-6 md:px-0">
-        <div class="flex gap-3">
+    <div class="border-t border-slate-800/80 py-4 overflow-hidden" aria-hidden="true">
+      {/* スマホは折り返しの静止表示（横スクロール領域を作らない）、PCはマーキー */}
+      <div class="marquee flex flex-wrap justify-center gap-3 px-6 md:flex-nowrap md:justify-start md:w-max md:px-0">
+        <div class="flex flex-wrap justify-center gap-3 md:flex-nowrap">
           {techTags.map((t) => (
             <span class="px-4 py-1.5 rounded-full border border-slate-700/80 text-slate-500 text-xs font-mono whitespace-nowrap">{t}</span>
           ))}
@@ -181,7 +182,7 @@ const techTags = [
       </div>
       <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {reasons.map((item) => (
-          <div class="bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300 group overflow-hidden">
+          <div class="bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
             <div class="overflow-hidden">
               <img
                 src={item.image}
@@ -190,7 +191,7 @@ const techTags = [
                 height="260"
                 loading="eager"
                 decoding="async"
-                class="w-full h-auto group-hover:scale-[1.03] transition-transform duration-500"
+                class="w-full h-auto md:group-hover:scale-[1.03] md:transition-transform md:duration-500"
               />
             </div>
             <div class="p-8 pt-6">
@@ -216,7 +217,7 @@ const techTags = [
 
       <div class="grid md:grid-cols-3 gap-8">
         {topServices.map((s) => (
-          <a href={s.href} class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group border border-slate-100 overflow-hidden flex flex-col">
+          <a href={s.href} class="bg-white rounded-2xl shadow-sm md:hover:shadow-xl md:transition-all md:duration-300 group border border-slate-100 overflow-hidden flex flex-col">
             <div class="overflow-hidden">
               <img
                 src={s.image}
@@ -224,7 +225,7 @@ const techTags = [
                 width="800"
                 height="450"
                 loading="lazy"
-                class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
+                class="w-full h-44 object-cover md:group-hover:scale-105 md:transition-transform md:duration-500"
               />
             </div>
             <div class="p-8 flex flex-col grow">

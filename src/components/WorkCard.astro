@@ -25,16 +25,16 @@ const accent = ACCENTS[work.data.accent] ?? ACCENTS.blue;
 
 <a
   href={`/works/${work.id}`}
-  class={`group flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
+  class={`group flex flex-col rounded-2xl overflow-hidden border md:transition-all md:duration-300 md:hover:-translate-y-1.5 md:hover:shadow-xl ${
     dark
-      ? 'bg-slate-800/60 border-slate-700 hover:border-slate-500 backdrop-blur-sm'
+      ? 'bg-slate-800/60 border-slate-700 md:hover:border-slate-500'
       : 'bg-white border-slate-100 shadow-sm'
   }`}
 >
   {/* グラデーションのビジュアルヘッダー */}
   <div class={`relative h-36 bg-gradient-to-br ${accent.gradient} overflow-hidden`}>
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
-    <div class="absolute -bottom-6 -right-2 text-white/15 text-8xl font-black tracking-tighter select-none group-hover:scale-110 transition-transform duration-500 origin-bottom-right">
+    <div class="absolute -bottom-6 -right-2 text-white/15 text-8xl font-black tracking-tighter select-none md:group-hover:scale-110 md:transition-transform md:duration-500 origin-bottom-right">
       {work.data.title.replace(/[「」]/g, '').slice(0, 6)}
     </div>
     <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 text-slate-800 text-xs font-bold shadow-sm">
