@@ -192,7 +192,7 @@ const techTags = [
       </div>
       <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {reasons.map((item) => (
-          <div class="bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
+          <div class="reason-card bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
             <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
               <img
                 src={item.image}
@@ -476,6 +476,13 @@ const techTags = [
     .animate-blob { animation: none; }
     .marquee { animation: none; }
     .animate-float { animation: none; }
+
+    /* iOS Safariの高速スクロール時の白抜け対策:
+       カードをGPUレイヤーに昇格させ、画面に入る前に事前描画させる */
+    .reason-card {
+      transform: translateZ(0);
+      will-change: transform;
+    }
   }
 
   /* 動きを減らす設定のユーザーにはアニメーションを止める */
