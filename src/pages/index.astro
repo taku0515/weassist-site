@@ -156,11 +156,11 @@ const techTags = [
   <section class="bg-slate-950 border-y border-slate-800 relative overflow-hidden">
     <div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
       <div>
-        <p class="text-4xl md:text-5xl font-black text-white tracking-tight">6<span class="text-cyan-400 text-2xl ml-1">つ</span></p>
+        <p class="text-4xl md:text-5xl font-black text-white tracking-tight"><span data-countup="6">6</span><span class="text-cyan-400 text-2xl ml-1">つ</span></p>
         <p class="text-slate-400 text-sm mt-3 font-bold">自社開発プロダクト — すべて実運用中</p>
       </div>
       <div>
-        <p class="text-4xl md:text-5xl font-black text-white tracking-tight">150<span class="text-cyan-400 text-3xl">+</span></p>
+        <p class="text-4xl md:text-5xl font-black text-white tracking-tight"><span data-countup="150">150</span><span class="text-cyan-400 text-3xl">+</span></p>
         <p class="text-slate-400 text-sm mt-3 font-bold">技術ブログ記事 — AIパイプラインで毎日更新</p>
       </div>
       <div>
@@ -191,11 +191,11 @@ const techTags = [
     <div class="container mx-auto px-6">
       <div class="text-center mb-12">
         <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Why weassist</span>
-        <h2 class="text-3xl md:text-4xl font-bold mt-2">選ばれる理由</h2>
+        <h2 class="heading-accent text-3xl md:text-4xl font-bold mt-2">選ばれる理由</h2>
       </div>
-      <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="stagger-group grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {reasons.map((item) => (
-          <div class="reason-card bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
+          <div class="stagger-item reason-card bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
             <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
               <img
                 src={item.image}
@@ -223,15 +223,15 @@ const techTags = [
 
       <div class="text-center mb-16">
         <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Our Services</span>
-        <h2 class="text-3xl md:text-4xl font-bold mt-2 text-slate-900">提供サービス</h2>
+        <h2 class="heading-accent text-3xl md:text-4xl font-bold mt-2 text-slate-900">提供サービス</h2>
         <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
           お客様の課題に合わせて、最適なテクノロジーソリューションをワンストップで提供します。
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="stagger-group grid md:grid-cols-3 gap-8">
         {topServices.map((s) => (
-          <a href={s.href} class="bg-white rounded-2xl shadow-sm md:hover:shadow-xl md:transition-all md:duration-300 group border border-slate-100 overflow-hidden flex flex-col">
+          <a href={s.href} class="stagger-item bg-white rounded-2xl shadow-sm md:hover:shadow-xl md:transition-all md:duration-300 group border border-slate-100 overflow-hidden flex flex-col">
             <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
               <img
                 src={s.image}
@@ -266,7 +266,7 @@ const techTags = [
     <div class="container mx-auto px-6 relative z-10 reveal">
       <div class="text-center mb-16">
         <span class="text-cyan-400 font-bold tracking-wider uppercase text-sm">Works</span>
-        <h2 class="text-3xl md:text-4xl font-bold mt-2 text-white">実績</h2>
+        <h2 class="heading-accent text-3xl md:text-4xl font-bold mt-2 text-white">実績</h2>
         <p class="mt-4 text-slate-400 max-w-2xl mx-auto">
           自ら作り、自ら使い続けているプロダクトたち。<br class="md:hidden" />
           「動くもの」でご覧いただけます。
@@ -481,10 +481,40 @@ const techTags = [
     .animate-float { animation: none; }
   }
 
+  /* 7. カードの段階表示（transform/opacityのみ = iOS安全。
+        .js ゲートによりJS無効環境では最初から全表示） */
+  :global(html.js) .stagger-item {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+  }
+  :global(html.js) .stagger-group.revealed .stagger-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stagger-group.revealed .stagger-item:nth-child(2) { transition-delay: 0.12s; }
+  .stagger-group.revealed .stagger-item:nth-child(3) { transition-delay: 0.24s; }
+
+  /* 8. 見出しのアクセント線（scaleXのみ = iOS安全） */
+  .heading-accent::after {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 3px;
+    margin: 14px auto 0;
+    border-radius: 9999px;
+    background: linear-gradient(to right, #2563eb, #22d3ee);
+    transform: scaleX(0);
+    transition: transform 0.5s ease-out 0.15s;
+  }
+  .heading-accent.revealed::after { transform: scaleX(1); }
+
   /* 動きを減らす設定のユーザーにはアニメーションを止める */
   @media (prefers-reduced-motion: reduce) {
     .marquee { animation: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
+    :global(html.js) .stagger-item { opacity: 1; transform: none; transition: none; }
+    .heading-accent::after { transform: scaleX(1); transition: none; }
   }
 </style>
 
@@ -727,25 +757,59 @@ const techTags = [
 
 <script>
   // ============================================
-  // スクロールで現れるセクション（IntersectionObserver）
+  // スクロール連動の演出（すべてtransform/opacityのみで完結）
   // ============================================
   document.addEventListener('astro:page-load', () => {
-    const targets = document.querySelectorAll('.reveal');
-    if (!targets.length) return;
-
-    // threshold: 0 + rootMargin で「画面に入る120px手前」から表示を開始する。
-    // 縦長セクション（スマホの選ばれる理由など）でも空白の間が生まれない
-    const observer = new IntersectionObserver(
+    // セクションのフェード（PC限定CSS）: 画面に入る手前から開始
+    const early = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
+            early.unobserve(entry.target);
           }
         }
       },
       { threshold: 0, rootMargin: '0px 0px 120px 0px' }
     );
-    targets.forEach((t) => observer.observe(t));
+    document.querySelectorAll('.reveal').forEach((t) => early.observe(t));
+
+    // カードの段階表示・見出し線: 目に入ってから動きが見えるよう、少し入ってから発火
+    const inView = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            inView.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.stagger-group, .heading-accent').forEach((t) => inView.observe(t));
+
+    // 数字のカウントアップ（一度だけ・約1.2秒）
+    const countObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          countObserver.unobserve(entry.target);
+          const el = entry.target as HTMLElement;
+          const target = parseInt(el.dataset.countup ?? '0', 10);
+          const t0 = performance.now();
+          const DURATION = 1200;
+          const tick = (now: number) => {
+            const p = Math.min(1, (now - t0) / DURATION);
+            el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-countup]').forEach((n) => countObserver.observe(n));
+    }
   });
 </script>
