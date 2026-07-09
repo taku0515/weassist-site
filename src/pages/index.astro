@@ -170,19 +170,11 @@ const techTags = [
     </div>
 
     <div class="border-t border-slate-800/80 py-4 overflow-hidden" aria-hidden="true">
-      {/* スマホは折り返しの静止表示（横スクロール領域を作らない）、PCはマーキー */}
-      <div class="marquee flex flex-wrap justify-center gap-3 px-6 md:flex-nowrap md:justify-start md:w-max md:px-0">
-        <div class="flex flex-wrap justify-center gap-3 md:flex-nowrap">
-          {techTags.map((t) => (
-            <span class="px-4 py-1.5 rounded-full border border-slate-700/80 text-slate-500 text-xs font-mono whitespace-nowrap">{t}</span>
-          ))}
-        </div>
-        {/* 2周目はマーキーのループ用。静止表示のスマホでは出さない */}
-        <div class="hidden md:flex gap-3 pl-3">
-          {techTags.map((t) => (
-            <span class="px-4 py-1.5 rounded-full border border-slate-700/80 text-slate-500 text-xs font-mono whitespace-nowrap">{t}</span>
-          ))}
-        </div>
+      {/* 同じ列を2回並べて -50% 移動でループ（スマホ・PC共通で自動的に流れる） */}
+      <div class="marquee flex gap-3 w-max">
+        {[...techTags, ...techTags].map((t) => (
+          <span class="px-4 py-1.5 rounded-full border border-slate-700/80 text-slate-500 text-xs font-mono whitespace-nowrap">{t}</span>
+        ))}
       </div>
     </div>
   </section>
@@ -474,10 +466,10 @@ const techTags = [
     }
   }
 
-  /* スマホでは重い装飾アニメーションを止める（スクロールのカクつき防止） */
+  /* スマホでは重い装飾アニメーションを止める（スクロールのカクつき防止）。
+     技術タグのマーキーは transform のみのGPU合成アニメのため対象外 */
   @media (max-width: 767px) {
     .animate-blob { animation: none; }
-    .marquee { animation: none; }
     .animate-float { animation: none; }
   }
 
