@@ -180,7 +180,7 @@ const techTags = [
                 alt=""
                 width="400"
                 height="260"
-                loading="lazy"
+                loading="eager"
                 class="w-full h-auto group-hover:scale-[1.03] transition-transform duration-500"
               />
             </div>
@@ -674,6 +674,8 @@ const techTags = [
     const targets = document.querySelectorAll('.reveal');
     if (!targets.length) return;
 
+    // threshold: 0 + rootMargin で「画面に入る120px手前」から表示を開始する。
+    // 縦長セクション（スマホの選ばれる理由など）でも空白の間が生まれない
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -683,7 +685,7 @@ const techTags = [
           }
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0, rootMargin: '0px 0px 120px 0px' }
     );
     targets.forEach((t) => observer.observe(t));
   });
