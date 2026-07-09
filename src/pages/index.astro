@@ -179,37 +179,6 @@ const techTags = [
     </div>
   </section>
 
-  <section class="py-20 bg-white text-slate-800">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-12">
-        <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Why weassist</span>
-        <h2 class="heading-accent text-3xl md:text-4xl font-bold mt-2">選ばれる理由</h2>
-      </div>
-      <div class="stagger-group grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {reasons.map((item) => (
-          <div class="stagger-item reason-card bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
-            <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
-              <img
-                src={item.image}
-                alt=""
-                width="400"
-                height="260"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                class="w-full h-auto md:group-hover:scale-[1.03] md:transition-transform md:duration-500"
-              />
-            </div>
-            <div class="p-8 pt-6">
-              <h3 class="text-xl font-bold mb-3">{item.title}</h3>
-              <p class="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <section class="py-20 bg-slate-50">
     <div class="container mx-auto px-6 reveal">
 
@@ -247,6 +216,37 @@ const techTags = [
         ))}
       </div>
 
+    </div>
+  </section>
+
+  <section class="py-20 bg-white text-slate-800">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12">
+        <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Why weassist</span>
+        <h2 class="heading-accent text-3xl md:text-4xl font-bold mt-2">選ばれる理由</h2>
+      </div>
+      <div class="stagger-group grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {reasons.map((item) => (
+          <div class="stagger-item reason-card bg-slate-50 rounded-2xl border border-slate-100 md:hover:border-blue-200 md:hover:shadow-lg md:transition-all md:duration-300 group overflow-hidden">
+            <div class="overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
+              <img
+                src={item.image}
+                alt=""
+                width="400"
+                height="260"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="w-full h-auto md:group-hover:scale-[1.03] md:transition-transform md:duration-500"
+              />
+            </div>
+            <div class="p-8 pt-6">
+              <h3 class="text-xl font-bold mb-3">{item.title}</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
