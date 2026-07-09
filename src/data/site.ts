@@ -2,7 +2,7 @@
 export const SITE_DATA = {
   name: "weassist",      // 会社名
   nameEn: "weassist Inc.",       // 英語表記
-  //address: "〒100-0005 東京都千代田区丸の内1-1-1 Techビル 10F", // 住所
+  address: "東京都台東区浅草", // 住所
   phone: "090-2512-0449",             // 電話番号
   email: "info@weassist.jp",         // メールアドレス
   president: "多久島 顕悟",            // 代表者名
