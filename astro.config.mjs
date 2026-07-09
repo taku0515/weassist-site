@@ -11,7 +11,7 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://weassist-end.pages.dev/',
+  site: 'https://weassist.jp/',
 
   integrations: [tailwind(), sitemap(), partytown(), icon()],
 

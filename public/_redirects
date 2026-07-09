@@ -1,0 +1,13 @@
+# 旧WordPressコーポレートサイトのURL → 新サイトの対応ページへ301
+/making_hp /services 301
+/making_hp/ /services 301
+/products /services 301
+/products/ /services 301
+/Products /services 301
+/Products/ /services 301
+/post /news 301
+/post/ /news 301
+/home / 301
+/home/ / 301
+/sample-page / 301
+/sample-page/ / 301
