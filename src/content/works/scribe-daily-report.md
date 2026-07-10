@@ -5,6 +5,7 @@ category: 自社プロダクト
 tech: [Python, faster-whisper, Ollama, ローカルLLM]
 date: 2026-05-01
 accent: cyan
+image: /works/scribe.webp
 featured: true
 ---
 

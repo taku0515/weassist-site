@@ -1,54 +1,105 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Webシステム開発">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
   <defs>
-    <linearGradient id="bgW" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 H0 V40" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <pattern id="gridBold" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0 H0 V200" fill="none" stroke="#28374d" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="800" height="450" fill="url(#bgW)"/>
-  <!-- 装飾 -->
-  <circle cx="86" cy="86" r="40" fill="#DBEAFE"/>
-  <circle cx="726" cy="368" r="30" fill="#CFFAFE"/>
 
-  <!-- ブラウザウィンドウ -->
-  <rect x="170" y="76" width="460" height="304" rx="16" fill="#FFFFFF" stroke="#DBEAFE" stroke-width="3"/>
-  <rect x="170" y="76" width="460" height="46" rx="16" fill="#1E293B"/>
-  <rect x="170" y="98" width="460" height="24" fill="#1E293B"/>
-  <circle cx="198" cy="99" r="7" fill="#F87171"/>
-  <circle cx="220" cy="99" r="7" fill="#FBBF24"/>
-  <circle cx="242" cy="99" r="7" fill="#34D399"/>
-  <rect x="300" y="90" width="240" height="18" rx="9" fill="#334155"/>
+  <rect width="1600" height="900" fill="#0b1220"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect width="1600" height="900" fill="url(#gridBold)"/>
+  <circle cx="800" cy="450" r="430" fill="url(#glow)"/>
+
+  <!-- 四隅のレジストレーションマーク -->
+  <g stroke="#334155" stroke-width="2" fill="none">
+    <path d="M60 100 V60 H100"/>
+    <path d="M1500 60 H1540 V100"/>
+    <path d="M1540 800 V840 H1500"/>
+    <path d="M100 840 H60 V800"/>
+  </g>
+  <!-- 十字の基準点 -->
+  <g stroke="#3b5b83" stroke-width="2">
+    <path d="M250 200 h24 M262 188 v24"/>
+    <path d="M1330 640 h24 M1342 628 v24"/>
+  </g>
+
+  <!-- 破線の基準円 -->
+  <circle cx="800" cy="450" r="330" fill="none" stroke="#2b4a6f" stroke-width="1.5" stroke-dasharray="4 10"/>
+
+  <!-- メイン: ブラウザウィンドウ -->
+  <rect x="430" y="190" width="740" height="520" rx="22" fill="#0e1a2f" stroke="url(#g)" stroke-width="3.5"/>
+  <path d="M430 262 H1170" stroke="#28527e" stroke-width="2"/>
+  <circle cx="472" cy="226" r="7" fill="none" stroke="#3b5b83" stroke-width="2.5"/>
+  <circle cx="504" cy="226" r="7" fill="none" stroke="#3b5b83" stroke-width="2.5"/>
+  <circle cx="536" cy="226" r="7" fill="none" stroke="#3b5b83" stroke-width="2.5"/>
+  <rect x="572" y="208" width="470" height="36" rx="18" fill="none" stroke="#28527e" stroke-width="2"/>
+  <circle cx="1042" cy="226" r="4" fill="#22d3ee"/>
 
   <!-- サイドバー -->
-  <rect x="190" y="140" width="112" height="220" rx="10" fill="#EFF6FF"/>
-  <rect x="204" y="158" width="84" height="11" rx="5.5" fill="#2563EB"/>
-  <rect x="204" y="182" width="66" height="11" rx="5.5" fill="#BFDBFE"/>
-  <rect x="204" y="206" width="74" height="11" rx="5.5" fill="#BFDBFE"/>
-  <rect x="204" y="230" width="58" height="11" rx="5.5" fill="#BFDBFE"/>
+  <g stroke="#28527e" stroke-width="9" stroke-linecap="round">
+    <path d="M480 320 h150"/>
+    <path d="M480 368 h110"/>
+    <path d="M480 416 h130"/>
+    <path d="M480 464 h90"/>
+  </g>
+  <path d="M672 296 V664" stroke="#1f3652" stroke-width="2"/>
 
-  <!-- コンテンツカード -->
-  <rect x="318" y="140" width="142" height="92" rx="10" fill="#DBEAFE"/>
-  <rect x="332" y="156" width="60" height="11" rx="5.5" fill="#2563EB"/>
-  <rect x="332" y="176" width="112" height="9" rx="4.5" fill="#93C5FD"/>
-  <rect x="332" y="192" width="94" height="9" rx="4.5" fill="#BFDBFE"/>
-  <rect x="470" y="140" width="142" height="92" rx="10" fill="#CFFAFE"/>
-  <rect x="484" y="156" width="60" height="11" rx="5.5" fill="#0891B2"/>
-  <rect x="484" y="176" width="112" height="9" rx="4.5" fill="#67E8F9"/>
-  <rect x="484" y="192" width="94" height="9" rx="4.5" fill="#A5F3FC"/>
+  <!-- コードブラケット -->
+  <g fill="none" stroke="url(#g)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M760 330 L716 374 L760 418"/>
+    <path d="M880 330 L924 374 L880 418"/>
+    <path d="M840 316 L800 432"/>
+  </g>
+  <!-- コード行 -->
+  <g stroke="#28527e" stroke-width="8" stroke-linecap="round">
+    <path d="M970 336 h130"/>
+    <path d="M970 376 h90"/>
+    <path d="M970 416 h110"/>
+  </g>
 
-  <!-- グラフエリア -->
-  <rect x="318" y="248" width="294" height="112" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-  <rect x="342" y="304" width="24" height="42" rx="4" fill="#93C5FD"/>
-  <rect x="384" y="288" width="24" height="58" rx="4" fill="#60A5FA"/>
-  <rect x="426" y="270" width="24" height="76" rx="4" fill="#3B82F6"/>
-  <rect x="468" y="294" width="24" height="52" rx="4" fill="#67E8F9"/>
-  <rect x="510" y="276" width="24" height="70" rx="4" fill="#22D3EE"/>
-  <rect x="552" y="260" width="24" height="86" rx="4" fill="#2563EB"/>
+  <!-- チャート（線画バー + 上昇破線） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3">
+    <rect x="730" y="560" width="56" height="100" rx="8"/>
+    <rect x="820" y="520" width="56" height="140" rx="8"/>
+    <rect x="910" y="478" width="56" height="182" rx="8" fill="#22d3ee" fill-opacity="0.12"/>
+  </g>
+  <path d="M745 540 C 810 500 870 480 925 452" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+  <circle cx="938" cy="448" r="5" fill="#22d3ee"/>
 
-  <!-- コードバッジ -->
-  <rect x="596" y="52" width="128" height="60" rx="16" fill="#0F172A"/>
-  <text x="660" y="93" font-family="ui-monospace, monospace" font-size="30" font-weight="bold" fill="#22D3EE" text-anchor="middle">&lt;/&gt;</text>
+  <!-- 右上: フローティングのコードタグ -->
+  <rect x="1210" y="150" width="190" height="110" rx="18" fill="#0e1a2f" stroke="url(#g)" stroke-width="3"/>
+  <g fill="none" stroke="#22d3ee" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1276 182 L1252 205 L1276 228"/>
+    <path d="M1334 182 L1358 205 L1334 228"/>
+    <path d="M1318 176 L1296 234"/>
+  </g>
+  <path d="M1210 240 H1170" stroke="#2f6bb0" stroke-width="2.5"/>
+  <circle cx="1210" cy="240" r="4.5" fill="#22d3ee"/>
 
-  <!-- 歯車風の円 -->
-  <circle cx="118" cy="330" r="44" fill="#2563EB" opacity="0.10"/>
-  <circle cx="118" cy="330" r="26" fill="none" stroke="#2563EB" stroke-width="6" opacity="0.35" stroke-dasharray="12 9"/>
+  <!-- 左下: レイヤー（設計の重なり） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round">
+    <path d="M290 610 L370 570 L450 610 L370 650 Z"/>
+    <path d="M290 655 L370 695 L450 655" stroke="#3b5b83"/>
+  </g>
+  <circle cx="370" cy="570" r="4.5" fill="#22d3ee"/>
+
+  <!-- 寸法線（ウィンドウ右） -->
+  <g stroke="#3b5b83" stroke-width="1.5" fill="none">
+    <path d="M1195 190 h18 M1195 710 h18"/>
+    <path d="M1204 200 V700"/>
+    <path d="M1204 200 l-5 10 h10 Z M1204 700 l-5 -10 h10 Z" fill="#3b5b83"/>
+  </g>
+
+  <text x="430" y="770" font-family="'Consolas','Courier New',monospace" font-size="22" fill="#4c6f9a" letter-spacing="4">WEB SYSTEM</text>
 </svg>

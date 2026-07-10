@@ -10,39 +10,41 @@ const works = (await getCollection('works', ({ data }) => !data.draft))
 
 <Layout title="実績" description="ローカルAIアシスタント、業務システム、コンテンツ自動化など、weassistの開発実績をご紹介します。">
 
-  <section class="bg-slate-900 text-white py-20 relative overflow-hidden">
-    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+  <section class="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
     <div class="hidden md:block absolute top-[-20%] right-[-10%] w-[400px] h-[400px] bg-blue-600 rounded-full blur-[120px] opacity-30"></div>
-    <div class="container mx-auto px-6 relative z-10 text-center">
-      <span class="text-blue-400 font-bold tracking-wider uppercase text-sm mb-2 block">Works</span>
-      <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">実績</h1>
-      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
-        ローカルAI・業務システム・自動化基盤。<br class="md:hidden" />
-        自ら作り、自ら使い続けているものだけを掲載しています。
+    <span class="watermark top-4 -right-6" aria-hidden="true">WORKS</span>
+    <div class="container mx-auto px-6 relative z-10">
+      <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white">Works</h1>
+      <p class="mt-4 text-slate-400 font-bold max-w-2xl">
+        実績 — ローカルAI・業務システム・自動化基盤。自ら作り、自ら使い続けているものだけを掲載しています
       </p>
     </div>
   </section>
 
-  <section class="py-20 bg-slate-50">
-    <div class="container mx-auto px-6 max-w-6xl">
+  <section class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <div class="container mx-auto px-6 max-w-6xl relative z-10">
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {works.map((work) => (
-          <WorkCard work={work} />
+          <WorkCard work={work} dark />
         ))}
       </div>
     </div>
   </section>
 
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 text-center max-w-3xl">
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden border-t border-slate-800/60">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
+    <span class="watermark top-6 -left-6" aria-hidden="true">CONTACT</span>
+    <div class="container mx-auto px-6 text-center max-w-3xl relative z-10">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
         「うちの業務でもできる？」に、まずお答えします
       </h2>
-      <p class="text-slate-600 mb-10 leading-relaxed">
+      <p class="text-slate-300 mb-10 leading-relaxed">
         掲載している実績はいずれも、身近な業務の困りごとから生まれたものです。<br class="hidden md:inline" />
         似た課題をお持ちでしたら、実現方法や費用感を無料でご相談いただけます。
       </p>
-      <a href="/contact" class="inline-block px-10 py-5 bg-slate-900 text-white font-bold text-lg rounded-full shadow-lg hover:bg-slate-700 transition-all hover:-translate-y-1">
+      <a href="/contact" class="inline-block px-10 py-5 bg-white text-slate-900 font-bold text-lg rounded-full shadow-lg hover:bg-blue-50 transition-all hover:-translate-y-1 hover:shadow-blue-900/50">
         無料で相談する
       </a>
     </div>

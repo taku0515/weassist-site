@@ -8,16 +8,17 @@ const effectiveDate = "2019年9月1日";
 
 <Layout title="プライバシーポリシー" description="当社の個人情報保護方針（プライバシーポリシー）について記載しています。">
 
-  <section class="bg-slate-50 py-20 min-h-screen">
-    <div class="container mx-auto px-6 max-w-4xl">
+  <section class="relative bg-slate-950 py-20 min-h-screen overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <div class="container mx-auto px-6 max-w-4xl relative z-10">
       
-      <div class="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-100">
+      <div class="bg-slate-900/70 p-8 md:p-12 rounded-2xl border border-slate-700/60">
         
-        <h1 class="text-3xl font-bold text-slate-900 mb-8 border-b border-slate-100 pb-6">
+        <h1 class="text-3xl font-bold text-white mb-8 border-b border-slate-800 pb-6">
           プライバシーポリシー
         </h1>
 
-        <div class="space-y-10 text-slate-600 leading-relaxed">
+        <div class="space-y-10 text-slate-400 leading-relaxed">
           
           <div>
             <p class="mb-4">
@@ -26,8 +27,8 @@ const effectiveDate = "2019年9月1日";
           </div>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第1条（個人情報）
             </h2>
             <p>
@@ -36,8 +37,8 @@ const effectiveDate = "2019年9月1日";
           </section>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第2条（個人情報の収集方法）
             </h2>
             <p>
@@ -46,8 +47,8 @@ const effectiveDate = "2019年9月1日";
           </section>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第3条（個人情報を収集・利用する目的）
             </h2>
             <p class="mb-2">当社が個人情報を収集・利用する目的は、以下のとおりです。</p>
@@ -62,8 +63,8 @@ const effectiveDate = "2019年9月1日";
           </section>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第4条（利用目的の変更）
             </h2>
             <p>
@@ -73,8 +74,8 @@ const effectiveDate = "2019年9月1日";
           </section>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第5条（個人情報の第三者提供）
             </h2>
             <p>
@@ -88,8 +89,8 @@ const effectiveDate = "2019年9月1日";
           </section>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第6条（アクセス解析ツールについて）
             </h2>
             <p>
@@ -98,22 +99,22 @@ const effectiveDate = "2019年9月1日";
           </section>
 
           <section>
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
               第7条（お問い合わせ窓口）
             </h2>
             <p>
               本ポリシーに関するお問い合わせは、下記の窓口までお願いいたします。
             </p>
-            <div class="bg-slate-50 p-6 rounded-xl mt-4 border border-slate-200">
-              <p class="font-bold">{SITE_DATA.name}</p>
-              <p class="mt-2">お問い合わせは<a href="/contact" class="text-blue-600 underline hover:text-blue-500">お問い合わせフォーム</a>よりお願いいたします。</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl mt-4 border border-slate-700/60">
+              <p class="font-bold text-slate-200">{SITE_DATA.name}</p>
+              <p class="mt-2">お問い合わせは<a href="/contact" class="text-cyan-300 underline hover:text-cyan-200">お問い合わせフォーム</a>よりお願いいたします。</p>
             </div>
           </section>
 
         </div>
 
-        <div class="mt-12 pt-6 border-t border-slate-100 text-right text-sm text-slate-400">
+        <div class="mt-12 pt-6 border-t border-slate-800 text-right text-sm text-slate-500">
           <p>制定日：{effectiveDate}</p>
         </div>
 

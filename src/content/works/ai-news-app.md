@@ -5,6 +5,7 @@ category: 自社プロダクト
 tech: [Python, Flask, Ollama, PWA]
 date: 2026-02-01
 accent: amber
+image: /works/ai-news-app.webp
 featured: false
 ---
 

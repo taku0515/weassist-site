@@ -1,43 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="データを社外に出さないローカル構成">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 468" width="720" height="468">
   <defs>
-    <linearGradient id="bgB" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0 H0 V30" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <pattern id="gridBold" width="150" height="150" patternUnits="userSpaceOnUse">
+      <path d="M150 0 H0 V150" fill="none" stroke="#28374d" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="400" height="260" fill="url(#bgB)"/>
-  <circle cx="46" cy="46" r="22" fill="#DBEAFE"/>
 
-  <!-- 社屋（オフィス） -->
-  <rect x="96" y="70" width="170" height="150" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
-  <rect x="96" y="70" width="170" height="26" rx="12" fill="#1E293B"/>
-  <rect x="96" y="84" width="170" height="12" fill="#1E293B"/>
-  <!-- 窓 -->
-  <rect x="116" y="112" width="28" height="24" rx="4" fill="#DBEAFE"/>
-  <rect x="222" y="112" width="28" height="24" rx="4" fill="#DBEAFE"/>
-  <rect x="116" y="146" width="28" height="24" rx="4" fill="#DBEAFE"/>
-  <rect x="222" y="146" width="28" height="24" rx="4" fill="#DBEAFE"/>
+  <rect width="720" height="468" fill="#0b1220"/>
+  <rect width="720" height="468" fill="url(#grid)"/>
+  <rect width="720" height="468" fill="url(#gridBold)"/>
+  <circle cx="280" cy="234" r="230" fill="url(#glow)"/>
 
-  <!-- データベース（社内に保持） -->
-  <g>
-    <path d="M156 132h50v52c0 8-11 14-25 14s-25-6-25-14z" fill="#2563EB"/>
-    <ellipse cx="181" cy="132" rx="25" ry="12" fill="#3B82F6"/>
-    <ellipse cx="181" cy="152" rx="25" ry="12" fill="none" stroke="#93C5FD" stroke-width="3"/>
-    <ellipse cx="181" cy="170" rx="25" ry="12" fill="none" stroke="#93C5FD" stroke-width="3"/>
+  <g stroke="#334155" stroke-width="2" fill="none">
+    <path d="M30 60 V30 H60"/>
+    <path d="M660 30 H690 V60"/>
+    <path d="M690 408 V438 H660"/>
+    <path d="M60 438 H30 V408"/>
+  </g>
+  <g stroke="#3b5b83" stroke-width="2">
+    <path d="M560 380 h18 M569 371 v18"/>
+    <path d="M120 70 h18 M129 61 v18"/>
   </g>
 
-  <!-- 盾（保護） -->
-  <g>
-    <path d="M282 148l34-12 34 12v26c0 26-15 42-34 50-19-8-34-24-34-50z" fill="#06B6D4"/>
-    <path d="M300 178l12 12 22-24" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
+  <!-- ローカル領域（破線の境界） -->
+  <rect x="48" y="86" width="420" height="300" rx="20" fill="none" stroke="#2b4a6f" stroke-width="2" stroke-dasharray="6 10"/>
+  <text x="76" y="122" font-family="'Consolas','Courier New',monospace" font-size="15" fill="#4c6f9a" letter-spacing="3">LOCAL</text>
 
-  <!-- クラウド送信なし（禁止マーク付きクラウド） -->
-  <g>
-    <path d="M296 58a20 20 0 0 1 20-18 22 22 0 0 1 21 15 16 16 0 0 1-2 31h-52a15 15 0 0 1-2-29 18 18 0 0 1 15-0z" fill="#E2E8F0"/>
-    <circle cx="312" cy="62" r="26" fill="none" stroke="#F43F5E" stroke-width="6"/>
-    <line x1="294" y1="80" x2="330" y2="44" stroke="#F43F5E" stroke-width="6" stroke-linecap="round"/>
+  <!-- データベース -->
+  <g fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round">
+    <ellipse cx="155" cy="180" rx="62" ry="19"/>
+    <path d="M93 180 V310 c0 10.5 27.8 19 62 19 s62 -8.5 62 -19 V180"/>
+    <path d="M93 245 c0 10.5 27.8 19 62 19 s62 -8.5 62 -19" stroke-opacity="0.75"/>
   </g>
+  <circle cx="155" cy="180" r="4" fill="#22d3ee"/>
 
-  <!-- 地面 -->
-  <rect x="70" y="220" width="240" height="8" rx="4" fill="#CBD5E1"/>
+  <!-- 端末画面 -->
+  <rect x="255" y="160" width="180" height="130" rx="12" fill="#0e1a2f" stroke="url(#g)" stroke-width="3"/>
+  <g stroke="#28527e" stroke-width="7" stroke-linecap="round">
+    <path d="M280 196 h120"/>
+    <path d="M280 226 h80"/>
+    <path d="M280 256 h100"/>
+  </g>
+  <path d="M345 290 v26 M310 316 h70" stroke="#3b5b83" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- 盾（境界の上に重ねる） -->
+  <g fill="#0b1220" stroke="url(#g)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M438 300 l30 11 v22 c0 18 -13 32 -30 40 c-17 -8 -30 -22 -30 -40 v-22 Z"/>
+  </g>
+  <path d="M425 335 l10 10 20 -22" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 外部クラウドへは行かない -->
+  <path d="M468 200 H520" stroke="#2f6bb0" stroke-width="2.5"/>
+  <g stroke="#3b5b83" stroke-width="3" stroke-linecap="round">
+    <path d="M530 190 l20 20 M550 190 l-20 20"/>
+  </g>
+  <path d="M560 200 H590" stroke="#3b5b83" stroke-width="2" stroke-dasharray="3 8"/>
+  <!-- クラウド輪郭（グレー・斜線入り） -->
+  <g fill="none" stroke="#3b5b83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M600 235 a26 26 0 0 1 8 -51 a34 34 0 0 1 65 -9 a24 24 0 0 1 5 47 q-3 13 -14 13 h-52 q-9 0 -12 0 Z"/>
+    <path d="M586 250 L692 160"/>
+  </g>
+  <text x="637" y="290" font-family="'Consolas','Courier New',monospace" font-size="14" fill="#4c6f9a" text-anchor="middle" letter-spacing="2">NO UPLOAD</text>
 </svg>

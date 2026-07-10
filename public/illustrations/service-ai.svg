@@ -1,63 +1,124 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="AIソリューション導入">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
   <defs>
-    <linearGradient id="bgAI" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
+    <linearGradient id="gv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 H0 V40" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <pattern id="gridBold" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0 H0 V200" fill="none" stroke="#28374d" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="800" height="450" fill="url(#bgAI)"/>
-  <circle cx="710" cy="70" r="34" fill="#DBEAFE"/>
-  <circle cx="70" cy="380" r="26" fill="#CFFAFE"/>
 
-  <!-- 回路ライン -->
-  <g stroke="#93C5FD" stroke-width="4" fill="none" stroke-linecap="round">
-    <path d="M330 225H220"/>
-    <path d="M470 225h110"/>
-    <path d="M400 155V88"/>
-    <path d="M400 295v66"/>
-    <path d="M340 165l-70-64"/>
-    <path d="M460 165l70-64"/>
-    <path d="M340 285l-70 64"/>
-    <path d="M460 285l70 64"/>
+  <!-- 背景: ダーク方眼 -->
+  <rect width="1600" height="900" fill="#0b1220"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect width="1600" height="900" fill="url(#gridBold)"/>
+  <circle cx="800" cy="450" r="430" fill="url(#glow)"/>
+
+  <!-- 四隅のレジストレーションマーク -->
+  <g stroke="#334155" stroke-width="2" fill="none">
+    <path d="M60 100 V60 H100"/>
+    <path d="M1500 60 H1540 V100"/>
+    <path d="M1540 800 V840 H1500"/>
+    <path d="M100 840 H60 V800"/>
   </g>
-  <!-- ノード -->
+  <!-- 十字マーク（製図の基準点） -->
+  <g stroke="#3b5b83" stroke-width="2">
+    <path d="M330 160 h24 M342 148 v24"/>
+    <path d="M1280 700 h24 M1292 688 v24"/>
+    <path d="M240 690 h24 M252 678 v24"/>
+  </g>
+
+  <!-- 中央: AIチップ -->
   <g>
-    <circle cx="220" cy="225" r="12" fill="#2563EB"/>
-    <circle cx="580" cy="225" r="12" fill="#2563EB"/>
-    <circle cx="400" cy="88" r="12" fill="#06B6D4"/>
-    <circle cx="400" cy="361" r="12" fill="#06B6D4"/>
-    <circle cx="270" cy="101" r="10" fill="#60A5FA"/>
-    <circle cx="530" cy="101" r="10" fill="#60A5FA"/>
-    <circle cx="270" cy="349" r="10" fill="#60A5FA"/>
-    <circle cx="530" cy="349" r="10" fill="#60A5FA"/>
+    <!-- 破線の基準円 -->
+    <circle cx="800" cy="450" r="235" fill="none" stroke="#2b4a6f" stroke-width="1.5" stroke-dasharray="4 10"/>
+
+    <!-- 配線(PCBトレース): チップから各モジュールへ -->
+    <g fill="none" stroke-width="2.5">
+      <path d="M655 400 H560 V330 H470" stroke="#2f6bb0"/>
+      <path d="M655 500 H560 V570 H470" stroke="#2f6bb0"/>
+      <path d="M945 400 H1040 V330 H1130" stroke="#2f6bb0"/>
+      <path d="M945 500 H1040 V570 H1130" stroke="#2f6bb0"/>
+      <path d="M760 305 V240 M840 305 V240" stroke="#2f6bb0"/>
+      <path d="M760 595 V660 M840 595 V660" stroke="#2f6bb0"/>
+    </g>
+    <!-- 配線の端点ノード -->
+    <g fill="#22d3ee">
+      <circle cx="470" cy="330" r="5"/>
+      <circle cx="470" cy="570" r="5"/>
+      <circle cx="1130" cy="330" r="5"/>
+      <circle cx="1130" cy="570" r="5"/>
+      <circle cx="760" cy="240" r="5"/>
+      <circle cx="840" cy="240" r="5"/>
+      <circle cx="760" cy="660" r="5"/>
+      <circle cx="840" cy="660" r="5"/>
+    </g>
+
+    <!-- チップ外形 -->
+    <rect x="655" y="305" width="290" height="290" rx="28" fill="#0e1a2f" stroke="url(#g)" stroke-width="3.5"/>
+    <!-- ピン -->
+    <g stroke="#3b5b83" stroke-width="3" stroke-linecap="round">
+      <path d="M700 305 v-16 M750 305 v-16 M850 305 v-16 M900 305 v-16"/>
+      <path d="M700 595 v16 M750 595 v16 M850 595 v16 M900 595 v16"/>
+      <path d="M655 350 h-16 M655 450 h-16 M655 550 h-16"/>
+      <path d="M945 350 h16 M945 450 h16 M945 550 h16"/>
+    </g>
+    <!-- 内側ダイ -->
+    <rect x="695" y="345" width="210" height="210" rx="18" fill="none" stroke="#22d3ee" stroke-width="2" stroke-opacity="0.65"/>
+    <!-- ダイ内の回路模様 -->
+    <g fill="none" stroke="#28527e" stroke-width="2">
+      <path d="M695 385 h40 v-20 M905 385 h-40 v-20"/>
+      <path d="M695 515 h40 v20 M905 515 h-40 v20"/>
+    </g>
+    <text x="800" y="475" font-family="'Consolas','Courier New',monospace" font-size="74" font-weight="bold" fill="url(#gv)" text-anchor="middle">AI</text>
+
+    <!-- 寸法線（チップ下） -->
+    <g stroke="#3b5b83" stroke-width="1.5" fill="none">
+      <path d="M655 640 v18 M945 640 v18"/>
+      <path d="M665 649 H935"/>
+      <path d="M665 649 l10 -5 v10 Z M935 649 l-10 -5 v10 Z" fill="#3b5b83"/>
+    </g>
   </g>
 
-  <!-- 中央のAIチップ -->
-  <rect x="330" y="155" width="140" height="140" rx="24" fill="#0F172A"/>
-  <rect x="352" y="177" width="96" height="96" rx="16" fill="none" stroke="#22D3EE" stroke-width="4"/>
-  <text x="400" y="240" font-family="ui-sans-serif, sans-serif" font-size="34" font-weight="bold" fill="#22D3EE" text-anchor="middle">AI</text>
-
-  <!-- 左：入力ドキュメント -->
-  <g>
-    <rect x="96" y="150" width="96" height="120" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3" transform="rotate(-6 144 210)"/>
-    <rect x="112" y="176" width="60" height="8" rx="4" fill="#94A3B8" transform="rotate(-6 144 210)"/>
-    <rect x="112" y="194" width="66" height="8" rx="4" fill="#CBD5E1" transform="rotate(-6 144 210)"/>
-    <rect x="112" y="212" width="48" height="8" rx="4" fill="#CBD5E1" transform="rotate(-6 144 210)"/>
+  <!-- 左: データベース（線画） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round">
+    <ellipse cx="360" cy="300" rx="110" ry="34"/>
+    <path d="M250 300 V560 c0 19 49 34 110 34 s110 -15 110 -34 V300"/>
+    <path d="M250 390 c0 19 49 34 110 34 s110 -15 110 -34" stroke-opacity="0.75"/>
+    <path d="M250 478 c0 19 49 34 110 34 s110 -15 110 -34" stroke-opacity="0.75"/>
   </g>
+  <circle cx="360" cy="300" r="5" fill="#22d3ee"/>
+  <text x="360" y="660" font-family="'Consolas','Courier New',monospace" font-size="22" fill="#4c6f9a" text-anchor="middle" letter-spacing="4">LOCAL DATA</text>
 
-  <!-- 右：出力チャット -->
-  <g>
-    <rect x="612" y="152" width="130" height="66" rx="14" fill="#2563EB"/>
-    <path d="M640 218l6 16 12-16z" fill="#2563EB"/>
-    <rect x="628" y="168" width="86" height="9" rx="4.5" fill="#BFDBFE"/>
-    <rect x="628" y="186" width="64" height="9" rx="4.5" fill="#93C5FD"/>
-    <rect x="612" y="248" width="104" height="52" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
-    <rect x="628" y="264" width="70" height="9" rx="4.5" fill="#CBD5E1"/>
-    <rect x="628" y="280" width="48" height="9" rx="4.5" fill="#E2E8F0"/>
+  <!-- 右: 対話バブル（線画） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M1180 270 H1420 a22 22 0 0 1 22 22 V400 a22 22 0 0 1 -22 22 H1300 l-52 52 v-52 H1180 a22 22 0 0 1 -22 -22 V292 a22 22 0 0 1 22 -22 Z"/>
+    <path d="M1210 330 h180 M1210 368 h120" stroke-opacity="0.75"/>
   </g>
+  <!-- 右下: 応答バブル -->
+  <g fill="none" stroke="#3b5b83" stroke-width="2.5" stroke-linejoin="round">
+    <rect x="1210" y="510" width="230" height="110" rx="18"/>
+    <path d="M1240 550 h150 M1240 585 h96"/>
+  </g>
+  <circle cx="1440" cy="510" r="5" fill="#22d3ee"/>
+  <text x="1300" y="680" font-family="'Consolas','Courier New',monospace" font-size="22" fill="#4c6f9a" text-anchor="middle" letter-spacing="4">DIALOGUE</text>
 
-  <!-- 下：ローカル保護の盾 -->
-  <g>
-    <path d="M116 262l30-11 30 11v22c0 23-13 37-30 44-17-7-30-21-30-44z" fill="#06B6D4"/>
-    <path d="M132 288l10 10 19-21" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 上: 小さな盾（セキュリティ） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" transform="translate(770 96) scale(1.05)">
+    <path d="M30 0 L60 11 V33 C60 51 47 65 30 73 C13 65 0 51 0 33 V11 Z"/>
+    <path d="M17 34 L27 44 L45 22"/>
   </g>
+  <text x="960" y="150" font-family="'Consolas','Courier New',monospace" font-size="20" fill="#4c6f9a" letter-spacing="4">SECURE</text>
 </svg>

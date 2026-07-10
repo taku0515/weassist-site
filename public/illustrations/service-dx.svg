@@ -1,46 +1,83 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="DXコンサルティング">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
   <defs>
-    <linearGradient id="bgDX" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 H0 V40" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <pattern id="gridBold" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0 H0 V200" fill="none" stroke="#28374d" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="800" height="450" fill="url(#bgDX)"/>
-  <circle cx="86" cy="82" r="32" fill="#DBEAFE"/>
-  <circle cx="724" cy="96" r="24" fill="#CFFAFE"/>
 
-  <!-- 左：紙の書類の山（アナログ） -->
-  <g>
-    <rect x="92" y="196" width="120" height="150" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="3" transform="rotate(-7 152 271)"/>
-    <rect x="104" y="184" width="120" height="150" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3" transform="rotate(4 164 259)"/>
-    <rect x="120" y="206" width="76" height="9" rx="4.5" fill="#94A3B8" transform="rotate(4 164 259)"/>
-    <rect x="120" y="226" width="86" height="9" rx="4.5" fill="#CBD5E1" transform="rotate(4 164 259)"/>
-    <rect x="120" y="246" width="64" height="9" rx="4.5" fill="#CBD5E1" transform="rotate(4 164 259)"/>
-    <rect x="120" y="266" width="80" height="9" rx="4.5" fill="#E2E8F0" transform="rotate(4 164 259)"/>
+  <rect width="1600" height="900" fill="#0b1220"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect width="1600" height="900" fill="url(#gridBold)"/>
+  <circle cx="800" cy="450" r="430" fill="url(#glow)"/>
+
+  <g stroke="#334155" stroke-width="2" fill="none">
+    <path d="M60 100 V60 H100"/>
+    <path d="M1500 60 H1540 V100"/>
+    <path d="M1540 800 V840 H1500"/>
+    <path d="M100 840 H60 V800"/>
+  </g>
+  <g stroke="#3b5b83" stroke-width="2">
+    <path d="M700 150 h24 M712 138 v24"/>
+    <path d="M300 720 h24 M312 708 v24"/>
+    <path d="M1300 240 h24 M1312 228 v24"/>
   </g>
 
-  <!-- 中央：変換の矢印 -->
+  <!-- 左: 紙の帳票（アナログ業務） -->
   <g>
-    <path d="M268 250h96m0 0l-26-26m26 26l-26 26" fill="none" stroke="#2563EB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="316" cy="196" r="20" fill="none" stroke="#22D3EE" stroke-width="5" stroke-dasharray="9 8"/>
+    <rect x="235" y="330" width="255" height="320" rx="14" fill="#0b1220" stroke="#3b5b83" stroke-width="3" transform="rotate(-4 362 490)"/>
+    <rect x="270" y="300" width="255" height="320" rx="14" fill="#0e1a2f" stroke="url(#g)" stroke-width="3.5"/>
+    <g stroke="#28527e" stroke-width="9" stroke-linecap="round">
+      <path d="M310 360 h175"/>
+      <path d="M310 412 h130"/>
+      <path d="M310 464 h155"/>
+      <path d="M310 516 h100"/>
+    </g>
+    <!-- 手書きのチェック欄 -->
+    <rect x="310" y="556" width="26" height="26" rx="6" fill="none" stroke="#28527e" stroke-width="2.5"/>
+    <rect x="352" y="556" width="26" height="26" rx="6" fill="none" stroke="#28527e" stroke-width="2.5"/>
+    <text x="400" y="708" font-family="'Consolas','Courier New',monospace" font-size="22" fill="#4c6f9a" text-anchor="middle" letter-spacing="4">AS-IS</text>
   </g>
 
-  <!-- 右：デジタル化された階段と成長 -->
-  <g>
-    <rect x="408" y="298" width="90" height="64" rx="8" fill="#93C5FD"/>
-    <rect x="510" y="252" width="90" height="110" rx="8" fill="#3B82F6"/>
-    <rect x="612" y="200" width="90" height="162" rx="8" fill="#2563EB"/>
-    <!-- 各段のチェック -->
-    <path d="M438 324l10 10 18-20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M540 288l10 10 18-20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M642 236l10 10 18-20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- 旗 -->
-    <line x1="657" y1="200" x2="657" y2="140" stroke="#0F172A" stroke-width="6" stroke-linecap="round"/>
-    <path d="M657 140h52l-14 16 14 16h-52z" fill="#06B6D4"/>
+  <!-- 中央: 変換の矢印（水平線はグラデーションが描画されないため単色） -->
+  <g fill="none" stroke="#38a3e8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M600 470 H880"/>
+    <path d="M845 435 L880 470 L845 505"/>
   </g>
+  <circle cx="600" cy="470" r="5" fill="#22d3ee"/>
+  <circle cx="740" cy="390" r="26" fill="none" stroke="#2b4a6f" stroke-width="2" stroke-dasharray="4 8"/>
 
-  <!-- 成長ライン -->
-  <path d="M420 300C470 288 560 250 640 196" fill="none" stroke="#22D3EE" stroke-width="5" stroke-dasharray="2 12" stroke-linecap="round"/>
+  <!-- 右: 段階的に伸びるバー + 旗（デジタル化後） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3.5">
+    <rect x="950" y="560" width="100" height="130" rx="10"/>
+    <rect x="1080" y="490" width="100" height="200" rx="10"/>
+    <rect x="1210" y="400" width="100" height="290" rx="10" fill="#22d3ee" fill-opacity="0.1"/>
+  </g>
+  <!-- チェック -->
+  <g fill="none" stroke="#3b5b83" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M980 620 l14 14 26 -30"/>
+    <path d="M1110 580 l14 14 26 -30"/>
+  </g>
+  <g fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1238 535 l16 16 30 -34"/>
+  </g>
+  <!-- 成長の破線カーブ -->
+  <path d="M960 540 C 1080 480 1160 440 1250 380" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+  <!-- 旗 -->
+  <path d="M1260 398 V300" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1260 300 h78 l-20 24 20 24 h-78 Z" fill="#22d3ee"/>
+  <text x="1260" y="748" font-family="'Consolas','Courier New',monospace" font-size="22" fill="#4c6f9a" text-anchor="middle" letter-spacing="4">TO-BE</text>
 
-  <!-- 地面 -->
-  <rect x="80" y="368" width="640" height="8" rx="4" fill="#CBD5E1"/>
+  <!-- 下の基準線 -->
+  <path d="M940 690 H1330" stroke="#3b5b83" stroke-width="2"/>
 </svg>

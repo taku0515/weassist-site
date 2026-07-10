@@ -24,6 +24,7 @@ const works = defineCollection({
     tech: z.array(z.string()), // 技術タグ
     date: z.coerce.date(), // 並び順用（新しい順）
     accent: z.enum(['blue', 'purple', 'emerald', 'cyan', 'amber', 'rose']).default('blue'), // カードの色
+    image: z.string().optional(), // 実物スクリーンショット（public/works/ 配下、機密はダミー化済みのもののみ）
     featured: z.boolean().default(false), // トップページに掲載するか
     draft: z.boolean().default(false),
   }),

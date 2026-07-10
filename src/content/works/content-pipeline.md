@@ -5,6 +5,7 @@ category: 自動化基盤
 tech: [Python, Ollama, WordPress REST API, タスクスケジューラ]
 date: 2026-03-01
 accent: purple
+image: /works/content-pipeline.webp
 featured: false
 ---
 

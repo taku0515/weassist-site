@@ -1,3 +1,24 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+/* サイト全体の基調色（白フラッシュ防止のためbodyから紺） */
+body {
+  @apply bg-slate-950;
+}
+
+/* セクション背景の巨大透かしタイポグラフィ（テキストのみ = iOS安全）。
+   親セクションに relative + overflow-hidden が必要 */
+.watermark {
+  position: absolute;
+  z-index: 0;
+  font-size: clamp(5.5rem, 20vw, 18rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  color: rgba(148, 163, 184, 0.05);
+  -webkit-text-stroke: 1px rgba(148, 163, 184, 0.14);
+  user-select: none;
+  pointer-events: none;
+}

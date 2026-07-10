@@ -5,6 +5,7 @@ category: 自社プロダクト
 tech: [Python, Ollama, embedding, Obsidian]
 date: 2026-01-01
 accent: rose
+image: /works/lodestone.webp
 featured: false
 ---
 

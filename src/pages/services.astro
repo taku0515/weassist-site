@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SITE_DATA } from '../data/site';
-import { Icon } from 'astro-icon/components';
+import MiniIcon from '../components/MiniIcon.astro';
 // ▼ 画像最適化コンポーネントをインポート
 import { Image } from 'astro:assets';
 
@@ -10,7 +10,7 @@ const services = [
   {
     id: "system",
     title: "Webシステム開発",
-    icon: "lucide:monitor",
+    icon: "system" as const,
     description: "業務効率化のための社内システムから、一般ユーザー向けのWebサービスまで、幅広く開発します。",
     problems: ["Excelと紙の管理が限界にきている", "既製ソフトが業務に合わない", "見積もりが高額で断念した"],
     features: ["モダンな技術選定 (React/Next.js/Astro)", "クラウドネイティブな設計", "アジャイル開発による柔軟な対応"],
@@ -19,7 +19,7 @@ const services = [
   {
     id: "ai",
     title: "AIソリューション導入",
-    icon: "lucide:brain-circuit",
+    icon: "ai" as const,
     description: "ChatGPT等の生成AIを活用した業務自動化や、社内データの分析基盤構築を支援します。機密データを外部に出さないローカルAI構成も選べます。",
     problems: ["AIを使いたいが何から始めるべきか分からない", "機密情報をクラウドAIに入れられない", "定型作業に時間を取られている"],
     features: ["ローカルLLM構築（データを社外に出さない）", "RAG（社内データ検索）構築", "文書作成・報告業務の自動化"],
@@ -28,7 +28,7 @@ const services = [
   {
     id: "dx",
     title: "DXコンサルティング",
-    icon: "lucide:compass",
+    icon: "dx" as const,
     description: "「何から始めればいいかわからない」という段階から伴走し、デジタル化による課題解決をサポートします。",
     problems: ["IT担当者がいない・兼任で手が回らない", "ツールを入れたが定着しなかった", "何をデジタル化すべきか整理できていない"],
     features: ["現状の業務フロー分析", "最適なツールの選定・導入", "社内定着までのトレーニング"],
@@ -49,27 +49,26 @@ const flow = [
 
 <Layout title="事業内容" description="Webシステム開発、AI導入支援、DXコンサルティングなど、当社の提供するサービス詳細についてご案内します。">
   
-  <section class="bg-slate-900 text-white py-20 relative overflow-hidden">
-    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
-    <div class="container mx-auto px-6 relative z-10 text-center">
-      <span class="text-blue-400 font-bold tracking-wider uppercase text-sm mb-2 block">Our Services</span>
-      <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">事業内容</h1>
-      <p class="text-slate-400 text-lg">ビジネスを加速させる3つのソリューション</p>
+  <section class="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">SERVICE</span>
+    <div class="container mx-auto px-6 relative z-10">
+      <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white">Service</h1>
+      <p class="mt-4 text-slate-400 font-bold">事業内容 — ビジネスを加速させる3つのソリューション</p>
     </div>
   </section>
 
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-6xl">
+  <section class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <div class="container mx-auto px-6 max-w-6xl relative z-10">
       
       <div class="space-y-24">
         {services.map((service, index) => (
           <div id={service.id} class={`flex flex-col md:flex-row gap-10 md:gap-16 items-center ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
             
             <div class="w-full md:w-1/2">
-              <div class="relative rounded-2xl overflow-hidden shadow-2xl group">
-                <div class="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-                
-                <Image 
+              <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-950/40 ring-1 ring-slate-700/60 group">
+                <Image
                   src={service.image} 
                   alt={service.title} 
                   width={800}
@@ -82,35 +81,36 @@ const flow = [
 
             <div class="w-full md:w-1/2">
               <div class="flex items-center gap-4 mb-4">
-                <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                  <Icon name={service.icon} class="w-7 h-7 text-blue-600" />
+                {/* 設計図調イラストと世界観を揃えたダークタイル */}
+                <div class="w-16 h-16 rounded-2xl bg-slate-900 bg-[radial-gradient(circle_at_30%_25%,rgba(37,99,235,0.4),transparent_70%)] ring-1 ring-cyan-400/25 shadow-lg shadow-slate-900/25 flex items-center justify-center shrink-0">
+                  <MiniIcon name={service.icon} class="w-9 h-9" />
                 </div>
-                <h2 class="text-3xl font-bold text-slate-900">{service.title}</h2>
+                <h2 class="text-3xl font-bold text-white">{service.title}</h2>
               </div>
-              <p class="text-slate-600 text-lg leading-relaxed mb-6">
+              <p class="text-slate-400 text-lg leading-relaxed mb-6">
                 {service.description}
               </p>
 
               <div class="mb-6">
-                <p class="text-sm font-bold text-slate-500 mb-3">こんな課題ありませんか？</p>
+                <p class="text-sm font-bold text-slate-400 mb-3">こんな課題ありませんか？</p>
                 <div class="flex flex-wrap gap-2">
                   {service.problems.map((p) => (
-                    <span class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-semibold rounded-full shadow-sm">
+                    <span class="px-3 py-1.5 bg-slate-800/60 border border-slate-700 text-slate-300 text-xs font-semibold rounded-full">
                       {p}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div class="bg-slate-50 rounded-xl p-6 border border-slate-100">
-                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <div class="bg-slate-800/40 rounded-xl p-6 border border-slate-700/60">
+                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
                   主な特徴
                 </h3>
                 <ul class="space-y-3">
                   {service.features.map((feature) => (
-                    <li class="flex items-start gap-3 text-slate-600">
-                      <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 shrink-0"></span>
+                    <li class="flex items-start gap-3 text-slate-300">
+                      <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mt-2 shrink-0"></span>
                       {feature}
                     </li>
                   ))}
@@ -125,25 +125,27 @@ const flow = [
     </div>
   </section>
 
-  <section class="py-20 bg-slate-50">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <div class="text-center mb-16">
-        <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Work Flow</span>
-        <h2 class="text-3xl font-bold text-slate-900 mt-2">ご依頼の流れ</h2>
-        <p class="mt-4 text-slate-600">お問い合わせから納品、その後の運用までトータルでサポートします。</p>
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -left-6" aria-hidden="true">FLOW</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <div class="mb-14 md:mb-16">
+        <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Work Flow</span>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white">ご依頼の流れ</h2>
+        <p class="mt-3 text-slate-400 font-bold">お問い合わせから納品、その後の運用までトータルでサポートします</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6">
         {flow.map((item, i) => (
-          <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
-            <div class="text-6xl font-black text-slate-100 absolute top-[-10px] right-[-10px] select-none group-hover:text-blue-50 transition-colors">
+          <div class="bg-slate-800/40 p-8 rounded-xl border border-slate-700/60 relative overflow-hidden group md:hover:-translate-y-1 md:hover:border-cyan-500/40 transition-all duration-300">
+            <div class="text-6xl font-black text-slate-800/70 absolute top-[-10px] right-[-10px] select-none">
               {item.step}
             </div>
-            <h3 class="text-xl font-bold text-slate-900 mb-3 relative z-10 flex items-center gap-3">
-              <span class="text-blue-600 text-sm font-mono border border-blue-200 px-2 py-0.5 rounded bg-blue-50">{item.step}</span>
+            <h3 class="text-xl font-bold text-white mb-3 relative z-10 flex items-center gap-3">
+              <span class="text-cyan-300 text-sm font-mono border border-cyan-500/30 px-2 py-0.5 rounded bg-cyan-500/10">{item.step}</span>
               {item.title}
             </h3>
-            <p class="text-slate-600 text-sm leading-relaxed relative z-10">
+            <p class="text-slate-400 text-sm leading-relaxed relative z-10">
               {item.desc}
             </p>
           </div>
@@ -152,52 +154,56 @@ const flow = [
     </div>
   </section>
 
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <div class="text-center mb-16">
-        <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Pricing</span>
-        <h2 class="text-3xl font-bold text-slate-900 mt-2">料金の考え方</h2>
-        <p class="mt-4 text-slate-600">開発内容によって費用は大きく変わるため、一律料金は設けていません。<br class="hidden md:inline" />その代わり、次の3つをお約束します。</p>
+  <section class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">PRICING</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <div class="mb-14 md:mb-16">
+        <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Pricing</span>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white">料金の考え方</h2>
+        <p class="mt-3 text-slate-400 font-bold">開発内容によって費用は大きく変わるため、一律料金は設けていません。その代わり、次の3つをお約束します</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-          <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-xl flex items-center justify-center">
-            <Icon name="lucide:messages-square" class="w-7 h-7 text-blue-600" />
+        <div class="p-8 bg-slate-800/40 rounded-2xl border border-slate-700/60 text-center">
+          <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-slate-900 bg-[radial-gradient(circle_at_30%_25%,rgba(37,99,235,0.4),transparent_70%)] ring-1 ring-cyan-400/25 shadow-lg shadow-slate-900/25 flex items-center justify-center">
+            <MiniIcon name="consult" class="w-11 h-11" />
           </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-3">相談・お見積りは無料</h3>
-          <p class="text-slate-600 text-sm leading-relaxed">課題の整理段階からのご相談も歓迎です。お見積り後に契約を迫ることはありません。</p>
+          <h3 class="text-lg font-bold text-white mb-3">相談・お見積りは無料</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">課題の整理段階からのご相談も歓迎です。お見積り後に契約を迫ることはありません。</p>
         </div>
-        <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-          <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-xl flex items-center justify-center">
-            <Icon name="lucide:sprout" class="w-7 h-7 text-blue-600" />
+        <div class="p-8 bg-slate-800/40 rounded-2xl border border-slate-700/60 text-center">
+          <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-slate-900 bg-[radial-gradient(circle_at_30%_25%,rgba(37,99,235,0.4),transparent_70%)] ring-1 ring-cyan-400/25 shadow-lg shadow-slate-900/25 flex items-center justify-center">
+            <MiniIcon name="small-start" class="w-11 h-11" />
           </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-3">スモールスタート</h3>
-          <p class="text-slate-600 text-sm leading-relaxed">まず小さく作って効果を確認してから広げる進め方を推奨。初期費用を抑えて始められます。</p>
+          <h3 class="text-lg font-bold text-white mb-3">スモールスタート</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">まず小さく作って効果を確認してから広げる進め方を推奨。初期費用を抑えて始められます。</p>
         </div>
-        <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-          <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-xl flex items-center justify-center">
-            <Icon name="lucide:clipboard-check" class="w-7 h-7 text-blue-600" />
+        <div class="p-8 bg-slate-800/40 rounded-2xl border border-slate-700/60 text-center">
+          <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-slate-900 bg-[radial-gradient(circle_at_30%_25%,rgba(37,99,235,0.4),transparent_70%)] ring-1 ring-cyan-400/25 shadow-lg shadow-slate-900/25 flex items-center justify-center">
+            <MiniIcon name="scope" class="w-11 h-11" />
           </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-3">事前に範囲と費用を明示</h3>
-          <p class="text-slate-600 text-sm leading-relaxed">着手前に作業範囲・金額・スケジュールを書面でご提示。後から想定外の請求が発生しない進め方をします。</p>
+          <h3 class="text-lg font-bold text-white mb-3">事前に範囲と費用を明示</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">着手前に作業範囲・金額・スケジュールを書面でご提示。後から想定外の請求が発生しない進め方をします。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="py-20 bg-blue-600">
-    <div class="container mx-auto px-6 text-center text-white">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 [text-wrap:balance]">
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden border-t border-slate-800/60">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
+    <span class="watermark top-6 -left-6" aria-hidden="true">CONTACT</span>
+    <div class="container mx-auto px-6 text-center relative z-10">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 [text-wrap:balance]">
         プロジェクトのご相談はこちら
       </h2>
 
-      <p class="text-blue-100 mb-10 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+      <p class="text-slate-300 mb-10 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
         具体的な要件が決まっていなくても大丈夫です。<br class="hidden md:inline" />
         まずは現状の課題についてお聞かせください。
       </p>
 
-      <a href="/contact" class="inline-block px-10 py-5 bg-white text-blue-600 font-bold text-lg rounded-full shadow-lg hover:bg-blue-50 transition-all hover:-translate-y-1">
+      <a href="/contact" class="inline-block px-10 py-5 bg-white text-slate-900 font-bold text-lg rounded-full shadow-lg hover:bg-blue-50 transition-all hover:-translate-y-1 hover:shadow-blue-900/50">
         お問い合わせフォームへ
       </a>
     </div>

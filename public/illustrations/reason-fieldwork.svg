@@ -1,47 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="現場での対話を重ねる開発">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 468" width="720" height="468">
   <defs>
-    <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#E0F2FE"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0 H0 V30" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <pattern id="gridBold" width="150" height="150" patternUnits="userSpaceOnUse">
+      <path d="M150 0 H0 V150" fill="none" stroke="#28374d" stroke-width="1"/>
+    </pattern>
   </defs>
-  <rect width="400" height="260" fill="url(#bgA)"/>
-  <!-- 装飾 -->
-  <circle cx="352" cy="40" r="26" fill="#DBEAFE"/>
-  <circle cx="34" cy="212" r="16" fill="#CFFAFE"/>
 
-  <!-- テーブル -->
-  <rect x="90" y="178" width="220" height="14" rx="7" fill="#94A3B8"/>
-  <rect x="110" y="192" width="12" height="42" rx="4" fill="#CBD5E1"/>
-  <rect x="278" y="192" width="12" height="42" rx="4" fill="#CBD5E1"/>
+  <rect width="720" height="468" fill="#0b1220"/>
+  <rect width="720" height="468" fill="url(#grid)"/>
+  <rect width="720" height="468" fill="url(#gridBold)"/>
+  <circle cx="360" cy="234" r="230" fill="url(#glow)"/>
 
-  <!-- ノートPC（テーブル上） -->
-  <rect x="168" y="140" width="64" height="40" rx="4" fill="#1E293B"/>
-  <rect x="174" y="146" width="52" height="28" rx="2" fill="#38BDF8"/>
-  <rect x="160" y="178" width="80" height="6" rx="3" fill="#334155"/>
-
-  <!-- 左の人（営業・現場側） -->
-  <circle cx="120" cy="112" r="20" fill="#FDE68A"/>
-  <path d="M100 112a20 20 0 0 1 40 0v-6a20 14 0 0 0-40 0z" fill="#475569"/>
-  <path d="M92 178c0-26 12-42 28-42s28 16 28 42z" fill="#475569"/>
-
-  <!-- 右の人（開発側） -->
-  <circle cx="280" cy="112" r="20" fill="#FECACA"/>
-  <path d="M260 112a20 20 0 0 1 40 0v-6a20 14 0 0 0-40 0z" fill="#2563EB"/>
-  <path d="M252 178c0-26 12-42 28-42s28 16 28 42z" fill="#2563EB"/>
-
-  <!-- 吹き出し（左：課題） -->
-  <g>
-    <rect x="66" y="42" width="96" height="40" rx="12" fill="#FFFFFF"/>
-    <path d="M104 82l8 14 6-14z" fill="#FFFFFF"/>
-    <rect x="80" y="54" width="66" height="7" rx="3.5" fill="#94A3B8"/>
-    <rect x="80" y="66" width="44" height="7" rx="3.5" fill="#CBD5E1"/>
+  <g stroke="#334155" stroke-width="2" fill="none">
+    <path d="M30 60 V30 H60"/>
+    <path d="M660 30 H690 V60"/>
+    <path d="M690 408 V438 H660"/>
+    <path d="M60 438 H30 V408"/>
   </g>
-  <!-- 吹き出し（右：解決案） -->
+  <g stroke="#3b5b83" stroke-width="2">
+    <path d="M600 90 h18 M609 81 v18"/>
+    <path d="M90 380 h18 M99 371 v18"/>
+  </g>
+
+  <!-- 左: 現場の声（吹き出し） -->
+  <g fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M85 100 H290 a18 18 0 0 1 18 18 V220 a18 18 0 0 1 -18 18 H190 l-44 44 v-44 H85 a18 18 0 0 1 -18 -18 V118 a18 18 0 0 1 18 -18 Z"/>
+    <path d="M105 150 h150 M105 186 h100" stroke-opacity="0.75"/>
+  </g>
+  <circle cx="308" cy="118" r="4" fill="#22d3ee"/>
+  <text x="185" y="330" font-family="'Consolas','Courier New',monospace" font-size="15" fill="#4c6f9a" text-anchor="middle" letter-spacing="3">FIELD VOICE</text>
+
+  <!-- 中央: 配線 -->
+  <path d="M326 200 H370 V250 H414" fill="none" stroke="#2f6bb0" stroke-width="2.5"/>
+  <circle cx="326" cy="200" r="4" fill="#22d3ee"/>
+  <circle cx="414" cy="250" r="4" fill="#22d3ee"/>
+
+  <!-- 右: 業務に馴染む画面 -->
   <g>
-    <rect x="238" y="34" width="100" height="44" rx="12" fill="#2563EB"/>
-    <path d="M284 78l8 14 6-14z" fill="#2563EB"/>
-    <path d="M254 56l8 8 16-16" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="292" y="50" width="32" height="7" rx="3.5" fill="#93C5FD"/>
-    <rect x="292" y="62" width="24" height="7" rx="3.5" fill="#BFDBFE"/>
+    <rect x="420" y="150" width="230" height="190" rx="14" fill="#0e1a2f" stroke="url(#g)" stroke-width="3"/>
+    <path d="M420 186 H650" stroke="#28527e" stroke-width="2"/>
+    <circle cx="442" cy="168" r="4" fill="none" stroke="#3b5b83" stroke-width="2"/>
+    <circle cx="460" cy="168" r="4" fill="none" stroke="#3b5b83" stroke-width="2"/>
+    <g stroke="#28527e" stroke-width="7" stroke-linecap="round">
+      <path d="M448 216 h150"/>
+      <path d="M448 248 h100"/>
+    </g>
+    <g fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M448 292 l12 12 22 -26"/>
+    </g>
+    <text x="535" y="390" font-family="'Consolas','Courier New',monospace" font-size="15" fill="#4c6f9a" text-anchor="middle" letter-spacing="3">SYSTEM</text>
   </g>
 </svg>

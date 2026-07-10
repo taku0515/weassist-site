@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # Claude Code のマシン固有設定（エージェント定義 .claude/agents/ はコミットしてよい）
 .claude/settings.local.json
+
+# 代表写真の原本（加工前・公開しない）
+/代表写真.jpg
