@@ -471,7 +471,8 @@ const faqs = [
       </form>
 
       <p class="mt-6 text-center text-slate-500 text-sm">
-        メールでのお問い合わせも受け付けています: <a href={`mailto:${SITE_DATA.email}`} class="text-cyan-400 hover:text-cyan-300">{SITE_DATA.email}</a>
+        {/* email_off: Cloudflareのメール難読化を無効化（View Transitions遷移後にデコードが再実行されず、リンクが壊れるため） */}
+        メールでのお問い合わせも受け付けています: <Fragment set:html={`<!--email_off--><a href="mailto:${SITE_DATA.email}" class="text-cyan-400 hover:text-cyan-300">${SITE_DATA.email}</a><!--/email_off-->`} />
       </p>
     </div>
   </section>

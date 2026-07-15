@@ -49,7 +49,8 @@ const currentYear = new Date().getFullYear();
           {/* ▼ 改行コードが含まれていないので、HTML側で調整するか、データの持ち方を工夫しますが、今回はシンプルに */}
           <p>{SITE_DATA.name}</p>
           <p>Tel: {SITE_DATA.phone}</p>
-          <p>Email: {SITE_DATA.email}</p>
+          {/* email_off: Cloudflareのメール難読化を無効化（View Transitions遷移後にデコードが再実行されないため） */}
+          <p>Email: <Fragment set:html={`<!--email_off--><a href="mailto:${SITE_DATA.email}" class="hover:text-blue-400 transition-colors">${SITE_DATA.email}</a><!--/email_off-->`} /></p>
         </address>
       </div>
       
