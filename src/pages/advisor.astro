@@ -1,0 +1,479 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_DATA } from '../data/site';
+
+// よくあるお悩み（実態調査の懸念事項をそのまま言語化）
+const pains = [
+  {
+    title: '社長が個人で触ってみた、その先が続かない',
+    desc: 'ChatGPTは試した。便利そうなのは分かる。でも「会社の業務」にどう組み込めばいいのか、誰にも相談できないまま止まっている。',
+  },
+  {
+    title: 'ITの「高い買い物」に懲りたことがある',
+    desc: '勧められるままに導入したシステムが業務に合わなかった。売り込みではない、こちらの側に立つ相談相手がいない。',
+  },
+  {
+    title: 'ツールを入れたが、現場に定着しなかった',
+    desc: '導入した月だけ使われて、気づけば誰も開いていない。「導入」ではなく「定着」まで見てくれる人がいなかった。',
+  },
+];
+
+// 数字の根拠（出典は事業企画書と同じ公開調査）
+const stats = [
+  { value: '62%', label: '最大の壁は「何から始めれば\nいいか分からない」', note: 'Leach 中小企業AI導入実態調査 2026' },
+  { value: '約3倍', label: '顧問と小さく始めた会社の\n導入成功率', note: '同調査（顧問型スタート比較）' },
+  { value: '12〜20%', label: '中小企業のAI導入率。\n差がつくのはこれから', note: '中小機構 実態調査 2026年3月' },
+];
+
+// 毎朝の無人パイプライン（実物デモ）
+const pipeline = ['情報収集・調査', '記事の執筆', '校正・事実確認', 'SNS投稿文の作成', '動画台本の生成'];
+
+// 料金メニュー（3階建て）
+const plans = [
+  {
+    step: 'STEP 1',
+    name: 'AI活用診断パック',
+    price: '50,000〜100,000円',
+    unit: '単発・2週間',
+    featured: false,
+    items: [
+      '業務ヒアリング 90分 × 2回',
+      '「AI適用マップ」納品（業務ごとに自動化可／補助可／人がやるべきを色分け）',
+      '90日ロードマップ（最初の3つの導入手順書）',
+      '補助金の該当性メモ',
+    ],
+    note: '診断だけ受けて自走もOK（追加費用なし）',
+  },
+  {
+    step: 'STEP 2',
+    name: '伴走顧問（本体）',
+    price: '月額 30,000円〜',
+    unit: 'ライト3万円／スタンダード5万円',
+    featured: true,
+    items: [
+      'ライト: オンライン定例60分/月＋チャット相談（翌営業日返信）＋月次AIトピック便',
+      'スタンダード: 定例90分/月（訪問可）＋チャット相談＋社内ルール整備・ツール選定・小さな自動化の実装補助＋経過レポート',
+      '成果定義を契約時に明文化: 「四半期に1つ、定着した業務改善」',
+    ],
+    note: '1か月自動更新・長期縛りなし（1か月前通知で解約可）',
+  },
+  {
+    step: 'STEP 3',
+    name: '実装メニュー',
+    price: '別途お見積り',
+    unit: '顧問先限定',
+    featured: false,
+    items: [
+      '生成AI社内ルール策定',
+      'メディアAI運用代行（ブログ・SNSの自動運営）',
+      '社内ナレッジのAI検索化',
+      'ローカルAI構築（データを社外に出さない構成）',
+      'AI研修',
+    ],
+    note: '必要になったときだけ。押し売りはしません',
+  },
+];
+
+// お約束 / しないこと（ベンダー不信層への信頼設計）
+const promises = [
+  '四半期に1つ「定着した業務改善」を作ること',
+  '中立であること（売りたいツールを持ちません）',
+  '秘密保持契約（NDA）を締結すること',
+  '機密情報を、承諾なく学習利用される形で外部AIに入力しないこと',
+];
+const notDo = [
+  '売上増加など、経営成果の保証',
+  '基幹システムの改修',
+  '常駐・出向',
+  '不要なツールの押し売り',
+];
+
+// ご利用の流れ
+const flow = [
+  { step: '01', title: '30分無料相談', desc: 'オンラインで現状をお聞きします。売り込みはしません。合わなければここで終わりで大丈夫です。' },
+  { step: '02', title: 'AI活用診断（2週間）', desc: 'ヒアリング2回で業務を棚卸しし、「どの業務に効くか」の見立てと90日の手順書を納品します。' },
+  { step: '03', title: '顧問で定着（月額）', desc: '月1回の定例とチャット相談で、小さく始めて定着するまで伴走します。' },
+  { step: '04', title: '必要になったら実装', desc: 'ルール策定や自動化の作り込みが必要になった段階で、別途お見積りのうえ私が実装します。' },
+];
+
+// FAQ
+const faqs = [
+  {
+    q: 'IT担当者がいないのですが、大丈夫ですか？',
+    a: '大丈夫です。むしろIT専任がいない10〜50名規模の会社を前提に設計しています。専門用語を使わず、営業出身の言葉でご説明します。',
+  },
+  {
+    q: '機密情報の扱いが心配です',
+    a: '着手前に秘密保持契約（NDA）を締結します。機密指定いただいた情報は、承諾なく学習利用される形で外部AIに入力しません。データを社外に出さないローカルAI構成のご提案も可能です。',
+  },
+  {
+    q: '契約の縛りはありますか？',
+    a: 'ありません。顧問契約は1か月ごとの自動更新で、1か月前の通知でいつでも解約できます。繁忙期はオンラインへの振替も可能です。',
+  },
+  {
+    q: '診断パックだけ受けて、あとは自分たちでやってもいいですか？',
+    a: 'もちろんです。診断の納品物（AI適用マップ・90日ロードマップ）はそのまま自走に使える形でお渡しします。追加費用はかかりません。',
+  },
+  {
+    q: '対応地域はどこまでですか？',
+    a: 'オンラインで全国対応します。訪問での定例はスタンダードプランで承ります（地域によってはご相談ください）。',
+  },
+  {
+    q: '成果が出なかったらどうなりますか？',
+    a: '契約時に「四半期に1つ、定着した業務改善を作る」という成果定義を書面で明文化します。一方で、売上増加といった経営成果の保証はできません。できること・できないことを最初に書面でお渡しします。',
+  },
+];
+---
+
+<Layout
+  title="中小企業向け AI導入伴走顧問 — 月3万円から"
+  description="「AIを使いたいが何から始めればいいか分からない」を、月額3万円からの伴走顧問で解消。毎朝AIだけで自動運営される会社を実際に運営する代表が、御社に合う最初の一歩から定着まで伴走します。30分無料相談受付中。"
+>
+
+  {/* 1. ファーストビュー */}
+  <section class="relative bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute inset-0 md:hidden bg-[radial-gradient(ellipse_at_top_left,rgba(37,99,235,0.25),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.18),transparent_55%)]"></div>
+      <div class="hidden md:block absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600 rounded-full blur-[120px] opacity-40"></div>
+      <div class="hidden md:block absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-cyan-500 rounded-full blur-[100px] opacity-30"></div>
+      <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+    </div>
+
+    <div class="container mx-auto px-6 py-20 md:py-28 relative z-10 max-w-5xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm font-mono">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+        </span>
+        中小企業向け AI導入伴走顧問
+      </div>
+
+      <h1 class="mt-8 text-3xl md:text-5xl font-black leading-tight tracking-tight text-white">
+        「AI、何から始めればいいか分からない」を、<br class="hidden md:block" />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">月3万円から。</span>
+      </h1>
+
+      <p class="mt-6 text-slate-300 text-lg leading-relaxed max-w-2xl">
+        私は本業で法人営業を続けながら、<strong class="text-white">AIだけで毎朝自動運営される会社</strong>（調査→記事→校正→SNS→動画まで無人）を実際に運営しています。
+        その「実物」をお見せしながら、御社に合う最初の一歩から<strong class="text-white">定着するまで</strong>伴走します。
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <a href="#contact" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-full shadow-lg shadow-blue-900/50 hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+          30分無料相談を申し込む
+        </a>
+        <a href="#price" class="px-8 py-4 border border-slate-600 text-slate-200 font-bold rounded-full hover:border-cyan-400 hover:text-cyan-300 transition-colors">
+          料金を見る
+        </a>
+      </div>
+
+      <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400 font-bold">
+        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span>顧問は5社まで（品質維持のため）</li>
+        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span>中立 — 売りたいツールを持ちません</li>
+        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span>秘密保持契約（NDA）締結</li>
+      </ul>
+    </div>
+  </section>
+
+  {/* 2. 共感（あるあるお悩み） */}
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">PROBLEM</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Problem</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">こんな状態で止まっていませんか</h2>
+
+      <div class="mt-12 grid md:grid-cols-3 gap-6">
+        {pains.map((pain) => (
+          <div class="bg-slate-900/70 rounded-xl border border-slate-700/60 p-7">
+            <h3 class="text-lg font-bold text-white leading-snug">{pain.title}</h3>
+            <p class="mt-4 text-slate-400 text-sm leading-relaxed">{pain.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-10 text-slate-300 text-lg leading-relaxed">
+        「うちもやらないとまずい」という焦りだけがあって、手が動かない——。
+        実はそれ、<strong class="text-white">御社だけではありません</strong>。そして原因は、技術でも費用でもありません。
+      </p>
+    </div>
+  </section>
+
+  {/* 3. データ（なぜ失敗するのか） */}
+  <section class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -left-6" aria-hidden="true">EVIDENCE</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Evidence</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">失敗の原因は「始め方」にある</h2>
+
+      <div class="mt-12 grid md:grid-cols-3 gap-6">
+        {stats.map((stat) => (
+          <div class="bg-slate-950/60 rounded-xl border border-slate-700/60 p-8 text-center">
+            <p class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">{stat.value}</p>
+            <p class="mt-4 text-slate-200 font-bold leading-relaxed whitespace-pre-line">{stat.label}</p>
+            <p class="mt-3 text-slate-500 text-xs">{stat.note}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-10 text-slate-300 text-lg leading-relaxed max-w-3xl">
+        中小企業のAI導入で最大の壁は「何から始めればいいか分からない」（62%）。
+        そして、<strong class="text-white">顧問と一緒に小さく始めた会社は、いきなりシステム開発から入った会社より約3倍成功しやすい</strong>という調査結果があります。
+        必要なのは高い買い物ではなく、御社の業務を分かったうえで「最初の一歩」を示し、定着まで見届ける相談相手です。
+      </p>
+    </div>
+  </section>
+
+  {/* 4. 実物デモ（最大の差別化） */}
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">PROOF</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Proof</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">私の会社は毎朝、AIだけで動いています</h2>
+
+      <p class="mt-8 text-slate-300 text-lg leading-relaxed max-w-3xl">
+        絵に描いた提案ではありません。当社のメディアは毎朝7時、人が寝ている間にAIが以下の工程をすべて無人で実行し、記事を公開し続けています。
+      </p>
+
+      <div class="mt-10 bg-slate-900/70 rounded-2xl border border-slate-700/60 p-8">
+        <p class="font-mono text-cyan-400 text-sm tracking-widest mb-6">EVERY MORNING 7:00 AM — 無人実行</p>
+        <ol class="flex flex-col md:flex-row md:items-center gap-3 md:gap-2">
+          {pipeline.map((step, i) => (
+            <>
+              <li class="flex-1 bg-slate-800/70 border border-slate-600/60 rounded-lg px-4 py-3 text-center">
+                <span class="block font-mono text-cyan-400 text-xs mb-1">{String(i + 1).padStart(2, '0')}</span>
+                <span class="text-slate-100 font-bold text-sm">{step}</span>
+              </li>
+              {i < pipeline.length - 1 && (
+                <li aria-hidden="true" class="text-cyan-500 text-center md:rotate-0 rotate-90 shrink-0 font-black">→</li>
+              )}
+            </>
+          ))}
+        </ol>
+        <div class="mt-8 text-center">
+          <a href="https://web.weassist.jp" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 border border-cyan-500/40 text-cyan-300 font-bold rounded-full hover:bg-cyan-500/10 transition-colors">
+            今朝AIが書いた記事を見る ↗
+          </a>
+        </div>
+      </div>
+
+      <p class="mt-8 text-slate-300 text-lg leading-relaxed max-w-3xl">
+        御社に提案するのは、この仕組みを作り、<strong class="text-white">自分で毎日使っている本人</strong>です。
+        「実際に動いている実物」を見ながら、御社に合うところだけを小さく取り入れられます。
+      </p>
+    </div>
+  </section>
+
+  {/* 5. サービス・料金（3階建て） */}
+  <section id="price" class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -left-6" aria-hidden="true">PRICE</span>
+    <div class="container mx-auto px-6 max-w-6xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Service & Price</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">小さく診断から。合えば顧問で定着まで</h2>
+      <p class="mt-4 text-slate-400 font-bold">すべて税別。大きな初期投資はありません。</p>
+
+      <div class="mt-12 grid md:grid-cols-3 gap-6 items-stretch">
+        {plans.map((plan) => (
+          <div class={`relative rounded-2xl p-8 flex flex-col border ${plan.featured ? 'bg-slate-950/80 border-cyan-500/50 shadow-2xl shadow-cyan-950/40' : 'bg-slate-950/50 border-slate-700/60'}`}>
+            {plan.featured && (
+              <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold rounded-full whitespace-nowrap">おすすめ・本体</span>
+            )}
+            <p class="font-mono text-cyan-400 text-sm tracking-widest">{plan.step}</p>
+            <h3 class="mt-2 text-xl font-bold text-white">{plan.name}</h3>
+            <p class="mt-4 text-3xl font-black text-white">{plan.price}</p>
+            <p class="mt-1 text-slate-400 text-sm font-bold">{plan.unit}</p>
+            <ul class="mt-6 space-y-3 grow">
+              {plan.items.map((item) => (
+                <li class="flex gap-2 text-slate-300 text-sm leading-relaxed">
+                  <span class="text-cyan-400 shrink-0">✓</span>{item}
+                </li>
+              ))}
+            </ul>
+            <p class="mt-6 pt-4 border-t border-slate-700/60 text-slate-400 text-xs leading-relaxed">{plan.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 6. お約束・しないこと */}
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">PROMISE</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Promise</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">お約束すること、しないこと</h2>
+      <p class="mt-4 text-slate-400 font-bold">できないことを先に言うのが、伴走者の誠実さだと考えています。</p>
+
+      <div class="mt-12 grid md:grid-cols-2 gap-6">
+        <div class="bg-slate-900/70 rounded-xl border border-cyan-500/30 p-8">
+          <h3 class="text-lg font-bold text-cyan-300 mb-6">お約束すること</h3>
+          <ul class="space-y-4">
+            {promises.map((item) => (
+              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-cyan-400 shrink-0">✓</span>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-slate-900/70 rounded-xl border border-slate-700/60 p-8">
+          <h3 class="text-lg font-bold text-slate-300 mb-6">しないこと</h3>
+          <ul class="space-y-4">
+            {notDo.map((item) => (
+              <li class="flex gap-3 text-slate-400 leading-relaxed"><span class="text-slate-500 shrink-0">✕</span>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 7. ご利用の流れ */}
+  <section class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -left-6" aria-hidden="true">FLOW</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Flow</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">ご利用の流れ</h2>
+
+      <div class="mt-12 grid md:grid-cols-4 gap-6">
+        {flow.map((item) => (
+          <div class="bg-slate-950/60 rounded-xl border border-slate-700/60 p-6">
+            <p class="font-mono text-cyan-400 text-2xl font-black">{item.step}</p>
+            <h3 class="mt-3 text-lg font-bold text-white">{item.title}</h3>
+            <p class="mt-3 text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* 補助金の一言（高い買い物不安の解毒剤。正直に「ツール費が対象」と書く） */}
+      <div class="mt-10 bg-blue-500/10 border border-blue-500/20 rounded-xl p-6 md:p-8">
+        <p class="text-slate-200 leading-relaxed">
+          <strong class="text-white">補助金も使えます</strong> — 2026年度「デジタル化・AI導入補助金」により、導入するAIツールの費用は小規模事業者で最大4/5が補助対象です。
+          当方は売りたいツールを持たない中立の立場なので、補助金を前提にした構成のご提案が可能です（顧問料自体は補助対象外です。正直にお伝えします）。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* 8. 代表プロフィール */}
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">ADVISOR</span>
+    <div class="container mx-auto px-6 max-w-5xl relative z-10">
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="w-full max-w-xs md:w-1/3">
+          <div class="aspect-[3/4] rounded-lg overflow-hidden shadow-lg relative bg-slate-900 ring-1 ring-slate-700/60">
+            <img
+              src="/company/representative.webp"
+              alt={`代表 ${SITE_DATA.president}`}
+              width="900"
+              height="1200"
+              loading="lazy"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 p-5 text-center">
+              <p class="text-white font-bold text-lg">{SITE_DATA.president}</p>
+              <p class="text-slate-400 text-[11px] tracking-[0.25em] mt-1.5">YOUR ADVISOR</p>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-2/3">
+          <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Advisor</span>
+          <h2 class="text-2xl md:text-3xl font-black text-white leading-snug">
+            営業の言葉で話せて、<br />自分の手で実装できる伴走者
+          </h2>
+          <div class="mt-6 space-y-4 text-slate-400 leading-loose">
+            <p>
+              本業では法人営業として、日々中小企業の現場を回っています。だから「システムの都合」ではなく「業務の流れ」の言葉でお話しできます。
+            </p>
+            <p>
+              一方で、AIだけで毎朝自動運営されるメディア企業を個人で設計・構築・運営しています。提案で終わらず、必要になれば自分の手で実装まで持っていけるのが、コンサルタントとの一番の違いです。
+            </p>
+            <p>
+              だからこそ、御社には「できること」と「できないこと」を、実体験に基づいてはっきりお伝えできます。
+            </p>
+          </div>
+          <a href="/company" class="inline-block mt-6 text-cyan-300 font-bold hover:text-cyan-200 transition-colors">会社紹介を見る →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 9. FAQ */}
+  <section class="relative py-20 md:py-28 bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -left-6" aria-hidden="true">FAQ</span>
+    <div class="container mx-auto px-6 max-w-4xl relative z-10">
+      <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">FAQ</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white">よくあるご質問</h2>
+
+      <div class="mt-12 space-y-4">
+        {faqs.map((faq) => (
+          <details class="group bg-slate-950/60 rounded-xl border border-slate-700/60 overflow-hidden">
+            <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none text-white font-bold leading-snug">
+              <span><span class="text-cyan-400 font-mono mr-3">Q.</span>{faq.q}</span>
+              <span class="text-cyan-400 shrink-0 transition-transform duration-300 group-open:rotate-45 text-xl font-light" aria-hidden="true">＋</span>
+            </summary>
+            <p class="px-6 pb-6 text-slate-400 leading-relaxed"><span class="text-slate-500 font-mono mr-3">A.</span>{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 10. クロージングCTA + フォーム */}
+  <section id="contact" class="relative py-20 md:py-28 bg-slate-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="hidden md:block absolute bottom-[-20%] left-[-10%] w-[400px] h-[400px] bg-blue-600 rounded-full blur-[120px] opacity-30"></div>
+    </div>
+    <div class="container mx-auto px-6 max-w-2xl relative z-10">
+      <div class="text-center mb-12">
+        <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Free Consultation</span>
+        <h2 class="text-3xl md:text-4xl font-black text-white leading-snug">まずは30分、<br class="md:hidden" />無料でご相談ください</h2>
+        <p class="mt-6 text-slate-300 leading-relaxed">
+          オンラインで現状をお聞きし、「御社ならどこから始めるか」の見立てをその場でお話しします。売り込みはしません。<br />
+          なお、品質維持のため<strong class="text-white">顧問契約は5社まで</strong>とさせていただいています。
+        </p>
+      </div>
+
+      <form action="https://formspree.io/f/mlgegwwy" method="POST" class="space-y-6 bg-slate-900/70 p-8 rounded-xl border border-slate-700/60 shadow-2xl shadow-blue-950/30">
+        {/* contactページと同じFormspreeを共用。LP経由を見分けるためのフラグ */}
+        <input type="hidden" name="form_source" value="advisor-lp" />
+        <input type="hidden" name="_subject" value="【AI顧問LP】無料相談の申込" />
+
+        <div>
+          <label for="company" class="block text-sm font-bold text-slate-300 mb-2">会社名</label>
+          <input type="text" name="company" id="company" required class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
+        </div>
+
+        <div>
+          <label for="name" class="block text-sm font-bold text-slate-300 mb-2">お名前</label>
+          <input type="text" name="name" id="name" required class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-bold text-slate-300 mb-2">メールアドレス</label>
+          <input type="email" name="email" id="email" required class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
+        </div>
+
+        <div>
+          <label for="message" class="block text-sm font-bold text-slate-300 mb-2">ご相談内容 <span class="text-slate-500 font-normal">（任意・一言でOKです）</span></label>
+          <textarea name="message" id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" placeholder="例: 見積書作成に毎日2時間かかっていて、AIで楽にできないか相談したい"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold py-4 rounded-lg shadow-lg shadow-blue-900/50 hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+          無料相談を申し込む（1営業日以内にご返信）
+        </button>
+      </form>
+
+      <p class="mt-6 text-center text-slate-500 text-sm">
+        メールでのお問い合わせも受け付けています: <a href={`mailto:${SITE_DATA.email}`} class="text-cyan-400 hover:text-cyan-300">{SITE_DATA.email}</a>
+      </p>
+    </div>
+  </section>
+
+</Layout>
