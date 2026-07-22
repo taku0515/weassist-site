@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# wrangler pages dev のローカル作業ファイル
+.wrangler/
+
 # generated types
 .astro/
 

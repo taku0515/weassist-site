@@ -13,7 +13,13 @@ import icon from 'astro-icon';
 export default defineConfig({
   site: 'https://weassist.jp/',
 
-  integrations: [tailwind(), sitemap(), partytown(), icon()],
+  integrations: [
+    tailwind(),
+    // /thanks はフォーム送信後の着地ページなのでサイトマップから除外（noindexとも整合）
+    sitemap({ filter: (page) => !page.includes('/thanks') }),
+    partytown(),
+    icon(),
+  ],
 
   image: {
     domains: [

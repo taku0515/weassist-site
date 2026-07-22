@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="送信完了" description="お問い合わせありがとうございました。">
+  {/* フォーム送信後の着地ページ。検索結果に出す意味がないのでnoindex */}
+  <meta slot="head" name="robots" content="noindex" />
+
+  <div class="relative bg-slate-950 overflow-hidden min-h-[80vh]">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
+    <span class="watermark top-4 -right-6" aria-hidden="true">THANKS</span>
+
+    <div class="max-w-2xl mx-auto px-6 py-24 relative z-10 text-center">
+      <p class="font-mono text-cyan-400 text-lg tracking-widest mb-3">Message Sent</p>
+      <h1 class="text-4xl md:text-5xl font-black tracking-tight text-white">送信が完了しました</h1>
+      <p class="mt-6 text-slate-300 leading-relaxed">
+        お問い合わせありがとうございます。<br />
+        内容を確認のうえ、<strong class="text-white">1営業日以内</strong>にご返信いたします。
+      </p>
+      <a
+        href="/"
+        class="inline-block mt-10 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold px-8 py-4 rounded-lg shadow-lg shadow-blue-900/50 hover:shadow-xl transition-all transform hover:-translate-y-0.5"
+      >
+        トップページへ戻る
+      </a>
+    </div>
+  </div>
+</Layout>

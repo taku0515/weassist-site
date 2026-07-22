@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FormSpamGuard from '../components/Common/FormSpamGuard.astro';
 import { SITE_DATA } from '../data/site';
 
 ---
@@ -16,7 +17,8 @@ import { SITE_DATA } from '../data/site';
         <p class="mt-4 text-slate-400 font-bold">お問い合わせ — ご相談・お見積りは無料です</p>
       </div>
 
-      <form action="https://formspree.io/f/mlgegwwy" method="POST" class="space-y-6 bg-slate-900/70 p-8 rounded-xl border border-slate-700/60 shadow-2xl shadow-blue-950/30">
+      {/* 送信先はPages Function（/api/contact）。Turnstile検証を通ったものだけFormspreeへ転送される */}
+      <form action="/api/contact" method="POST" class="space-y-6 bg-slate-900/70 p-8 rounded-xl border border-slate-700/60 shadow-2xl shadow-blue-950/30">
 
         <div>
           <label for="name" class="block text-sm font-bold text-slate-300 mb-2">お名前</label>
@@ -32,6 +34,8 @@ import { SITE_DATA } from '../data/site';
           <label for="message" class="block text-sm font-bold text-slate-300 mb-2">お問い合わせ内容</label>
           <textarea name="message" id="message" rows="5" required class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all"></textarea>
         </div>
+
+        <FormSpamGuard />
 
         <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold py-4 rounded-lg shadow-lg shadow-blue-900/50 hover:shadow-xl transition-all transform hover:-translate-y-0.5">
           送信する

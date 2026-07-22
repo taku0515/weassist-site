@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FormSpamGuard from '../components/Common/FormSpamGuard.astro';
 import { SITE_DATA } from '../data/site';
 
 // よくあるお悩み（実態調査の懸念事項をそのまま言語化）
@@ -440,7 +441,8 @@ const faqs = [
         </p>
       </div>
 
-      <form action="https://formspree.io/f/mlgegwwy" method="POST" class="space-y-6 bg-slate-900/70 p-8 rounded-xl border border-slate-700/60 shadow-2xl shadow-blue-950/30">
+      {/* 送信先はPages Function（/api/contact）。Turnstile検証を通ったものだけFormspreeへ転送される */}
+      <form action="/api/contact" method="POST" class="space-y-6 bg-slate-900/70 p-8 rounded-xl border border-slate-700/60 shadow-2xl shadow-blue-950/30">
         {/* contactページと同じFormspreeを共用。LP経由を見分けるためのフラグ */}
         <input type="hidden" name="form_source" value="advisor-lp" />
         <input type="hidden" name="_subject" value="【AI顧問LP】無料相談の申込" />
@@ -464,6 +466,8 @@ const faqs = [
           <label for="message" class="block text-sm font-bold text-slate-300 mb-2">ご相談内容 <span class="text-slate-500 font-normal">（任意・一言でOKです）</span></label>
           <textarea name="message" id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" placeholder="例: 見積書作成に毎日2時間かかっていて、AIで楽にできないか相談したい"></textarea>
         </div>
+
+        <FormSpamGuard />
 
         <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold py-4 rounded-lg shadow-lg shadow-blue-900/50 hover:shadow-xl transition-all transform hover:-translate-y-0.5">
           無料相談を申し込む（1営業日以内にご返信）

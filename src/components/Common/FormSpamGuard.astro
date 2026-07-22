@@ -1,0 +1,62 @@
+---
+// スパム対策部品: ハニーポット + Cloudflare Turnstile + 送信エラー表示
+// 使い方: <form action="/api/contact" method="POST"> 内の送信ボタン直前に置く。
+// 検証はPages Function（functions/api/contact.js）がサーバー側で行う。
+//
+// サイトキーはCloudflare Pagesのビルド用環境変数 PUBLIC_TURNSTILE_SITE_KEY で設定する。
+// 未設定の間はTurnstileの公式テストキー（常に合格・ウィジェットに「テスト専用」と出る）で動く。
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
+---
+
+{/* ハニーポット: 人間には見えない入力欄。ボットが機械的に埋めたらFunction側で捨てる */}
+<p class="hidden" aria-hidden="true">
+  <label>
+    この欄は空のままにしてください
+    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+  </label>
+</p>
+
+{/* 検証失敗で /api/contact から ?form=error 付きで戻されたときに表示 */}
+<p
+  data-form-error
+  role="alert"
+  class="hidden rounded-lg border border-red-500/40 bg-red-950/40 px-4 py-3 text-sm font-bold text-red-300"
+>
+  送信を確認できませんでした。お手数ですが、下のチェックを完了してからもう一度お試しください。
+  解決しない場合はメールでご連絡ください。
+</p>
+
+<div class="turnstile-slot flex min-h-[65px] justify-center" data-sitekey={siteKey}></div>
+
+<script
+  is:inline
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__renderTurnstile"
+  async
+  defer></script>
+<script is:inline>
+  // View Transitions（ClientRouter）対応:
+  // ページ切替のたびにDOMが差し替わるので、astro:page-load ごとに未描画のスロットへ描画する。
+  // 初回読み込みはスクリプト側の onload コールバック（__renderTurnstile）が拾う。
+  window.__renderTurnstile = function () {
+    if (!window.turnstile) return;
+    document.querySelectorAll('.turnstile-slot').forEach(function (el) {
+      if (el.dataset.rendered) return;
+      window.turnstile.render(el, {
+        sitekey: el.dataset.sitekey,
+        theme: 'dark',
+        language: 'ja',
+      });
+      el.dataset.rendered = '1';
+    });
+  };
+  document.addEventListener('astro:page-load', function () {
+    window.__renderTurnstile();
+    if (new URLSearchParams(location.search).get('form') === 'error') {
+      var banner = document.querySelector('[data-form-error]');
+      if (banner) {
+        banner.classList.remove('hidden');
+        banner.scrollIntoView({ block: 'center' });
+      }
+    }
+  });
+</script>
