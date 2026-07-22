@@ -58,5 +58,61 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000
         banner.scrollIntoView({ block: 'center' });
       }
     }
+
+    // 送信の2段方式:
+    // ① /api/contact に検証を依頼（ハニーポット＋Turnstileサーバー検証）
+    // ② 合格したら返ってきた送信先へ「ブラウザから直接」送信する。
+    //    Cloudflare経由IPからの送信はFormspreeにスパム判定されるため、実送信は必ず本人のIPで行う。
+    // JS無効時はこのハンドラが動かず、通常POST（サーバー側転送フォールバック）になる。
+    var slot = document.querySelector('.turnstile-slot');
+    var form = slot && slot.closest('form');
+    if (!form || form.dataset.spamGuard) return;
+    form.dataset.spamGuard = '1';
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var banner = document.querySelector('[data-form-error]');
+      if (banner) banner.classList.add('hidden');
+      if (btn) {
+        btn.dataset.label = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = '送信中…';
+      }
+      var fail = function () {
+        if (banner) {
+          banner.classList.remove('hidden');
+          banner.scrollIntoView({ block: 'center' });
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = btn.dataset.label;
+        }
+        // トークンは使い捨てなので、再挑戦用にウィジェットを取り直す
+        if (window.turnstile) window.turnstile.reset();
+      };
+      try {
+        var data = new FormData(form);
+        var res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        var out = await res.json();
+        if (!out.ok) return fail();
+        if (out.endpoint) {
+          data.delete('_gotcha');
+          data.delete('cf-turnstile-response');
+          var fs = await fetch(out.endpoint, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: data,
+          });
+          if (!fs.ok) return fail();
+        }
+        location.href = '/thanks';
+      } catch (err) {
+        fail();
+      }
+    });
   });
 </script>
