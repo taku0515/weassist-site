@@ -5,8 +5,6 @@ import tailwind from '@astrojs/tailwind';
 
 import sitemap from '@astrojs/sitemap';
 
-import partytown from '@astrojs/partytown';
-
 import icon from 'astro-icon';
 
 // https://astro.build/config
@@ -17,7 +15,6 @@ export default defineConfig({
     tailwind(),
     // /thanks はフォーム送信後の着地ページなのでサイトマップから除外（noindexとも整合）
     sitemap({ filter: (page) => !page.includes('/thanks') }),
-    partytown(),
     icon(),
   ],
 
