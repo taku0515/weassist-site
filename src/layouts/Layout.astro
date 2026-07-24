@@ -32,9 +32,6 @@ const pageDescription = description || SITE_DATA.description;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-// Cloudflare Web Analyticsのビーコントークン（公開情報。未設定=計測タグなし）
-const CF_BEACON_TOKEN = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
-
 // トップページはヒーローを画面いっぱいに見せるため余白なし。
 // それ以外はヘッダー常時表示（h-20 = 80px）のぶんコンテンツを下げる
 const isHome = Astro.url.pathname === '/';
@@ -76,17 +73,10 @@ const isHome = Astro.url.pathname === '/';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   
     {/*
-      Cloudflare Web Analytics（ボット除外の実訪問計測・Cookieレス）。
-      トークンはPagesのビルド用環境変数 PUBLIC_CF_BEACON_TOKEN で設定し、未設定ならタグ自体を出さない。
+      アクセス解析はCloudflare Pagesの組み込みWeb Analyticsを使用（配信時にビーコンを自動注入）。
+      このリポジトリに計測タグは置かないこと（自前で追加すると二重計測になる）。
       View Transitions遷移はビーコンのSPAモード（既定で有効）がpushStateを拾って計測する。
     */}
-    {CF_BEACON_TOKEN && (
-      <script
-        is:inline
-        defer
-        src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}></script>
-    )}
   </head>
   <body class="font-sans text-slate-800 antialiased flex flex-col min-h-screen">
     
