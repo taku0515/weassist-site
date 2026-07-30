@@ -1,0 +1,18 @@
+# Cloudflare Pages のレスポンスヘッダー設定（静的サイト用）
+# 参照: 2026-07-29 脆弱性診断レポート M-1
+#
+# CSPの許可先は本番HTMLの実測に基づく:
+#   challenges.cloudflare.com      … Turnstile（フォームのボット対策）
+#   static.cloudflareinsights.com  … Cloudflare Web Analytics（Pagesが自動注入）
+#   fonts.googleapis.com/gstatic   … Webフォント
+#   formspree.io                   … フォーム送信先（ブラウザから直接POST）
+# 'unsafe-inline' は Astro が生成するインラインscript/styleに必要。
+# 外部スクリプトの追加時はここも更新すること（漏れると読み込みがブロックされる）。
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com; frame-src https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io https://cloudflareinsights.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; frame-ancestors 'none'

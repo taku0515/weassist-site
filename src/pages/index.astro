@@ -374,7 +374,8 @@ const techTags = [
                 <time class="text-slate-500 font-mono text-sm shrink-0">
                   {post.date.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.')}
                 </time>
-                <h3 class="text-slate-200 font-bold group-hover:text-cyan-300 transition-colors flex-1" set:html={post.title} />
+                {/* wp.ts でタグ除去済みのプレーンテキスト。自動エスケープされる通常出力を使う */}
+                <h3 class="text-slate-200 font-bold group-hover:text-cyan-300 transition-colors flex-1">{post.title}</h3>
                 <span class="text-slate-600 group-hover:text-cyan-300 transition-colors ml-auto shrink-0">↗</span>
               </div>
             </a>

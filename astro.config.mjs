@@ -17,11 +17,5 @@ export default defineConfig({
     sitemap({ filter: (page) => !page.includes('/thanks') }),
     icon(),
   ],
-
-  image: {
-    domains: [
-      "images.unsplash.com",       // Unsplashの画像ドメイン
-      "plus.unsplash.com"          // Unsplashの別ドメイン
-    ],
-  },
+  // 画像はすべて自サイト内（public/）に置くため、リモート画像の許可設定は持たない
 });
