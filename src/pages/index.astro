@@ -79,7 +79,10 @@ const techTags = [
 ---
 
 
-<Layout title="未来を創るITパートナー">
+<Layout
+  title="中小企業のAI導入・システム開発 — 未来を創るITパートナー"
+  description="東京・浅草のweassistは、中小企業のAI導入支援・業務システム開発・ホームページ制作を手がけます。営業出身の代表が現場の言葉で伴走し、月3万円からのAI顧問や無料相談にも対応。自社で作り、自社で使い続けている仕組みだけをご提案します。"
+>
 
   <section class="relative bg-slate-900 text-white overflow-hidden min-h-[800px] flex items-center">
 
@@ -108,8 +111,12 @@ const techTags = [
 
         <h1 class="text-4xl md:text-6xl font-bold leading-tight tracking-tight md:drop-shadow-lg">
           技術でビジネスを<br />
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 typewriter"></span>
-          <span class="animate-blink">|</span>
+          {/* 打つ文字数で行幅が変わるとページ全体が動くため、最長の語で枠を確保して実文字を重ねる */}
+          <span class="type-slot">
+            <span class="type-layer">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 typewriter">加速させる</span>
+              <span class="animate-blink" aria-hidden="true">|</span></span>
+          </span>
         </h1>
 
         <p class="text-slate-100 md:text-slate-300 text-lg leading-relaxed max-w-lg animate-fade-in-up delay-100 mx-auto md:mx-0 md:drop-shadow-md">
@@ -454,6 +461,15 @@ const techTags = [
     animation: blink 1s step-end infinite;
   }
 
+  /* 3.5 タイプライターの枠
+     文字数が変わっても行の高さ・幅が動かないよう、最長の語を透明で置いて枠を確保し、
+     実際に打っている文字はその上に絶対配置で重ねる（レイアウトのズレ＝CLS対策） */
+  .type-slot { position: relative; display: inline-block; vertical-align: top; }
+  /* 枠の幅は疑似要素で確保する。DOMの文字を複製すると見出しの本文が二重になるため。
+     中身は上のtextsで最も長い語＋カーソル分に合わせること */
+  .type-slot::before { content: "加速させる |"; visibility: hidden; }
+  .type-layer { position: absolute; top: 0; left: 0; white-space: nowrap; }
+
   /* 4. ふわっと現れる */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -536,8 +552,9 @@ const techTags = [
     // 2. 変数の初期化
     const texts = ["加速させる", "変革する", "創造する"];
     let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    // HTML側に最初の語を書いてあるので、その状態の続き（打ち終わり）から始める
+    let charIndex = texts[0].length;
+    let isDeleting = true;
 
     // 3. 前のループが残っていたら止める（重要！）
     if (typeTimeoutId) clearTimeout(typeTimeoutId);
@@ -588,8 +605,8 @@ const techTags = [
       typeTimeoutId = setTimeout(type, typeSpeed) as unknown as number;
     }
 
-    // 5. スタート！
-    type();
+    // 5. スタート！（最初の語は表示済みなので、2秒読ませてから消し始める）
+    typeTimeoutId = setTimeout(type, 2000) as unknown as number;
   });
 </script>
 

@@ -131,6 +131,17 @@ const faqs = [
   description="「AIを使いたいが何から始めればいいか分からない」を、月額3万円からの伴走顧問で解消。毎朝AIだけで自動運営される会社を実際に運営する代表が、御社に合う最初の一歩から定着まで伴走します。30分無料相談受付中。"
 >
 
+  {/* 検索結果にQ&Aとして出るための構造化データ。上の faqs 配列をそのまま使うので内容がずれない */}
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    })),
+  })} />
+
   {/* 1. ファーストビュー */}
   <section class="relative bg-slate-900 overflow-hidden">
     <div class="absolute inset-0 pointer-events-none">

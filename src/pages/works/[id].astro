@@ -25,7 +25,7 @@ const ACCENTS: Record<string, string> = {
 const gradient = ACCENTS[entry.data.accent] ?? ACCENTS.blue;
 ---
 
-<Layout title={`${entry.data.title} | 実績`} description={entry.data.summary}>
+<Layout title={entry.data.title} description={entry.data.summary}>
 
   <section class={`relative bg-gradient-to-br ${gradient} text-white py-24 overflow-hidden`}>
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>

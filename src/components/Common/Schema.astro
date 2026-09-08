@@ -22,8 +22,8 @@ import { SITE_DATA } from '../../data/site';
     "addressRegion": "東京都",
     "addressCountry": "JP"
   },
-  "sameAs": [
-    "https://twitter.com/your_account", // SNSアカウントがあればここに入れる
-    "https://facebook.com/your_account"
-  ]
+  "email": SITE_DATA.email,
+  "founder": { "@type": "Person", "name": SITE_DATA.president }
+  // sameAs（公式SNS）は運用中のアカウントができたら追加する。
+  // 実在しないURLを書くと誤った情報を検索エンジンに宣言することになるため空にしている
 })} />
