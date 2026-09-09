@@ -1,13 +1,20 @@
 ---
 import { SITE_DATA } from '../../data/site';
+
+// SITE は末尾スラッシュ付き（'https://weassist.jp/'）。
+// 文字列連結すると `//favicon.svg` のような二重スラッシュになるため、必ず new URL で組み立てる。
+const abs = (path: string) => new URL(path, import.meta.env.SITE).href;
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "Corporation",
+  // weassist は個人事業のため Corporation（法人）は使わない。
+  // LocalBusiness系は実店舗が前提で番地まで求められるため、汎用の Organization を宣言する
+  "@type": "Organization",
   "name": SITE_DATA.name,
-  "url": import.meta.env.SITE, 
-  "logo": `${import.meta.env.SITE}/favicon.svg`, // ロゴのパス
+  "url": abs('/'),
+  // 構造化データのロゴはラスタ画像が推奨。実在するPNGを指すこと（過去に404のURLを宣言していた）
+  "logo": abs('/logo/logo-512.png'),
   "contactPoint": {
     "@type": "ContactPoint",
     "telephone": SITE_DATA.phone,

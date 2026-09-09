@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Common/Breadcrumbs.astro';
 import { getCollection, render } from 'astro:content';
+import { getPublicImageSize } from '../../library/imageSize';
 
 export async function getStaticPaths() {
   const works = await getCollection('works', ({ data }) => !data.draft);
@@ -23,9 +25,14 @@ const ACCENTS: Record<string, string> = {
   rose: 'from-rose-500 to-pink-500',
 };
 const gradient = ACCENTS[entry.data.accent] ?? ACCENTS.blue;
+
+// スクショの実寸をビルド時に読む。width/height を出さないと画像読み込み時に本文が下へずれる（CLS）
+const imageSize = entry.data.image ? getPublicImageSize(entry.data.image) : null;
 ---
 
 <Layout title={entry.data.title} description={entry.data.summary}>
+
+  <Breadcrumbs items={[{ label: '実績', href: '/works' }, { label: entry.data.title }]} />
 
   <section class={`relative bg-gradient-to-br ${gradient} text-white py-24 overflow-hidden`}>
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
@@ -57,7 +64,17 @@ const gradient = ACCENTS[entry.data.accent] ?? ACCENTS.blue;
             <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
             <span class="ml-3 text-slate-400 text-xs font-mono">実際の画面</span>
           </div>
-          <img src={entry.data.image} alt={`${entry.data.title} の実際の画面`} class="w-full" />
+          {/* ヒーローに重ねて表示するため初期表示に入る。優先読み込みしつつ実寸で領域を確保する */}
+          <img
+            src={entry.data.image}
+            alt={`${entry.data.title} の実際の画面`}
+            width={imageSize?.width}
+            height={imageSize?.height}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="w-full h-auto"
+          />
         </div>
       </div>
     </section>

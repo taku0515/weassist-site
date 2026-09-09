@@ -9,6 +9,8 @@ const news = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     category: z.string().optional(),
+    // 検索結果とSNSに出る説明文。未指定ならタイトルから機械的に組み立てる
+    summary: z.string().optional(),
     // trueにするとビルドから除外される（下書き）
     draft: z.boolean().default(false),
   }),

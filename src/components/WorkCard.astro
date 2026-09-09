@@ -1,6 +1,7 @@
 ---
 // 実績カード。/works 一覧とトップページの実績ハイライトで共用
 import type { CollectionEntry } from 'astro:content';
+import { getPublicImageSize } from '../library/imageSize';
 
 interface Props {
   work: CollectionEntry<'works'>;
@@ -21,6 +22,10 @@ const ACCENTS: Record<string, { gradient: string; chip: string }> = {
 };
 
 const accent = ACCENTS[work.data.accent] ?? ACCENTS.blue;
+
+// 高さ固定の枠に object-cover で入れるためズレは起きにくいが、
+// 実寸を出しておくとブラウザが先に比率を確定できる
+const imageSize = work.data.image ? getPublicImageSize(work.data.image) : null;
 ---
 
 <a
@@ -43,7 +48,10 @@ const accent = ACCENTS[work.data.accent] ?? ACCENTS.blue;
         <img
           src={work.data.image}
           alt={`${work.data.title} の実際の画面`}
+          width={imageSize?.width}
+          height={imageSize?.height}
           loading="lazy"
+          decoding="async"
           class="w-full h-full object-cover object-top md:group-hover:scale-[1.03] md:transition-transform md:duration-500"
         />
       </div>

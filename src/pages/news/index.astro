@@ -1,14 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Common/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
-import { SITE_DATA } from '../../data/site';
 
 // Markdown（src/content/news/）からお知らせ一覧を取得（下書きは除外、日付降順）
 const news = (await getCollection('news', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Layout title="お知らせ">
+<Layout
+  title="お知らせ"
+  description="weassistからのお知らせ一覧です。サービスの追加や実績の公開、サイトの更新情報などをご案内します。"
+>
+
+  <Breadcrumbs items={[{ label: 'お知らせ' }]} />
 
   <section class="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
@@ -28,7 +33,7 @@ const news = (await getCollection('news', ({ data }) => !data.draft))
         {news.map((item) => (
           <li>
             <a href={`/news/${item.id}`} class="flex flex-col md:flex-row md:items-center gap-4 p-6 rounded-xl bg-slate-800/40 border border-slate-700/60 hover:border-cyan-500/40 hover:bg-slate-800/70 transition-all group">
-              <time class="text-slate-500 font-mono">
+              <time class="text-slate-400 font-mono">
                 {item.data.date.toLocaleDateString('ja-JP')}
               </time>
               <h2 class="text-lg font-bold text-slate-200 group-hover:text-cyan-300 transition-colors flex-1">{item.data.title}</h2>

@@ -1,28 +1,56 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Common/Breadcrumbs.astro';
 import { SITE_DATA } from '../data/site';
 import MiniIcon from '../components/MiniIcon.astro';
+import { getCollection } from 'astro:content';
 
-// 会社情報のデータを SITE_DATA から参照して構築
-const companyProfile = [
-  { label: "会社名", value: SITE_DATA.name },
-  { label: "代表", value: SITE_DATA.president },
-  { label: "設立", value: SITE_DATA.established },
-  /*{ label: "資本金", value: SITE_DATA.capital },*/
-  { label: "事業内容", value: "Webシステム開発事業 / AIソリューション事業 / デジタルマーケティング事業" },
-  { label: "所在地", value: SITE_DATA.address },
-  { label: "主要取引銀行", value: "みずほ銀行 / 三井住友銀行" },
+// 代表挨拶で件数に触れるため、実績の実数をビルド時に数える。
+// 手で数字を書くと実績を足したときに古くなるので、必ずここから参照すること
+const workCount = (await getCollection('works', ({ data }) => !data.draft)).length;
+
+// weassist は法人ではなく個人事業。「会社名」「設立」「資本金」など法人前提の項目は置かない
+const profile = [
+  { label: '屋号', value: SITE_DATA.name },
+  { label: '代表', value: SITE_DATA.president },
+  { label: '開業', value: SITE_DATA.opened },
+  { label: '事業内容', value: 'Webシステム開発 / AI導入・活用支援 / DXコンサルティング' },
+  { label: '所在地', value: SITE_DATA.address },
+];
+
+// 大事にしていること。抽象的な標語ではなく、実際の進め方を書く
+const values = [
+  {
+    icon: 'partnership' as const,
+    title: '現場の言葉で話す',
+    desc: '代表は本業で法人営業を続けています。専門用語に置き換えずに、業務の言葉のままご相談いただけます。',
+  },
+  {
+    icon: 'quality' as const,
+    title: '自分が使っているものだけ薦める',
+    desc: 'ご提案するのは、まず自分の仕事で作って運用してみた仕組みです。試したことのない技術を、お客様で試すことはしません。',
+  },
+  {
+    icon: 'small-start' as const,
+    title: '小さく作って確かめる',
+    desc: 'いきなり全部を作りません。動くものを早くお見せして、合っているかを確認しながら広げます。',
+  },
 ];
 ---
 
-<Layout title="会社概要" description="当社の会社概要、ミッション、代表挨拶についてご案内します。">
+<Layout
+  title="会社紹介"
+  description="weassistは、東京・浅草を拠点にWebシステム開発・AI導入支援・DXコンサルティングを手がける個人事業です。営業の現場を続けながら開発する代表が、窓口から実装まで一貫して担当します。"
+>
+
+  <Breadcrumbs items={[{ label: '会社紹介' }]} />
 
   <section class="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
     <span class="watermark top-4 -right-6" aria-hidden="true">COMPANY</span>
     <div class="container mx-auto px-6 relative z-10">
       <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white">Company</h1>
-      <p class="mt-4 text-slate-400 font-bold">会社概要</p>
+      <p class="mt-4 text-slate-400 font-bold">会社紹介</p>
     </div>
   </section>
 
@@ -30,24 +58,21 @@ const companyProfile = [
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
     <span class="watermark top-4 -left-6" aria-hidden="true">MISSION</span>
     <div class="container mx-auto px-6 relative z-10">
-      <div class="max-w-4xl mx-auto text-center mb-20">
-        <span class="text-cyan-400 font-mono font-bold tracking-widest uppercase mb-2 block">Mission</span>
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-relaxed">
-          テクノロジーで<br class="md:hidden" />「不可能」を「可能」に。
+      <div class="max-w-3xl mx-auto text-center mb-20">
+        <span class="text-cyan-400 font-mono font-bold tracking-widest uppercase mb-3 block">Mission</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 leading-relaxed">
+          半年後も使われている、<br class="md:hidden" />仕組みだけを作る。
         </h2>
         <p class="text-slate-400 text-lg leading-loose">
-          私たちは、最新の技術と創造性を組み合わせることで、
-          お客様のビジネスに革新をもたらし、
-          社会全体の生産性を向上させることを目指しています。
+          導入した月だけ使われて、気づけば誰も開いていない。
+          そういうシステムを、営業の現場で何度も見てきました。
+          原因はたいてい機能の不足ではなく、業務の流れに合っていないことです。
+          weassistは、現場の段取りに馴染む形で設計し、定着するところまでを仕事だと考えています。
         </p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
-        {[
-          { title: "Innovation", desc: "常に最新技術を追求し、既存の枠にとらわれない解決策を提案します。", icon: "innovation" as const },
-          { title: "Quality", desc: "細部までこだわり抜き、堅牢で使いやすい高品質なプロダクトを提供します。", icon: "quality" as const },
-          { title: "Partnership", desc: "お客様と同じ視点に立ち、共に成長する長期的なパートナーを目指します。", icon: "partnership" as const },
-        ].map((value) => (
+        {values.map((value) => (
           <div class="bg-slate-800/40 p-8 rounded-xl text-center border border-slate-700/60 md:hover:border-cyan-500/40 transition-colors">
             {/* 設計図調イラストと世界観を揃えたダークタイル */}
             <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-slate-900 bg-[radial-gradient(circle_at_30%_25%,rgba(37,99,235,0.4),transparent_70%)] ring-1 ring-cyan-400/25 shadow-lg shadow-slate-950/40 flex items-center justify-center">
@@ -66,12 +91,12 @@ const companyProfile = [
     <span class="watermark top-4 -right-6" aria-hidden="true">MESSAGE</span>
     <div class="container mx-auto px-6 relative z-10">
       <div class="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
-        <div class="w-full md:w-1/3">
+        <div class="w-full max-w-xs md:w-1/3">
           {/* 代表写真（サイトの紺に合わせたネイビーデュオトーン加工済み） */}
           <div class="aspect-[3/4] rounded-lg overflow-hidden shadow-lg relative bg-slate-900 ring-1 ring-slate-700/60">
             <img
               src="/company/representative.webp"
-              alt="代表 多久島顕悟"
+              alt={`代表 ${SITE_DATA.president}`}
               width="900"
               height="1200"
               loading="lazy"
@@ -80,26 +105,32 @@ const companyProfile = [
             {/* 下部を紺にフェードさせて名前を重ねる */}
             <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 p-5 text-center">
-              <p class="text-white font-bold text-lg">多久島 顕悟</p>
+              <p class="text-white font-bold text-lg">{SITE_DATA.president}</p>
               <p class="text-slate-400 text-[11px] tracking-[0.25em] mt-1.5">REPRESENTATIVE</p>
             </div>
           </div>
         </div>
-        
+
         <div class="w-full md:w-2/3">
           <h2 class="text-2xl font-bold text-white mb-6">
-            変化の激しい時代に、<br />
-            変わらない信頼を。
+            作る側と、使う側。<br />
+            どちらの立場も知っています。
           </h2>
           <div class="space-y-4 text-slate-400 leading-loose">
             <p>
-              近年、AI技術の急速な発展により、私たちのビジネス環境は劇的な変化を遂げています。しかし、どのような技術も、使うのは「人」であり、解決すべきは「人の悩み」であることに変わりはありません。
+              私は本業で法人営業を続けながら、weassistの開発をしています。
+              システムを「作る側」であると同時に、日々「使わされる側」でもあるということです。
+              現場の面倒くささが分かるぶん、使う人の手間が増える設計はしたくないと思っています。
             </p>
             <p>
-              当社は設立以来、技術力の向上だけでなく、お客様との対話を何よりも大切にしてまいりました。最新のテクノロジーを、誰もが使いこなせる形でお届けすることこそが、私たちの使命です。
+              作るものは、まず自分の仕事で使って確かめています。
+              このサイトから読める技術ブログも、毎朝AIが調査から執筆までを行う仕組みで更新しているものです。
+              実績としてご紹介している{workCount}件は、いずれも自分で作り、今も動かし続けているものだけを載せています。
             </p>
             <p>
-              今後も、技術の力で社会に貢献できるよう、社員一同邁進してまいります。
+              大きな開発体制はありません。その代わり、ご相談の窓口から設計・実装・その後の運用まで、
+              同じ人間が最後まで担当します。伝言で要望が薄まることも、担当者が変わって一から説明し直すこともありません。
+              小さく始めて、確かめながら育てていく進め方を、ご一緒できればと思います。
             </p>
           </div>
           <div class="mt-8 text-right">
@@ -117,17 +148,47 @@ const companyProfile = [
     <div class="container mx-auto px-6 max-w-4xl relative z-10">
       <div class="mb-12">
         <span class="block font-mono text-cyan-400 text-base md:text-lg tracking-widest mb-1">Profile</span>
-        <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white">会社情報</h2>
+        <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white">事業者情報</h2>
       </div>
 
       <dl class="border-t border-slate-700/60">
-        {companyProfile.map((item) => (
+        {profile.map((item) => (
           <div class="flex flex-col md:flex-row border-b border-slate-700/60 py-5">
             <dt class="w-full md:w-48 font-bold text-slate-300 py-1">{item.label}</dt>
             <dd class="flex-1 text-slate-400 py-1">{item.value}</dd>
           </div>
         ))}
+
+        <div class="flex flex-col md:flex-row border-b border-slate-700/60 py-5">
+          <dt class="w-full md:w-48 font-bold text-slate-300 py-1">連絡先</dt>
+          <dd class="flex-1 text-slate-400 py-1 space-y-1">
+            {/* email_off: Cloudflareのメール難読化を無効化（View Transitions遷移後にデコードが再実行されずリンクが壊れるため） */}
+            <p>
+              <a href={SITE_DATA.phoneHref} class="hover:text-cyan-300 transition-colors">{SITE_DATA.phone}</a>
+            </p>
+            <p>
+              <Fragment set:html={`<!--email_off--><a href="mailto:${SITE_DATA.email}" class="hover:text-cyan-300 transition-colors">${SITE_DATA.email}</a><!--/email_off-->`} />
+            </p>
+          </dd>
+        </div>
       </dl>
+    </div>
+  </section>
+
+  <section class="relative py-20 md:py-28 bg-slate-950 overflow-hidden border-t border-slate-800/60">
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
+    <span class="watermark top-6 -left-6" aria-hidden="true">CONTACT</span>
+    <div class="container mx-auto px-6 text-center max-w-3xl relative z-10">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
+        話を聞いてみたい、の段階でどうぞ
+      </h2>
+      <p class="text-slate-300 mb-10 leading-relaxed">
+        依頼が決まっていなくても構いません。<br class="hidden md:inline" />
+        いまの困りごとをお聞かせいただければ、できること・できないことを正直にお伝えします。
+      </p>
+      <a href="/contact" class="inline-block px-10 py-5 bg-white text-slate-900 font-bold text-lg rounded-full shadow-lg transition-all md:hover:bg-blue-50 md:hover:-translate-y-1">
+        無料で相談する
+      </a>
     </div>
   </section>
 
@@ -135,6 +196,7 @@ const companyProfile = [
     {/* grayscaleはfilterのためPC限定（スマホはfilterゼロを維持） */}
     <iframe
       src="https://maps.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%8F%B0%E6%9D%B1%E5%8C%BA%E6%B5%85%E8%8D%89&z=15&hl=ja&output=embed"
+      title="所在地（東京都台東区浅草）の地図"
       width="100%"
       height="100%"
       style="border:0;"

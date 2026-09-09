@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Common/Breadcrumbs.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import { getCollection } from 'astro:content';
 
@@ -12,6 +13,8 @@ const works = (await getCollection('works', ({ data }) => !data.draft))
   title="開発実績 — 業務システム・AI導入・ホームページ制作の事例"
   description="給与計算スプレッドシートの自動化、在庫・受発注管理システム、LINE公式アカウントのAI自動応答、コーポレートサイト制作など、weassistが実際に手がけた開発実績を課題別にご紹介します。"
 >
+
+  <Breadcrumbs items={[{ label: '実績' }]} />
 
   <section class="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>

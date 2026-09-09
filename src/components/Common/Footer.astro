@@ -24,8 +24,10 @@ const currentYear = new Date().getFullYear();
       <div>
         <h3 class="text-white font-bold mb-4">Menu</h3>
         <ul class="space-y-3 text-sm">
-          <li><a href="/" class="hover:text-blue-400 transition-colors">ホーム</a></li>
+          {/* ヘッダーのナビと表記を揃える（同じリンク先なので呼び方を変えない） */}
+          <li><a href="/" class="hover:text-blue-400 transition-colors">TOP</a></li>
           <li><a href="/services" class="hover:text-blue-400 transition-colors">事業内容</a></li>
+          <li><a href="/advisor" class="hover:text-blue-400 transition-colors">AI顧問</a></li>
           <li><a href="/company" class="hover:text-blue-400 transition-colors">会社紹介</a></li>
           <li><a href="/works" class="hover:text-blue-400 transition-colors">実績</a></li>
           <li><a href="/news" class="hover:text-blue-400 transition-colors">お知らせ</a></li>
@@ -36,6 +38,7 @@ const currentYear = new Date().getFullYear();
       <div>
         <h3 class="text-white font-bold mb-4">Services</h3>
         <ul class="space-y-3 text-sm">
+          <li><a href="/advisor" class="hover:text-blue-400 transition-colors">AI顧問（月3万円〜）</a></li>
           <li><a href="/services#system" class="hover:text-blue-400 transition-colors">Webシステム開発</a></li>
           <li><a href="/services#ai" class="hover:text-blue-400 transition-colors">AI導入支援</a></li>
           <li><a href="/services#dx" class="hover:text-blue-400 transition-colors">DXコンサルティング</a></li>
@@ -46,9 +49,10 @@ const currentYear = new Date().getFullYear();
       <div>
         <h3 class="text-white font-bold mb-4">Contact</h3>
         <address class="not-italic text-sm text-slate-400 space-y-3">
-          {/* ▼ 改行コードが含まれていないので、HTML側で調整するか、データの持ち方を工夫しますが、今回はシンプルに */}
           <p>{SITE_DATA.name}</p>
-          <p>Tel: {SITE_DATA.phone}</p>
+          <p>{SITE_DATA.address}</p>
+          {/* スマホからタップして発信できるよう tel: リンクにする */}
+          <p>Tel: <a href={SITE_DATA.phoneHref} class="hover:text-blue-400 transition-colors">{SITE_DATA.phone}</a></p>
           {/* email_off: Cloudflareのメール難読化を無効化（View Transitions遷移後にデコードが再実行されないため） */}
           <p>Email: <Fragment set:html={`<!--email_off--><a href="mailto:${SITE_DATA.email}" class="hover:text-blue-400 transition-colors">${SITE_DATA.email}</a><!--/email_off-->`} /></p>
         </address>
@@ -64,7 +68,7 @@ const currentYear = new Date().getFullYear();
 
 
     <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-slate-400">
         &copy; {currentYear} {SITE_DATA.nameEn} All Rights Reserved.
       </p>
     </div>

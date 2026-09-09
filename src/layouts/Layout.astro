@@ -32,6 +32,10 @@ const pageDescription = description || SITE_DATA.description;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
+// OGP画像は必ず絶対URL（SNS側は相対パスを解決してくれない）。
+// 基準は Astro.site に固定する（Astro.url はビルド環境によって localhost になり得るため）
+const ogImageURL = new URL(image, Astro.site);
+
 // トップページはヒーローを画面いっぱいに見せるため余白なし。
 // それ以外はヘッダー常時表示（h-20 = 80px）のぶんコンテンツを下げる
 const isHome = Astro.url.pathname === '/';
@@ -46,7 +50,13 @@ const isHome = Astro.url.pathname === '/';
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/logo/favicon.svg" />
+    {/*
+      ファビコンはPNG。元のロゴSVG（1449px相当のトレースパス・465KB）はタブ表示には過剰で、
+      全ページで読み込むには重すぎたため実サイズのPNGに置き換えている。
+      原本は src/assets/logo-master.svg（配信されないがリポジトリには残す）。
+    */}
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/logo/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{pageTitle}</title>
@@ -54,24 +64,40 @@ const isHome = Astro.url.pathname === '/';
     
     <link rel="canonical" href={canonicalURL} />
 
+    {/* OGP画像は public/og-image.png（1200x630）。
+        寸法を明示しておくとLINEやFacebookが初回取得時から正しい比率で描画できる */}
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_DATA.name} />
+    <meta property="og:locale" content="ja_JP" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
-    <meta name="twitter:image" content={new URL(image, Astro.url)} />
+    <meta name="twitter:image" content={ogImageURL} />
 
     {/* ページ固有のhead追記用（preload等） */}
     <slot name="head" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-  
+    {/*
+      Webフォントは読み込まない。
+      以前 Inter と Noto Sans JP を Google Fonts から同期読み込みしていたが、
+      tailwind.config.js に fontFamily の指定がなく、CSSのどこからも参照されていなかった。
+      実測（CDPで描画に使われたフォントを確認）でも見出しは Yu Gothic UI、
+      等幅は Consolas と、OS標準フォントが使われていた。
+      つまり表示に一切影響しないまま、描画をブロックするリクエストだけが増えていた。
+
+      Inter / Noto Sans JP を実際に使いたくなった場合は、
+      tailwind.config.js の theme.extend.fontFamily に登録したうえで読み込みを戻すこと
+      （そのときは _headers のCSPに fonts.googleapis.com / fonts.gstatic.com も戻す）。
+    */}
+
+
     {/*
       アクセス解析はCloudflare Pagesの組み込みWeb Analyticsを使用（配信時にビーコンを自動注入）。
       このリポジトリに計測タグは置かないこと（自前で追加すると二重計測になる）。

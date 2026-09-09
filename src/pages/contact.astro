@@ -1,14 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Common/Breadcrumbs.astro';
 import FormSpamGuard from '../components/Common/FormSpamGuard.astro';
+import FormPrivacyNote from '../components/Common/FormPrivacyNote.astro';
 import { SITE_DATA } from '../data/site';
-
 ---
 
 <Layout
   title="お問い合わせ・無料相談"
   description="システム開発・AI導入・ホームページ制作のご相談を承ります。ご相談とお見積りは無料です。「何から始めればいいか分からない」段階からお気軽にどうぞ。"
 >
+
+  <Breadcrumbs items={[{ label: 'お問い合わせ' }]} />
 
   <div class="relative bg-slate-950 overflow-hidden min-h-[80vh]">
     <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.07]"></div>
@@ -23,14 +26,22 @@ import { SITE_DATA } from '../data/site';
       {/* 送信先はPages Function（/api/contact）。Turnstile検証を通ったものだけFormspreeへ転送される */}
       <form action="/api/contact" method="POST" class="space-y-6 bg-slate-900/70 p-8 rounded-xl border border-slate-700/60 shadow-2xl shadow-blue-950/30">
 
+        {/* 会社名は任意。個人の方からのご相談も受けるため必須にしない */}
+        <div>
+          <label for="company" class="block text-sm font-bold text-slate-300 mb-2">
+            会社名 <span class="font-normal text-slate-400">（任意）</span>
+          </label>
+          <input type="text" name="company" id="company" autocomplete="organization" class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
+        </div>
+
         <div>
           <label for="name" class="block text-sm font-bold text-slate-300 mb-2">お名前</label>
-          <input type="text" name="name" id="name" required class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
+          <input type="text" name="name" id="name" required autocomplete="name" class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
         </div>
 
         <div>
           <label for="email" class="block text-sm font-bold text-slate-300 mb-2">メールアドレス</label>
-          <input type="email" name="email" id="email" required class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
+          <input type="email" name="email" id="email" required autocomplete="email" class="w-full px-4 py-3 rounded-lg bg-slate-800/70 text-white border border-slate-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 outline-none transition-all" />
         </div>
 
         <div>
@@ -40,11 +51,22 @@ import { SITE_DATA } from '../data/site';
 
         <FormSpamGuard />
 
+        <FormPrivacyNote />
+
         <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold py-4 rounded-lg shadow-lg shadow-blue-900/50 hover:shadow-xl transition-all transform hover:-translate-y-0.5">
           送信する
         </button>
 
       </form>
+
+      {/* フォームが使えない環境・送信に失敗した場合の逃げ道。/advisor と同じ扱いにする */}
+      <p class="mt-6 text-center text-slate-400 text-sm leading-relaxed">
+        {/* email_off: Cloudflareのメール難読化を無効化（View Transitions遷移後にデコードが再実行されずリンクが壊れるため） */}
+        メール・お電話でも承ります:
+        <Fragment set:html={`<!--email_off--><a href="mailto:${SITE_DATA.email}" class="text-cyan-300 hover:text-cyan-200">${SITE_DATA.email}</a><!--/email_off-->`} />
+        <span class="mx-2 text-slate-500" aria-hidden="true">/</span>
+        <a href={SITE_DATA.phoneHref} class="text-cyan-300 hover:text-cyan-200">{SITE_DATA.phone}</a>
+      </p>
     </div>
   </div>
 </Layout>

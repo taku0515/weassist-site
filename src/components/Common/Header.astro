@@ -3,7 +3,10 @@
 import { SITE_DATA } from '../../data/site';
 
 const navItems = [
-  { label: "ホーム", href: "/" },
+  // 「ホーム」はWindowsのYu Gothic UIだと仮名が字ごとに違う幅で詰められ、
+  // 「ホ」と「ム」の大きさが揃わないため、ラテン文字の「TOP」にしている。
+  // 同じリンク先を指すフッターとパンくずの表記もこれに合わせること
+  { label: "TOP", href: "/" },
   { label: "事業内容", href: "/services" },
   { label: "AI顧問", href: "/advisor" },
   { label: "会社紹介", href: "/company" },
@@ -52,14 +55,25 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
       </ul>
     </nav>
 
-    <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 relative p-1 ml-auto" aria-label="メニューを開く">
+    <button
+      id="menu-btn"
+      class="md:hidden flex flex-col gap-1.5 relative p-1 ml-auto"
+      aria-label="メニューを開く"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
       <span class="w-6 h-0.5 bg-slate-200 transition-all duration-300 origin-center"></span>
       <span class="w-6 h-0.5 bg-slate-200 transition-all duration-300 origin-center"></span>
       <span class="w-6 h-0.5 bg-slate-200 transition-all duration-300 origin-center"></span>
     </button>
   </div>
 
-  <div id="mobile-menu" class="fixed inset-0 bg-slate-950 z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500 md:hidden">
+  {/*
+    閉じている間は inert を付ける。opacity-0 だけでは画面に見えないままキーボードと
+    スクリーンリーダーから到達できてしまい、閉じたメニューの項目にフォーカスが入る。
+    （display:none にすると開閉のフェードが効かないので inert を使う）
+  */}
+  <div id="mobile-menu" inert class="fixed inset-0 bg-slate-950 z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500 md:hidden">
     {navItems.map((item) => (
       <a href={item.href} class="text-xl font-bold text-slate-200 hover:text-cyan-300">
         {item.label}
@@ -73,12 +87,12 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
 
 <script>
   document.addEventListener('astro:page-load', () => {
-    
     const header = document.getElementById('main-header');
     const headerBg = document.getElementById('header-bg');
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const spans = menuBtn?.querySelectorAll('span');
+    if (!header || !menuBtn || !mobileMenu || !spans) return;
 
     let isMenuOpen = false;
 
@@ -89,56 +103,72 @@ const logoText = SITE_DATA.nameEn?.replace(' Inc.', '') || SITE_DATA.name;
       if (isMenuOpen) return;
       const isHome = location.pathname === '/';
       if (!isHome || window.scrollY > 100) {
-        header?.classList.remove('-translate-y-full');
+        header.classList.remove('-translate-y-full');
       } else {
-        header?.classList.add('-translate-y-full');
+        header.classList.add('-translate-y-full');
       }
     };
 
     handleScroll();
-    window.addEventListener('scroll', handleScroll);
+    // scroll は多発するので passive で登録する（スクロールを妨げない）
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // メニュー開閉
-    menuBtn?.addEventListener('click', () => {
-      isMenuOpen = !isMenuOpen;
+    // トップページで隠れている間にキーボードでヘッダー内へ入ってきたら、必ず表示に戻す。
+    // 画面外のリンクに見えないままフォーカスが移るのを防ぐ
+    const revealOnFocus = () => header.classList.remove('-translate-y-full');
+    header.addEventListener('focusin', revealOnFocus);
 
-      if (isMenuOpen) {
-        // === OPEN ===
-        
-        // 1. 白いメニュー画面をフワッと出す
-        mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
-        
-        // 2. ★重要: 半透明のヘッダー背景を「透明(opacity-0)」にして消す
-        // これにより、後ろにある「白いメニュー画面」の最上部が綺麗に見えるようになります。
-        // 色を変えるわけではないので、パチっとした変化は起きません。
-        headerBg?.classList.add('opacity-0');
+    const setMenu = (open: boolean) => {
+      isMenuOpen = open;
 
-        // ハンバーガーのアニメーション
-        spans![0].classList.add('rotate-45', 'translate-y-2');
-        spans![1].classList.add('opacity-0');
-        spans![2].classList.add('-rotate-45', '-translate-y-2');
+      // 閉じている間は inert でキーボード・支援技術から切り離す（見えない項目にフォーカスが入らない）
+      mobileMenu.inert = !open;
+      mobileMenu.classList.toggle('opacity-0', !open);
+      mobileMenu.classList.toggle('pointer-events-none', !open);
 
-      } else {
-        // === CLOSE ===
-        
-        // 1. 白いメニュー画面を消す
-        mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
-        
-        // 2. 半透明のヘッダー背景を戻す
-        headerBg?.classList.remove('opacity-0');
+      // 開いている間はヘッダー背景を透かして、メニュー面の最上部を見せる
+      headerBg?.classList.toggle('opacity-0', open);
 
-        spans![0].classList.remove('rotate-45', 'translate-y-2');
-        spans![1].classList.remove('opacity-0');
-        spans![2].classList.remove('-rotate-45', '-translate-y-2');
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+
+      // ハンバーガー → ✕ のアニメーション
+      spans[0].classList.toggle('rotate-45', open);
+      spans[0].classList.toggle('translate-y-2', open);
+      spans[1].classList.toggle('opacity-0', open);
+      spans[2].classList.toggle('-rotate-45', open);
+      spans[2].classList.toggle('-translate-y-2', open);
+
+      // 背面がスクロールしてしまうのを防ぐ
+      document.body.classList.toggle('overflow-hidden', open);
+
+      if (open) header.classList.remove('-translate-y-full');
+    };
+
+    menuBtn.addEventListener('click', () => setMenu(!isMenuOpen));
+
+    // Escape で閉じられるようにする（開いた本人が戻れる経路を必ず用意する）
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setMenu(false);
+        menuBtn.focus();
       }
-    });
+    };
+    document.addEventListener('keydown', onKeydown);
 
-    // 画面遷移時のリセット
-    mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
-    headerBg?.classList.remove('opacity-0'); // 背景戻す
-    
-    spans?.[0].classList.remove('rotate-45', 'translate-y-2');
-    spans?.[1].classList.remove('opacity-0');
-    spans?.[2].classList.remove('-rotate-45', '-translate-y-2');
+    // 画面遷移でこのDOMが捨てられるとき、windowとdocumentに残る購読を必ず外す
+    // （View Transitionsは astro:page-load ごとに再実行されるため、外さないと積み上がる）
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('scroll', handleScroll);
+        document.removeEventListener('keydown', onKeydown);
+        document.body.classList.remove('overflow-hidden');
+      },
+      { once: true }
+    );
+
+    // 遷移直後は必ず閉じた状態から始める
+    setMenu(false);
   });
 </script>

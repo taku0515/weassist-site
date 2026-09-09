@@ -1,24 +1,59 @@
 ---
-const { items } = Astro.props; // [{ label: "TOP", href: "/" }, { label: "会社概要", href: "" }] のような配列を受け取る
+// パンくずナビ。下層ページのヒーローの直前に置く。
+// 先頭の「TOP」は自動で付くので、呼び出し側はその下の階層だけ渡すこと。
+//
+//   <Breadcrumbs items={[{ label: '実績', href: '/works' }, { label: work.data.title }]} />
+//
+// 最後の要素は現在地なので href を渡さない（リンクにせず aria-current="page" を付ける）。
+// 同じ内容で BreadcrumbList 構造化データも出すため、検索結果に階層が表示される。
+export interface Crumb {
+  label: string;
+  /** 省略すると現在地扱い（リンクにしない） */
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+
+// 先頭のトップページを補ったうえで、表示と構造化データの両方に同じ配列を使う（内容がずれない）
+// 表記はヘッダー・フッターのナビと揃える（同じリンク先を別の呼び方にしない）
+const trail: Crumb[] = [{ label: 'TOP', href: '/' }, ...items];
+
+const abs = (path: string) => new URL(path, import.meta.env.SITE).href;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: trail.map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.label,
+    // 現在地（href なし）は item を省略してよい仕様
+    ...(crumb.href ? { item: abs(crumb.href) } : {}),
+  })),
+};
 ---
 
-<nav aria-label="Breadcrumb" class="bg-slate-50 py-3 border-b border-slate-200">
+<nav aria-label="パンくずリスト" class="bg-slate-950 border-b border-slate-800/60">
   <div class="container mx-auto px-6">
-    <ol class="flex items-center space-x-2 text-sm text-slate-500">
-      {items.map((item: any, index: number) => (
-        <li class="flex items-center">
-          {index > 0 && <span class="mx-2 text-slate-300">/</span>}
-          {item.href ? (
-            <a href={item.href} class="hover:text-blue-600 transition-colors">
-              {item.label}
+    <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 py-3 text-xs">
+      {trail.map((crumb, i) => (
+        <li class="flex items-center gap-x-2">
+          {i > 0 && <span class="text-slate-500" aria-hidden="true">/</span>}
+          {crumb.href ? (
+            <a href={crumb.href} class="text-slate-400 hover:text-cyan-300 transition-colors">
+              {crumb.label}
             </a>
           ) : (
-            <span class="font-bold text-slate-800" aria-current="page">
-              {item.label}
-            </span>
+            <span class="font-bold text-slate-200" aria-current="page">{crumb.label}</span>
           )}
         </li>
       ))}
     </ol>
   </div>
 </nav>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbSchema)} />
