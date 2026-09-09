@@ -37,4 +37,6 @@ pnpm-debug.log*
 /tools/
 
 # 脆弱性診断レポートは弱点情報・内部固有名詞を含むため非公開領域で管理
-# 実体: C:\work\Company\AI会社Vault\セキュリティ\n/docs/
+# 実体: C:\work\Company\AI会社Vault\セキュリティ
+# （このリポジトリは公開。ここに置いたものは全世界から読めるため必ず除外すること）
+/docs/
